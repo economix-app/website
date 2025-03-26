@@ -126,7 +126,6 @@ function switchTab(tabName) {
   const chatTab = document.querySelector('[data-tab="chat"]');
   if (tabName === 'chat') {
     unreadMessages = 0;
-    updateNotificationBadge();
     chatTab.classList.remove('new-messages');
     isChatFocused = true;
   } else {
@@ -1513,7 +1512,6 @@ setInterval(() => {
   refreshChat();
   refreshLeaderboard();
   refreshMarket();
-  updateChatTabs();
 }, 1000);
 
 // Admin Dashboard event listeners
