@@ -1001,13 +1001,6 @@ function appendMessage(message) {
 
   messagesContainer.appendChild(messageEl);
 
-  // Trim old messages from DOM to keep max 200
-  const MAX_DOM_MESSAGES = 200;
-  const messageElements = messagesContainer.getElementsByClassName('message');
-  while (messageElements.length > MAX_DOM_MESSAGES) {
-    messagesContainer.removeChild(messageElements[0]);
-  }
-
   // Auto-scroll if at bottom
   if (isUserAtBottom(messagesContainer)) {
     scrollToBottom(messagesContainer);
