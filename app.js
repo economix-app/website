@@ -30,9 +30,6 @@ let isChatFocused = true;
 let messageSound = new Audio('notification.mp3'); // Add sound file
 let soundEnabled = true;
 
-let activeChatRoom = "global";
-let dmRecipient = null;
-
 // Custom modal functions
 function customAlert(message) {
   console.log(message);
@@ -918,11 +915,6 @@ function sendMessage() {
         room: activeChatRoom
     };
 
-    if (activeChatRoom === "dm") {
-        if (!dmRecipient) return alert("Select a recipient first");
-        data.recipient = dmRecipient;
-    }
-
     fetch(API_BASE + '/api/send_message', {
         method: 'POST',
         headers: {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'},
@@ -953,7 +945,7 @@ function deleteMessage(messageId) {
 }
 
 function refreshChat() {
-  fetch(API_BASE + '/api/get_messages?room=' + activeChatRoom, {
+  fetch(API_BASE + '/api/get_messages?room=global', {
     method: 'GET',
     headers: { 'Authorization': `Bearer ${token}` }
   })
@@ -962,8 +954,6 @@ function refreshChat() {
       if (data.messages) {
         const globalMessagesContainer = document.getElementById('globalMessages');
         const wasAtBottom = isUserAtBottom(globalMessagesContainer);
-
-        console.debug(globalMessages);
 
         if (data.messages.length === globalMessages.length) {
           console.log('No new messages');
@@ -1037,7 +1027,6 @@ function handleNewMessage(message) {
 
   if (activeTab !== 'chat') {
     unreadMessages++;
-    updateNotificationBadge();
     if (soundEnabled) messageSound.play();
   }
 
@@ -1046,13 +1035,6 @@ function handleNewMessage(message) {
   }
 
   appendMessage(message);
-}
-
-// New notification badge
-function updateNotificationBadge() {
-  const badge = document.getElementById('chatNotificationBadge');
-  badge.textContent = unreadMessages;
-  badge.style.display = unreadMessages > 0 ? 'block' : 'none';
 }
 
 function refreshLeaderboard() {
@@ -1475,15 +1457,6 @@ function feedPet(petId) {
         customAlert("Failed to feed pet.");
       }
     });
-}
-
-// Update UI based on role
-function updateChatTabs() {
-  const isAdmin = account.type === "admin";
-  const isMod = account.type === "mod";
-
-  document.getElementById('staffChatTab').style.display = (isAdmin || isMod) ? "inline-block" : "none";
-  document.getElementById('logTab').style.display = isAdmin ? "inline-block" : "none";
 }
 
 function toggleDarkMode() {

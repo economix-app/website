@@ -592,23 +592,6 @@ a {
   border-radius: 50%;
 }
 
-#chatNotificationBadge {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #ef4444;
-  color: white;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  z-index: 1000;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
 .banner {
   position: fixed;
   top: 0;

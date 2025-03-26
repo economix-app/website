@@ -15,14 +15,17 @@
 
     <!-- SEO -->
     <meta name="description" content="Economix: The ultimate game of trade, risk, and reward">
-    <meta name="keywords" content="Economix, game, buying, selling, marketplace, trade, economy, fun, fun game, cool game">
+    <meta name="keywords"
+      content="Economix, game, buying, selling, marketplace, trade, economy, fun, fun game, cool game">
     <meta property="og:title" content="Economix - The Game of Trade">
-    <meta property="og:description" content="Economix is a game where you can buy, sell, and trade your way to the top.">
+    <meta property="og:description"
+      content="Economix is a game where you can buy, sell, and trade your way to the top.">
     <meta property="og:url" content="https://economix.proplayer919.dev">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Economix - The Game of Trade">
-    <meta name="twitter:description" content="Economix is a game where you can buy, sell, and trade your way to the top. It's super fun and you should play it.">
+    <meta name="twitter:description"
+      content="Economix is a game where you can buy, sell, and trade your way to the top. It's super fun and you should play it.">
 
     <link rel="stylesheet" href="styles.css" />
 
@@ -235,20 +238,12 @@
                 <div class="card-header">
                   <h2>Chat</h2>
                   <div class="chat-tabs">
-                    <button class="btn btn-primary active" data-room="global">Global</button>
-                    <button class="btn btn-primary" data-room="staff" id="staffChatTab">Staff</button>
-                    <button class="btn btn-primary" data-room="dms">DMs</button>
-                    <button class="btn btn-primary" data-room="log" id="logTab">Logs</button>
-                  </div>
-
-                  <div id="dmControls" style="display: none;">
-                    <input type="text" id="dmRecipient" placeholder="Recipient username">
-                    <button onclick="startDM()">Start DM</button>
+                    <button class="btn btn-primary active" id="globalChatTab">Global Chat</button>
                   </div>
                 </div>
               </div>
               <div class="chat-area">
-                <div class="message-container" id="chatMessages"></div>
+                <div class="message-container" id="globalMessages"></div>
                 <div class="message-input">
                   <input type="text" id="messageInput" placeholder="Type your message..." />
                   <button id="sendMessage">Send</button>
@@ -334,8 +329,6 @@
           href="https://discord.gg/VwgTgnNe5T" target="_blank">Discord Server</a>.
       </p>
     </div>
-
-    <div id="chatNotificationBadge" onclick="switchTab('chat')"></div>
 
     <script src="app.js"></script>
   </body>
