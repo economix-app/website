@@ -184,7 +184,12 @@ function handleLogin(code) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
   })
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) {
+        return customAlert(`Unable to login, please try again. If this continues, report it at github or the discord. Status code: ${res.status}`);
+      }
+      return res.json();
+    })
     .then(data => {
       if (data.code == "2fa-required") {
         customPrompt('Enter 2FA code or Backup code:').then(code => {
