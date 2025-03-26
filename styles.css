@@ -480,11 +480,11 @@ a {
 }
 
 .message-sender.admin {
-  color: #3b82f6;
+  color: #2563eb;
 }
 
 .message-sender.mod {
-  color: #f43f5e;
+  color: #ef4444;
 }
 
 .message-time {
