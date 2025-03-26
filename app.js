@@ -908,17 +908,23 @@ function deleteItem(item_id) {
 
 // Chat
 function sendMessage() {
-    const message = document.getElementById('messageInput').value;
-    const data = {
-        message: message,
-        room: activeChatRoom
-    };
+  const message = document.getElementById('messageInput').value;
+  if (!message) return;
 
-    fetch(API_BASE + '/api/send_message', {
-        method: 'POST',
-        headers: {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-    }).then(() => refreshChat());
+  fetch(API_BASE + '/api/send_message', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify({ message: message })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        refreshChat();
+        document.getElementById('messageInput').value = '';
+      } else {
+        customAlert('Error sending message.');
+      }
+    });
 }
 
 function sanitizeHTML(html) {
@@ -1221,14 +1227,14 @@ function listUsers() {
     .then(data => {
       if (data.usernames) {
         let container = document.createElement("DIV");
-        for (let user in data.usernames){
-            let username = data.usernames[user];
+        for (let user in data.usernames) {
+          let username = data.usernames[user];
 
-            let p = document.createElement("P");
-            p.innerText = username;
-            p.appendChild(document.createElement("BR"))
+          let p = document.createElement("P");
+          p.innerText = username;
+          p.appendChild(document.createElement("BR"))
 
-            container.appendChild(p)
+          container.appendChild(p)
         }
         customAlert(container.innerHTML);
       }
