@@ -927,12 +927,6 @@ function sendMessage() {
     });
 }
 
-function sanitizeHTML(html) {
-  const div = document.createElement('div');
-  div.innerHTML = html;
-  return div.textContent || div.innerText || '';
-}
-
 function deleteMessage(messageId) {
   fetch(API_BASE + '/api/delete_message', {
     method: 'POST',
@@ -1000,7 +994,7 @@ function appendMessage(message) {
       </span>
       <span class="message-time">${formatTime(message.timestamp)}</span>
     </div>
-    <div class="message-content">${sanitizeHTML(message.message)}</div>
+    <div class="message-content">${message.message}</div>
     ${account.type === 'admin' || account.type === 'mod' ?
       `<button class="delete-message" onclick="deleteMessage('${message.id}')">🗑️</button>` : ''}
   `;
