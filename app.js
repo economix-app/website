@@ -1455,6 +1455,12 @@ function feedPet(petId) {
 }
 
 function showAuth() {
+  if (token) {
+    showMainContent();
+    refreshAccount();
+    return;
+  }
+
   document.getElementById('homepage').style.display = 'none';
   document.getElementById('authForms').style.display = 'block';
 }
@@ -1541,8 +1547,3 @@ document.getElementById('unmuteUserMod').addEventListener('click', unmuteUser);
 // Initial data refresh
 initializeTheme();
 getStats();
-
-if (token) {
-  showMainContent();
-  refreshAccount();
-}
