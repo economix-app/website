@@ -1514,6 +1514,7 @@ document.getElementById('2faSetupCancel').addEventListener('click', () => {
 // Interval
 setInterval(() => {
   if (!token) return;
+  if (document.getElementById('homepage').style.display === 'block') return;
   getStats();
   refreshBanner();
   refreshAccount();
