@@ -239,7 +239,7 @@ function refreshBanner() {
     .then(data => {
       if (data.banner) {
         document.getElementById('banner').style.display = 'block';
-        document.getElementById('banner').innerText = data.banner.value;
+        document.getElementById('banner').innerHTML = data.banner.value;
       }
     });
 }
