@@ -32,7 +32,6 @@ let soundEnabled = true;
 
 // Custom modal functions
 function customAlert(message) {
-  console.log(message);
   return new Promise((resolve) => {
     const modal = document.getElementById('customModal');
     const modalMessage = document.getElementById('modalMessage');
@@ -960,7 +959,6 @@ function refreshChat() {
         const wasAtBottom = isUserAtBottom(globalMessagesContainer);
 
         if (data.messages.length === globalMessages.length) {
-          console.log('No new messages');
           return;
         }
 
