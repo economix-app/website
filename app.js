@@ -1454,6 +1454,11 @@ function feedPet(petId) {
     });
 }
 
+function showAuth() {
+  document.getElementById('homepage').style.display = 'none';
+  document.getElementById('authForms').style.display = 'block';
+}
+
 function toggleDarkMode() {
   const currentTheme = localStorage.getItem('theme') || 'light';
   const newTheme = currentTheme === 'light' ? 'dark' : 'light';
