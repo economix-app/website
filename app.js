@@ -1455,13 +1455,14 @@ function feedPet(petId) {
 }
 
 function showAuth() {
+  document.getElementById('homepage').style.display = 'none';
+
   if (token) {
     showMainContent();
     refreshAccount();
     return;
   }
 
-  document.getElementById('homepage').style.display = 'none';
   document.getElementById('authForms').style.display = 'block';
 }
 
