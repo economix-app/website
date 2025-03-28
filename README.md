@@ -6,3 +6,4 @@ Economix is an economy game about buying and selling stuff. [Check it out!](http
 
 - proplayer919 - Original Creator & Owner
 - 777Portal (ExonAuto) - Contributor
+- Ferretosan - Contributor
