@@ -191,14 +191,23 @@ const UI = {
 // API Utilities
 const API = {
   async fetch(endpoint, options = {}) {
-    const headers = {
-      'Authorization': `Bearer ${state.token}`,
-      'Content-Type': 'application/json',
-      ...options.headers
-    };
-    const response = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
-    if (!response.ok) throw new Error(`API error: ${response.status}`);
-    return response.json();
+    try {
+      const headers = {
+        'Authorization': `Bearer ${state.token}`,
+        'Content-Type': 'application/json',
+        ...options.headers
+      };
+      const response = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
+  
+      if (!response.ok) {
+        return { error: `API error: ${response.status}`, success: false };
+      }
+  
+      let json = await response.json();
+      return { ...json, success: true };
+    } catch (err) {
+      return { error: err.message, success: false };
+    }
   },
 
   async post(endpoint, data) {
