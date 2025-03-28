@@ -51,23 +51,6 @@
   --own-message: #FFFACD;
 }
 
-[data-theme="high-contrast"] {
-  --primary: #00FFFF;
-  --secondary: #FFFF00;
-  --success: #00FF00;
-  --danger: #FF0000;
-  --background: #000000;
-  --card-bg: #5a5a5a;
-  --text: #FFFFFF;
-  --border: #FFFFFF;
-  --modal-bg: #FFFFFF;
-  --shadow: rgba(255, 255, 255, 0.2);
-  --system-message: #00FF00;
-  --admin-message: #00FFFF;
-  --mod-message: #FF0000;
-  --own-message: #FFFF00;
-}
-
 [data-theme="solarized"] {
   --primary: #268bd2;
   --secondary: #2aa198;
@@ -117,6 +100,91 @@
   --admin-message: rgba(189, 147, 249, 0.1);
   --mod-message: rgba(255, 85, 85, 0.1);
   --own-message: rgba(255, 121, 198, 0.1);
+}
+
+[data-theme="monokai"] {
+  --primary: #66d9ef;
+  --secondary: #fd971f;
+  --success: #a6e22e;
+  --danger: #f92672;
+  --background: #272822;
+  --card-bg: #3e3d32;
+  --text: #f8f8f2;
+  --border: #75715e;
+  --modal-bg: #3e3d32;
+  --shadow: rgba(0, 0, 0, 0.2);
+  --system-message: rgba(166, 226, 46, 0.1);
+  --admin-message: rgba(102, 217, 239, 0.1);
+  --mod-message: rgba(249, 38, 114, 0.1);
+  --own-message: rgba(253, 151, 31, 0.1);
+}
+
+[data-theme="gruvbox"] {
+  --primary: #458588;
+  --secondary: #d79921;
+  --success: #98971a;
+  --danger: #cc241d;
+  --background: #282828;
+  --card-bg: #3c3836;
+  --text: #ebdbb2;
+  --border: #665c54;
+  --modal-bg: #3c3836;
+  --shadow: rgba(0, 0, 0, 0.2);
+  --system-message: rgba(152, 151, 26, 0.1);
+  --admin-message: rgba(69, 133, 136, 0.1);
+  --mod-message: rgba(204, 36, 29, 0.1);
+  --own-message: rgba(215, 153, 33, 0.1);
+}
+
+[data-theme="oceanic"] {
+  --primary: #4ec9b0;
+  --secondary: #c594c5;
+  --success: #99c794;
+  --danger: #ec5f67;
+  --background: #1b2b34;
+  --card-bg: #343d46;
+  --text: #d8dee9;
+  --border: #65737e;
+  --modal-bg: #343d46;
+  --shadow: rgba(0, 0, 0, 0.2);
+  --system-message: rgba(153, 199, 148, 0.1);
+  --admin-message: rgba(197, 148, 197, 0.1);
+  --mod-message: rgba(236, 95, 103, 0.1);
+  --own-message: rgba(78, 201, 176, 0.1);
+}
+
+[data-theme="pastel"] {
+  --primary: #a2bffe;
+  --secondary: #f4b8e4;
+  --success: #b4e4c6;
+  --danger: #ff9999;
+  --background: #f5f5f5;
+  --card-bg: #ffffff;
+  --text: #555555;
+  --border: #e0e0e0;
+  --modal-bg: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.05);
+  --system-message: #e6f3e6;
+  --admin-message: #e6f0fa;
+  --mod-message: #ffe6e6;
+  --own-message: #f0e6fa;
+}
+
+[data-theme="cyberpunk"] {
+  --primary: #00ff9f;
+  --secondary: #ff00ff;
+  --success: #00ff00;
+  --danger: #ff0033;
+  --background: #0d0c1d;
+  --card-bg: #1b1931;
+  --text: #e0f7fa;
+  --border: #4a3b6b;
+  --modal-bg: #1b1931;
+  --shadow: rgba(0, 255, 255, 0.1);
+  --system-message: rgba(0, 255, 0, 0.2);
+  --admin-message: rgba(0, 255, 159, 0.2);
+  --mod-message: rgba(255, 0, 51, 0.2);
+  --own-message: rgba(255, 0, 255, 0.2);
 }
 
 /* Global Reset and Base Styles */

@@ -165,7 +165,7 @@ const UI = {
   },
 
   setTheme(theme) {
-    const availableThemes = ['light', 'dark', 'sepia', 'solarized', 'nord', 'dracula', 'high-contrast'];
+    const availableThemes = ['light', 'dark', 'sepia', 'solarized', 'nord', 'dracula', 'monokai', 'gruvbox', 'oceanic', 'pastel', 'cyberpunk'];
     if (!availableThemes.includes(theme)) {
       theme = 'light';
     }
