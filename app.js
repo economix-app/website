@@ -446,6 +446,7 @@ const Inventory = {
     const item = await API.post('/api/create_item');
     if (item.error) return await Modal.alert(`Error creating item: ${item.error}`);
     
+    const style = window.getComputedStyle(document.body);
     let itemDiv = document.createElement("DIV");
     let rarity = item.level
   
