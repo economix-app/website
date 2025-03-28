@@ -933,7 +933,7 @@ function sendMessage() {
         refreshChat();
         document.getElementById('messageInput').value = '';
       } else {
-        customAlert('Error sending message.');
+        customAlert('Error sending message. Error: ' + data.error);
       }
     });
 }
