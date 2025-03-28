@@ -153,6 +153,24 @@
   --own-message: rgba(78, 201, 176, 0.1);
 }
 
+[data-theme="tokyonight"] {
+  --primary: #7aa2f7;
+  --secondary: #bb9af7;
+  --success: #9ece6a;
+  --danger: #f7768e;
+  --background: #1a1b26;
+  --card-bg: #24283b;
+  --text: #c0caf5;
+  --border: #3b4261;
+  --modal-bg: #24283b;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --system-message: rgba(158, 206, 106, 0.1);
+  --admin-message: rgba(122, 162, 247, 0.1);
+  --mod-message: rgba(247, 118, 142, 0.1);
+  --own-message: rgba(187, 154, 247, 0.1);
+}
+
+
 [data-theme="pastel"] {
   --primary: #a2bffe;
   --secondary: #f4b8e4;
