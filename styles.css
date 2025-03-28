@@ -704,10 +704,7 @@ a {
 .hero h2 {
   font-size: 3.5rem;
   margin-bottom: 1rem;
-  background: linear-gradient(to right, #2563eb, #3b82f6);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--primary);
 }
 
 .hero-subtitle {
