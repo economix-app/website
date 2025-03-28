@@ -4,6 +4,11 @@ const TOKEN_MINE_COOLDOWN = 300; // 5 minutes in seconds
 const ITEMS_PER_PAGE = 5;
 const API_BASE = 'https://api.economix.lol';
 
+// Utils
+function expForLevel(level) {
+  return Math.floor(25 * Math.pow(1.2, level - 1));
+}
+
 // State Management
 class AppState {
   constructor() {
@@ -574,13 +579,14 @@ const Pets = {
     const petsList = document.getElementById('pet-list');
     petsList.innerHTML = '';
 
-    if (!pets.length) {
+    if (!pets.length || !pets[0].alive) {
       const li = document.createElement('li');
       li.className = 'pet-entry';
+      const price = pets.length && !pets[0].alive ? pets[0].base_price * 2 : 100;
       li.innerHTML = `
                 <div class="pet-entry-content">
-                    <p>You have no pets.</p>
-                    <button class="btn btn-primary" onclick="Pets.buy()">Buy a pet (100 tokens)</button>
+                    <p>${pets.length ? 'Your pet has died!' : 'You have no pets.'}</p>
+                    <button class="btn btn-primary" onclick="Pets.buy()">Buy a pet (${price} tokens)</button>
                 </div>
             `;
       petsList.appendChild(li);
@@ -595,9 +601,10 @@ const Pets = {
       li.innerHTML = `
                 <div class="pet-entry-content">
                     <span class="pet-info">
-                        <strong>${pet.name}</strong> - Level ${pet.level}<br>
-                        Status: <span class="pet-status pet-status-${pet.status}">${pet.status.charAt(0).toUpperCase() + pet.status.slice(1)}</span><br>
-                        <span class="feeding-status">Last fed: ${daysAgo === 0 ? 'today' : `${daysAgo} days ago`}</span>
+                        <strong>${pet.name}</strong> - Level ${pet.level} (Exp: ${pet.exp}/${expForLevel(pet.level + 1)})<br>
+                        Status: <span class="pet-status pet-status-${pet.health}">${pet.health.charAt(0).toUpperCase() + pet.health.slice(1)}</span><br>
+                        <span class="feeding-status">Last fed: ${daysAgo === 0 ? 'today' : `${daysAgo} days ago`}</span><br>
+                        <span class="pet-benefits">Bonus: +${pet.benefits.token_bonus} tokens per mine</span><br>
                         <button class="btn btn-primary" onclick="Pets.feed('${pet.id}')">Feed (10 tokens)</button>
                     </span>
                 </div>
@@ -608,14 +615,14 @@ const Pets = {
 
   async buy() {
     const data = await API.post('/api/buy_pet');
-    await Modal.alert(data.success ? 'Pet bought!' : 'Failed to buy pet.').then(() => {
+    await Modal.alert(data.success ? `Pet bought: ${data.name}!` : `Failed to buy pet: ${data.error}`).then(() => {
       if (data.success) Auth.refreshAccount();
     });
   },
 
   async feed(petId) {
     const data = await API.post('/api/feed_pet', { pet_id: petId });
-    await Modal.alert(data.success ? 'Pet fed!' : 'Failed to feed pet.').then(() => {
+    await Modal.alert(data.success ? 'Pet fed!' : `Failed to feed pet: ${data.error}`).then(() => {
       if (data.success) Auth.refreshAccount();
     });
   }
