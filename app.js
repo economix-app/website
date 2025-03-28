@@ -889,6 +889,15 @@ const Admin = {
       });
       await Modal.alert(container.innerHTML);
     }
+  },
+
+  async deleteUser() {
+    const username = await Modal.prompt('Enter username to delete:');
+    if (!username) return;
+    const data = await API.post('/api/delete_user', { username });
+    await Modal.alert(data.success ? 'User deleted!' : 'Error deleting user.').then(() => {
+      if (data.success) Auth.refreshAccount();
+    });
   }
 };
 
@@ -952,6 +961,7 @@ const initEventListeners = () => {
   document.getElementById('muteUserAdmin').addEventListener('click', Admin.muteUser);
   document.getElementById('unmuteUserAdmin').addEventListener('click', Admin.unmuteUser);
   document.getElementById('fineUserAdmin').addEventListener('click', Admin.fineUser);
+  document.getElementById('deleteUserAdmin').addEventListener('click', Admin.deleteUser);
 
   // Mod Dashboard
   document.getElementById('listUsersMod').addEventListener('click', Admin.listUsers);
