@@ -476,8 +476,15 @@ function renderInventory(inventoryItems) {
     viewSecretBtn.innerHTML = '🕵️ Secret';
     viewSecretBtn.onclick = () => viewSecret(item.id);
 
+    // Recycle button
+    const recycleBtn = document.createElement('button');
+    recycleBtn.className = 'btn btn-primary';
+    recycleBtn.innerHTML = '♻️ Recycle (+5 tokens)'
+    recycleBtn.onclick = () => recycleItem(item.id);
+
     btnContainer.appendChild(sellBtn);
     btnContainer.appendChild(viewSecretBtn);
+    btnContainer.appendChild(recycleBtn);
 
     // Admin controls
     if (account.type === 'admin') {
@@ -1452,6 +1459,22 @@ function feedPet(petId) {
         customAlert("Failed to feed pet.");
       }
     });
+}
+
+function recycleItem(itemId) {
+    fetch(API_BASE + "/api/recycle_item", {
+      method: "POST",
+      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({item_id: itemId})
+    }).then(res => res.json()).then(data => {
+      if (data.success) {
+        customAlert('Recycled item!').then(() => {
+          refreshAccount();
+        });
+      } else {
+        customAlert('Failed to recycle item.');
+      }
+    })
 }
 
 function showAuth() {
