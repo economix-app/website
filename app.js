@@ -880,9 +880,9 @@ const Admin = {
 
   async getBannedUsers() {
     const data = await API.get('/api/get_banned');
-    if (data.usernames) {
+    if (data.banned_users) {
       const container = document.createElement('div');
-      data.usernames.forEach(username => {
+      data.banned_users.forEach(username => {
         const p = document.createElement('p');
         p.innerText = username;
         container.appendChild(p);
