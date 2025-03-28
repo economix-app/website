@@ -164,17 +164,23 @@ const UI = {
     return new Date(timestamp * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   },
 
-  initializeTheme() {
-    const theme = localStorage.getItem('theme') || 'light';
+  setTheme(theme) {
+    const availableThemes = ['light', 'dark', 'sepia', 'high-contrast'];
+    if (!availableThemes.includes(theme)) {
+      theme = 'light';
+    }
     document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    const themeSelect = document.getElementById('themeSelect');
+    if (themeSelect) {
+      themeSelect.value = theme;
+    }
   },
 
-  toggleDarkMode() {
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-  }
+  initializeTheme() {
+    let theme = localStorage.getItem('theme') || 'light';
+    this.setTheme(theme);
+  },
 };
 
 // API Utilities
@@ -902,7 +908,7 @@ const initEventListeners = () => {
   });
   document.getElementById('sendMessage').addEventListener('click', () => Chat.send());
   document.getElementById('messageInput').addEventListener('keyup', e => e.key === 'Enter' && Chat.send());
-  document.getElementById('toggleDarkMode').addEventListener('click', UI.toggleDarkMode);
+  document.getElementById('themeSelect').addEventListener('change', (e) => UI.setTheme(e.target.value));
   document.getElementById('deleteAccount').addEventListener('click', Auth.deleteAccount);
   document.getElementById('logout').addEventListener('click', () => {
     localStorage.removeItem('token');

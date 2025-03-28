@@ -34,6 +34,40 @@
   --own-message: rgba(224, 231, 255, 0.1);
 }
 
+[data-theme="sepia"] {
+  --primary: #8B4513;
+  --secondary: #A0522D;
+  --success: #228B22;
+  --danger: #B22222;
+  --background: #FDF5E6;
+  --card-bg: #FFF8DC;
+  --text: #5C4033;
+  --border: #DEB887;
+  --modal-bg: #FFF8DC;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --system-message: #F5F5DC;
+  --admin-message: #FAEBD7;
+  --mod-message: #FFE4C4;
+  --own-message: #FFFACD;
+}
+
+[data-theme="high-contrast"] {
+  --primary: #00FFFF;
+  --secondary: #FFFF00;
+  --success: #00FF00;
+  --danger: #FF0000;
+  --background: #000000;
+  --card-bg: #FFFFFF;
+  --text: #FFFFFF;
+  --border: #FFFFFF;
+  --modal-bg: #FFFFFF;
+  --shadow: rgba(255, 255, 255, 0.2);
+  --system-message: #00FF00;
+  --admin-message: #00FFFF;
+  --mod-message: #FF0000;
+  --own-message: #FFFF00;
+}
+
 /* Global Reset and Base Styles */
 *,
 *::before,
@@ -774,4 +808,13 @@ a {
   .rules-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.form-select {
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 1rem;
 }
