@@ -274,7 +274,7 @@ const Auth = {
 
   async refreshAccount() {
     const data = await API.get('/api/account');
-    
+
     if (data.banned) {
       UI.toggleVisibility('mainContent', 'none');
       UI.toggleVisibility('bannedPage');
@@ -465,6 +465,8 @@ const Inventory = {
   },
 
   async recycle(itemId) {
+    if (!await Modal.confirm('Are you sure you want to recycle this item?')) return;
+
     const data = await API.post('/api/recycle_item', { item_id: itemId });
     await Modal.alert(data.success ? 'Recycled item!' : 'Failed to recycle item.').then(() => {
       if (data.success) Auth.refreshAccount();
