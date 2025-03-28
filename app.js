@@ -458,7 +458,6 @@ const Inventory = {
     let significantlevels = ["rare", "epic", "legendary", "godlike"];  
     if ( significantlevels.includes( rarity.toLowerCase() ) ){
       let color = style.getPropertyValue('--'+rarity.toLowerCase());
-      h2.style.color = color;
       itemDiv.appendChild(h2)
       colors.push(color)
   
