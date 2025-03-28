@@ -869,13 +869,12 @@ const Admin = {
   async refreshStats() {
     const data = await API.get('/api/stats');
     if (data.stats) {
-      const stats = document.getElementById('stats');
-      stats.innerHTML = '';
-      data.stats.forEach(stat => {
-        const div = document.createElement('div');
-        div.innerHTML = `<b>${stat.name}:</b> ${stat.value}`;
-        stats.appendChild(div);
-      });
+      const totalTokens = document.getElementById('totalTokens');
+      const totalAccounts = document.getElementById('totalAccounts');
+      const totalItems = document.getElementById('totalItems');
+      totalTokens.innerText = data.stats.total_tokens;
+      totalAccounts.innerText = data.stats.total_accounts;
+      totalItems.innerText = data.stats.total_items;
     }
   },
 
