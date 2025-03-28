@@ -1,6 +1,6 @@
 // Constants
 const ITEM_CREATE_COOLDOWN = 60; // 1 minute in seconds
-const TOKEN_MINE_COOLDOWN = 300; // 5 minutes in seconds
+const TOKEN_MINE_COOLDOWN = 180; // 3 minutes in seconds
 const ITEMS_PER_PAGE = 5;
 const API_BASE = 'https://api.economix.lol';
 
