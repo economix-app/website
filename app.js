@@ -445,7 +445,38 @@ const Inventory = {
   async create() {
     const item = await API.post('/api/create_item');
     if (item.error) return await Modal.alert(`Error creating item: ${item.error}`);
-    await Modal.alert(`Created item: ${item.name.icon} ${item.name.adjective} ${item.name.material} ${item.name.noun} ${item.name.suffix} #${item.name.number}`).then(() => Auth.refreshAccount());
+    
+    const style = window.getComputedStyle(document.body);
+    let itemDiv = document.createElement("DIV");
+    let rarity = item.level
+  
+    let colors = ['#ffffff']
+  
+    let h2 = document.createElement("h2")
+    h2.innerText += "New "+rarity+" item!";
+  
+    let significantlevels = ["rare", "epic", "legendary", "godlike"];  
+    if ( significantlevels.includes( rarity.toLowerCase() ) ){
+      let color = style.getPropertyValue('--'+rarity.toLowerCase());
+      itemDiv.appendChild(h2)
+      colors.push(color)
+  
+      confetti({
+        particleCount: 200,
+        angle: -90,
+        spread: 180,
+        origin: { x: 0.5, y: 0 },
+        colors: colors
+      });
+    }
+  
+    itemDiv.appendChild(h2)
+  
+    let p = document.createElement("P")
+    p.innerText = `${item.name.icon} ${item.name.adjective} ${item.name.material} ${item.name.noun} ${item.name.suffix} #${item.name.number}`
+    itemDiv.appendChild(p)
+  
+    await Modal.alert(itemDiv.innerHTML).then(() => Auth.refreshAccount());
   },
 
   async sell(itemId) {
