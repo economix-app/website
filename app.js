@@ -553,7 +553,15 @@ const Market = {
   },
 
   async refresh() {
-    state.marketItems = await API.get('/api/market');
+    let rawData = await API.get('/api/market');
+    
+    if (!rawData.success) {
+      console.error('Failed fetch inventory: ' + rawData.error);
+      state.marketItems = [];
+      return this.applyFilters();
+    }
+
+    state.marketItems = Object.values(rawData).filter(item => typeof item === 'object');
     this.applyFilters();
   },
 
