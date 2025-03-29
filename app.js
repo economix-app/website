@@ -987,6 +987,19 @@ const Admin = {
       if (data.success) Auth.refreshAccount();
     });
   },
+
+  async getCreatorCodes() {
+    const data = await API.get('/api/get_creator_codes');
+    if (data.creator_codes) {
+      const container = document.createElement('div');
+      data.creator_codes.forEach(code => {
+        const p = document.createElement('p');
+        p.innerText = `${code.code} (${code.tokens} tokens, ${code.pets} pets)`;
+        container.appendChild(p);
+      });
+      await Modal.alert(container.innerHTML);
+    }
+  },
 };
 
 // Event Listeners
@@ -1028,6 +1041,7 @@ const initEventListeners = () => {
   document.getElementById('getBannedUsersAdmin').addEventListener('click', Admin.getBannedUsers);
   document.getElementById('createCreatorCodeAdmin').addEventListener('click', Admin.createCreatorCode);
   document.getElementById('deleteCreatorCodeAdmin').addEventListener('click', Admin.deleteCreatorCode);
+  document.getElementById('getCreatorCodesAdmin').addEventListener('click', Admin.getCreatorCodes);
   document.getElementById('setBannerAdmin').addEventListener('click', Admin.setBanner);
   document.getElementById('editTokensAdmin').addEventListener('click', () => Admin.editTokens());
   document.getElementById('editExpAdmin').addEventListener('click', () => Admin.editExp());
