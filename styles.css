@@ -933,6 +933,15 @@ a {
   color: var(--primary);
 }
 
+.form-select {
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 1rem;
+}
+
 @media (max-width: 768px) {
   .hero h2 {
     font-size: 2.5rem;
@@ -946,13 +955,4 @@ a {
   .rules-grid {
     grid-template-columns: 1fr;
   }
-}
-
-.form-select {
-  padding: 0.5rem;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  background: var(--card-bg);
-  color: var(--text);
-  font-size: 1rem;
 }
