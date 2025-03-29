@@ -310,6 +310,11 @@ const Auth = {
       return;
     }
 
+    if (data.creator_code) {
+      document.getElementById('creatorCodeMessage').textContent = data.creator_code;
+      UI.toggleVisibility('creatorMessage');
+    }
+
     if (data.error) {
       localStorage.removeItem('token');
       location.reload();
