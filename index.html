@@ -314,19 +314,19 @@
             <div class="chat chat-card">
               <div class="sidebar">
                 <div class="chat-tabs">
-                  <button class="tab active" data-tab="chat">Global Chat</button>
-                  <button class="tab" data-tab="dms">DMs</button>
+                  <button class="chat-tab active" data-chat-tab="chat">Global Chat</button>
+                  <button class="chat-tab" data-chat-tab="dms">DMs</button>
                 </div>
               </div>
               <div class="chat-area">
-                <div id="tab-chat" class="tab-content active">
+                <div id="chat-tab-chat" class="tab-content active">
                   <div id="globalMessages" class="chat-messages"></div>
                   <div class="message-input">
                     <input type="text" id="messageInput" placeholder="Type a message..." />
                     <button id="sendMessage">Send</button>
                   </div>
                 </div>
-                <div id="tab-dms" class="tab-content">
+                <div id="chat-tab-dms" class="tab-content">
                   <div class="dm-sidebar">
                     <button id="startNewDM" class="btn btn-primary">New DM</button>
                     <ul id="dmConversationList" class="dm-conversation-list"></ul>

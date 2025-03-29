@@ -130,22 +130,64 @@ const Modal = {
 // UI Utilities
 const UI = {
   switchTab(tabName) {
+    console.log(`Switching to tab: ${tabName}`); // Debug log
+
     const chatTab = document.querySelector('[data-tab="chat"]');
     state.isChatFocused = tabName === 'chat';
     if (state.isChatFocused) {
       state.unreadMessages = 0;
-      chatTab.classList.remove('new-messages');
+      if (chatTab) chatTab.classList.remove('new-messages');
     }
 
-    document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    // Remove active class from all tabs and contents
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.tab-content');
+    tabs.forEach(btn => btn.classList.remove('active'));
+    contents.forEach(content => content.classList.remove('active'));
 
-    document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
-    document.getElementById(`tab-${tabName}`).classList.add('active');
+    // Add active class to selected tab and content
+    const selectedTab = document.querySelector(`.tab[data-tab="${tabName}"]`);
+    const selectedContent = document.getElementById(`tab-${tabName}`);
+    if (selectedTab && selectedContent) {
+      selectedTab.classList.add('active');
+      selectedContent.classList.add('active');
+    } else {
+      console.error(`Tab or content not found for: ${tabName}`);
+      return;
+    }
+  },
 
-    if (tabName === 'dms') {
-      Chat.refreshConversations();
-      if (Chat.currentDMRecipient) Chat.refreshDMs();
+  switchChatTab(tabName) {
+    console.log(`Switching chat tab to: ${tabName}`); // Debug log
+
+    const chatTabs = document.querySelectorAll('.chat-tab');
+    const chatContents = document.querySelectorAll('.chat-tab-content');
+
+    // Remove active class from all chat tabs and contents
+    chatTabs.forEach(tab => tab.classList.remove('active'));
+    chatContents.forEach(content => content.classList.remove('active'));
+
+    // Add active class to the selected chat tab and content
+    const selectedTab = document.querySelector(`.chat-tab[data-chat-tab="${tabName}"]`);
+    const selectedContent = document.getElementById(`chat-tab-${tabName}`);
+    if (selectedTab && selectedContent) {
+      selectedTab.classList.add('active');
+      selectedContent.classList.add('active');
+    } else {
+      console.error(`Chat tab or content not found for: ${tabName}`);
+      return;
+    }
+
+    // Update state and trigger refreshes
+    state.isChatFocused = tabName === 'chat';
+    if (state.isChatFocused) {
+      state.unreadMessages = 0;
+      const globalChatTab = document.querySelector('.chat-tab[data-chat-tab="chat"]');
+      if (globalChatTab) globalChatTab.classList.remove('new-messages');
+      Chat.refresh(); // Refresh global chat
+    } else if (tabName === 'dms') {
+      Chat.refreshConversations(); // Refresh DM conversations
+      if (Chat.currentDMRecipient) Chat.refreshDMs(); // Refresh selected DM
     }
   },
 
@@ -1043,6 +1085,18 @@ const Admin = {
 // Event Listeners
 const initEventListeners = () => {
   document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => UI.switchTab(btn.dataset.tab)));
+  const chatTabs = document.querySelectorAll('.chat-tab');
+  if (chatTabs.length === 0) {
+    console.error('No .chat-tab elements found in the DOM');
+    return;
+  }
+
+  chatTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const tabName = tab.getAttribute('data-chat-tab');
+      UI.switchChatTab(tabName);
+    });
+  });
   document.getElementById('createItem').addEventListener('click', () => Inventory.create());
   document.getElementById('mineItem').addEventListener('click', async () => {
     const data = await API.post('/api/mine_tokens');
@@ -1068,9 +1122,12 @@ const initEventListeners = () => {
     localStorage.removeItem('token');
     location.reload();
   });
-  document.getElementById('sendDM').addEventListener('click', () => Chat.sendDM());
-  document.getElementById('dmInput').addEventListener('keyup', e => e.key === 'Enter' && Chat.sendDM());
-  document.getElementById('startNewDM').addEventListener('click', () => Chat.startNewDM());
+  const sendDM = document.getElementById('sendDM');
+  const dmInput = document.getElementById('dmInput');
+  const startNewDM = document.getElementById('startNewDM');
+  if (sendDM) sendDM.addEventListener('click', () => Chat.sendDM());
+  if (dmInput) dmInput.addEventListener('keyup', e => e.key === 'Enter' && Chat.sendDM());
+  if (startNewDM) startNewDM.addEventListener('click', () => Chat.startNewDM());
   document.getElementById('setup2FA').addEventListener('click', Auth.setup2FA);
   document.getElementById('disable2FA').addEventListener('click', Auth.disable2FA);
   document.getElementById('2faSetupSubmit').addEventListener('click', Auth.enable2FA);
@@ -1128,6 +1185,10 @@ const init = () => {
   }, 1000);
 
   initEventListeners();
+
+  UI.switchChatTab('chat');
 };
 
-init();
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+});

@@ -942,6 +942,40 @@ a {
   font-size: 1rem;
 }
 
+.chat-tab-content {
+  display: none;
+}
+
+.chat-tab-content.active {
+  display: block;
+}
+
+.chat-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.chat-tab {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.chat-tab:not(.active):hover {
+  background: var(--secondary);
+}
+
+.chat-tab.active {
+  background: var(--secondary);
+}
+
 .dm-sidebar {
   width: 200px;
   border-right: 1px solid var(--border);
