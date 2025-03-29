@@ -41,6 +41,8 @@ class AppState {
     };
 
     this.messageSound = new Audio('notification.mp3');
+
+    this.currentDMRecipient = null;
   }
 }
 
@@ -140,6 +142,11 @@ const UI = {
 
     document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
     document.getElementById(`tab-${tabName}`).classList.add('active');
+
+    if (tabName === 'dms') {
+      Chat.refreshConversations();
+      if (Chat.currentDMRecipient) Chat.refreshDMs();
+    }
   },
 
   toggleVisibility(elementId, display = 'block') {
@@ -198,11 +205,11 @@ const API = {
         ...options.headers
       };
       const response = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
-  
+
       if (!response.ok) {
         return { error: `API error: ${response.status}`, success: false };
       }
-  
+
       let json = await response.json();
       return { ...json, success: true };
     } catch (err) {
@@ -454,22 +461,22 @@ const Inventory = {
   async create() {
     const item = await API.post('/api/create_item');
     if (item.error) return await Modal.alert(`Error creating item: ${item.error}`);
-    
+
     const style = window.getComputedStyle(document.body);
     let itemDiv = document.createElement("DIV");
     let rarity = item.level
-  
+
     let colors = ['#ffffff']
-  
+
     let h2 = document.createElement("h2")
-    h2.innerText += "New "+rarity+" item!";
-  
-    let significantlevels = ["rare", "epic", "legendary", "godlike"];  
-    if ( significantlevels.includes( rarity.toLowerCase() ) ){
-      let color = style.getPropertyValue('--'+rarity.toLowerCase());
+    h2.innerText += "New " + rarity + " item!";
+
+    let significantlevels = ["rare", "epic", "legendary", "godlike"];
+    if (significantlevels.includes(rarity.toLowerCase())) {
+      let color = style.getPropertyValue('--' + rarity.toLowerCase());
       itemDiv.appendChild(h2)
       colors.push(color)
-  
+
       confetti({
         particleCount: 200,
         angle: -90,
@@ -478,13 +485,13 @@ const Inventory = {
         colors: colors
       });
     }
-  
+
     itemDiv.appendChild(h2)
-  
+
     let p = document.createElement("P")
     p.innerText = `${item.name.icon} ${item.name.adjective} ${item.name.material} ${item.name.noun} ${item.name.suffix} #${item.name.number}`
     itemDiv.appendChild(p)
-  
+
     await Modal.alert(itemDiv.innerHTML).then(() => Auth.refreshAccount());
   },
 
@@ -554,7 +561,7 @@ const Market = {
 
   async refresh() {
     let rawData = await API.get('/api/market');
-    
+
     if (!rawData.success) {
       console.error('Failed fetch inventory: ' + rawData.error);
       state.marketItems = [];
@@ -732,6 +739,90 @@ const Chat = {
     const data = await API.post('/api/delete_message', { message_id: messageId });
     if (data.success) this.refresh();
     else await Modal.alert('Error deleting message.');
+  },
+
+  async refreshConversations() {
+    const data = await API.get('/api/get_conversations');
+    if (!data.conversations) return;
+
+    const conversationList = document.getElementById('dmConversationList');
+    conversationList.innerHTML = '';
+    data.conversations.forEach(recipient => {
+      const li = document.createElement('li');
+      li.textContent = recipient;
+      li.className = data.unread_counts[recipient] > 0 ? 'unread' : '';
+      li.onclick = () => this.selectConversation(recipient);
+      if (recipient === state.currentDMRecipient) li.classList.add('active');
+      conversationList.appendChild(li);
+    });
+  },
+
+  async selectConversation(recipient) {
+    state.currentDMRecipient = recipient;
+    document.querySelectorAll('#dmConversationList li').forEach(li => li.classList.remove('active'));
+    document.querySelector(`#dmConversationList li:contains('${recipient}')`).classList.add('active');
+    this.refreshDMs();
+  },
+
+  async refreshDMs() {
+    if (!state.currentDMRecipient) return;
+
+    const data = await API.get(`/api/get_dms?recipient=${state.currentDMRecipient}`);
+    if (!data.messages) return;
+
+    const container = document.getElementById('dmMessages');
+    const wasAtBottom = UI.isAtBottom(container);
+    container.innerHTML = '';
+    data.messages.forEach(msg => this.appendDM(msg));
+    if (wasAtBottom) UI.scrollToBottom(container);
+  },
+
+  appendDM(message) {
+    const container = document.getElementById('dmMessages');
+    const isOwn = message.sender === state.account.username;
+
+    const messageEl = document.createElement('div');
+    messageEl.className = `message ${isOwn ? 'own-message' : ''}`;
+    messageEl.innerHTML = `
+      <div class="message-header">
+        <span class="message-sender">${message.sender}</span>
+        <span class="message-time">${UI.formatTime(message.timestamp)}</span>
+      </div>
+      <div class="message-content">${message.message}</div>
+    `;
+    container.appendChild(messageEl);
+    if (UI.isAtBottom(container)) UI.scrollToBottom(container);
+  },
+
+  async sendDM() {
+    if (!state.currentDMRecipient) {
+      await Modal.alert('Please select a recipient first.');
+      return;
+    }
+
+    const message = document.getElementById('dmInput').value.trim();
+    if (!message) return;
+
+    const data = await API.post('/api/send_dm', { recipient: state.currentDMRecipient, message });
+    if (data.success) {
+      this.refreshDMs();
+      document.getElementById('dmInput').value = '';
+    } else await Modal.alert(`Error sending DM: ${data.error}`);
+  },
+
+  async startNewDM() {
+    const recipient = await Modal.prompt('Enter username to DM:');
+    if (!recipient) return;
+
+    const data = await API.get('/api/users');
+    if (!data.usernames.includes(recipient)) {
+      await Modal.alert('User not found.');
+      return;
+    }
+
+    state.currentDMRecipient = recipient;
+    this.refreshConversations();
+    this.refreshDMs();
   }
 };
 
@@ -977,6 +1068,9 @@ const initEventListeners = () => {
     localStorage.removeItem('token');
     location.reload();
   });
+  document.getElementById('sendDM').addEventListener('click', () => Chat.sendDM());
+  document.getElementById('dmInput').addEventListener('keyup', e => e.key === 'Enter' && Chat.sendDM());
+  document.getElementById('startNewDM').addEventListener('click', () => Chat.startNewDM());
   document.getElementById('setup2FA').addEventListener('click', Auth.setup2FA);
   document.getElementById('disable2FA').addEventListener('click', Auth.disable2FA);
   document.getElementById('2faSetupSubmit').addEventListener('click', Auth.enable2FA);
@@ -1028,6 +1122,7 @@ const init = () => {
     Admin.refreshBanner();
     Auth.refreshAccount();
     Chat.refresh();
+    Chat.refreshConversations();
     Admin.refreshLeaderboard();
     Market.refresh();
   }, 1000);

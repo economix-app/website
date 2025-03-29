@@ -942,6 +942,51 @@ a {
   font-size: 1rem;
 }
 
+.dm-sidebar {
+  width: 200px;
+  border-right: 1px solid var(--border);
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.dm-conversation-list {
+  list-style: none;
+  padding: 0;
+}
+
+.dm-conversation-list li {
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.dm-conversation-list li:hover {
+  background: var(--card-bg);
+}
+
+.dm-conversation-list li.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+.dm-conversation-list li.unread::after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  margin-left: 5px;
+}
+
+.dm-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
 @media (max-width: 768px) {
   .hero h2 {
     font-size: 2.5rem;
@@ -954,5 +999,15 @@ a {
 
   .rules-grid {
     grid-template-columns: 1fr;
+  }
+
+  .dm-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .chat-card.active-dms {
+    flex-direction: column;
   }
 }

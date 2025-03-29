@@ -311,20 +311,33 @@
 
           <!-- Chat Tab -->
           <div class="tab-content" id="tab-chat">
-            <div class="card chat-card">
+            <div class="chat chat-card">
               <div class="sidebar">
-                <div class="card-header">
-                  <h2>Chat</h2>
-                  <div class="chat-tabs">
-                    <button class="btn btn-primary active" id="globalChatTab">Global Chat</button>
-                  </div>
+                <div class="chat-tabs">
+                  <button class="tab active" data-tab="chat">Global Chat</button>
+                  <button class="tab" data-tab="dms">DMs</button>
                 </div>
               </div>
               <div class="chat-area">
-                <div class="message-container" id="globalMessages"></div>
-                <div class="message-input">
-                  <input type="text" id="messageInput" placeholder="Type your message..." />
-                  <button id="sendMessage">Send</button>
+                <div id="tab-chat" class="tab-content active">
+                  <div id="globalMessages" class="chat-messages"></div>
+                  <div class="message-input">
+                    <input type="text" id="messageInput" placeholder="Type a message..." />
+                    <button id="sendMessage">Send</button>
+                  </div>
+                </div>
+                <div id="tab-dms" class="tab-content">
+                  <div class="dm-sidebar">
+                    <button id="startNewDM" class="btn btn-primary">New DM</button>
+                    <ul id="dmConversationList" class="dm-conversation-list"></ul>
+                  </div>
+                  <div class="dm-content">
+                    <div id="dmMessages" class="chat-messages"></div>
+                    <div class="message-input">
+                      <input type="text" id="dmInput" placeholder="Type a DM..." />
+                      <button id="sendDM">Send</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
