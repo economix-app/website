@@ -679,9 +679,10 @@ const Pets = {
 // Chat Management
 const Chat = {
   async send() {
-    document.getElementById('messageInput').value = '';
     const message = document.getElementById('messageInput').value.trim();
     if (!message) return;
+
+    document.getElementById('messageInput').value = '';
 
     const data = await API.post('/api/send_message', { message });
     if (data.success) {
