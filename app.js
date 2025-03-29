@@ -682,10 +682,11 @@ const Chat = {
     const message = document.getElementById('messageInput').value.trim();
     if (!message) return;
 
+    document.getElementById('messageInput').value = '';
+
     const data = await API.post('/api/send_message', { message });
     if (data.success) {
       this.refresh();
-      document.getElementById('messageInput').value = '';
     } else await Modal.alert(`Error sending message: ${data.error}`);
   },
 
