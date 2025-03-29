@@ -553,7 +553,12 @@ const Market = {
   },
 
   async refresh() {
-    state.marketItems = await API.get('/api/market');
+    let rawData = await API.get('/api/market');
+    if (!rawData.success) {
+      console.error('Failed to sort inventory: ' + rawData.error);
+      state.marketItems = [];
+    }
+    state.marketItems =  Object.values(items).filter(item => typeof item === 'object');
     this.applyFilters();
   },
 
