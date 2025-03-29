@@ -554,11 +554,14 @@ const Market = {
 
   async refresh() {
     let rawData = await API.get('/api/market');
+    
     if (!rawData.success) {
-      console.error('Failed to sort inventory: ' + rawData.error);
+      console.error('Failed fetch inventory: ' + rawData.error);
       state.marketItems = [];
+      return this.applyFilters();
     }
-    state.marketItems =  Object.values(items).filter(item => typeof item === 'object');
+
+    state.marketItems = Object.values(rawData).filter(item => typeof item === 'object');
     this.applyFilters();
   },
 
