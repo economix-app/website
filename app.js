@@ -292,6 +292,13 @@ const Auth = {
     } else await Modal.alert('Failed to delete account.');
   },
 
+  async redeemCreatorCode() {
+    const code = await Modal.prompt('Enter code:');
+    if (!code) return;
+    const data = await API.post('/api/redeem_creator_code', { code });
+    await Modal.alert(data.success ? 'Creator code redeemed!' : 'Error redeeming creator code.');
+  },
+
   async refreshAccount() {
     const data = await API.get('/api/account');
 
@@ -949,7 +956,32 @@ const Admin = {
     await Modal.alert(data.success ? 'User deleted!' : 'Error deleting user.').then(() => {
       if (data.success) Auth.refreshAccount();
     });
-  }
+  },
+
+  async createCreatorCode() {
+    const code = await Modal.prompt('Enter code:');
+    if (!code) return;
+    const extraTokens = parseInt(await Modal.prompt('Enter extra tokens:')) || 0;
+    if (!extraTokens) return;
+    const extraPets = parseInt(await Modal.prompt('Enter extra pets:')) || 0;
+    if (!extraPets) return;
+
+    const data = await API.post('/api/create_creator_code', { code, tokens: extraTokens, pets: extraPets });
+
+    await Modal.alert(data.success ? 'Creator code created!' : 'Error creating creator code.').then(() => {
+      if (data.success) Auth.refreshAccount();
+    });
+  },
+
+  async deleteCreatorCode() {
+    const code = await Modal.prompt('Enter code:');
+    if (!code) return;
+    if (!await Modal.confirm(`Are you sure you want to delete the creator code: ${code}?`)) return;
+    const data = await API.post('/api/delete_creator_code', { code });
+    await Modal.alert(data.success ? 'Creator code deleted!' : 'Error deleting creator code.').then(() => {
+      if (data.success) Auth.refreshAccount();
+    });
+  },
 };
 
 // Event Listeners
@@ -975,6 +1007,7 @@ const initEventListeners = () => {
   document.getElementById('sendMessage').addEventListener('click', () => Chat.send());
   document.getElementById('messageInput').addEventListener('keyup', e => e.key === 'Enter' && Chat.send());
   document.getElementById('themeSelect').addEventListener('change', (e) => UI.setTheme(e.target.value));
+  document.getElementById('redeemCreatorCode').addEventListener('click', Auth.redeemCreatorCode);
   document.getElementById('deleteAccount').addEventListener('click', Auth.deleteAccount);
   document.getElementById('logout').addEventListener('click', () => {
     localStorage.removeItem('token');
@@ -988,6 +1021,8 @@ const initEventListeners = () => {
   // Admin Dashboard
   document.getElementById('listUsersAdmin').addEventListener('click', Admin.listUsers);
   document.getElementById('getBannedUsersAdmin').addEventListener('click', Admin.getBannedUsers);
+  document.getElementById('createCreatorCodeAdmin').addEventListener('click', Admin.createCreatorCode);
+  document.getElementById('deleteCreatorCodeAdmin').addEventListener('click', Admin.deleteCreatorCode);
   document.getElementById('setBannerAdmin').addEventListener('click', Admin.setBanner);
   document.getElementById('editTokensAdmin').addEventListener('click', () => Admin.editTokens());
   document.getElementById('editExpAdmin').addEventListener('click', () => Admin.editExp());
