@@ -613,6 +613,8 @@ const Market = {
   },
 
   async buy(itemId) {
+    if (!await Modal.confirm('Are you sure you want to purchase this item?')) return;
+
     const data = await API.post('/api/buy_item', { item_id: itemId });
     if (data.success) await Modal.alert('Item purchased!').then(() => {
       Auth.refreshAccount();
