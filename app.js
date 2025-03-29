@@ -296,7 +296,7 @@ const Auth = {
     const code = await Modal.prompt('Enter code:');
     if (!code) return;
     const data = await API.post('/api/redeem_creator_code', { code });
-    await Modal.alert(data.success ? 'Creator code redeemed!' : 'Error redeeming creator code.');
+    await Modal.alert(data.success ? `Creator code redeemed! Extra tokens: ${data.extra_tokens} | Extra pets: ${data.extra_pets}` : 'Error redeeming creator code.');
   },
 
   async refreshAccount() {
