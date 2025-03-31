@@ -774,6 +774,86 @@ const Pets = {
   }
 };
 
+const Company = {
+  async refresh() {
+      const data = await API.get('/api/get_company');
+      this.render(data.company);
+  },
+
+  render(company) {
+      const container = document.getElementById('companyDetails');
+      container.innerHTML = '';
+
+      if (!company) {
+          container.innerHTML = `
+              <p>You are not part of a company.</p>
+              <button class="btn btn-primary" onclick="Company.create()">Create Company (500 tokens)</button>
+          `;
+          return;
+      }
+
+      const isOwner = company.owner === state.account.username;
+      const workerCost = 50;
+      const maxWorkers = 2 * company.members.length;
+      const tokensPerHour = company.workers * 5;
+
+      container.innerHTML = `
+          <h3>${company.name}</h3>
+          <p><strong>Owner:</strong> ${company.owner}</p>
+          <p><strong>Members (${company.members.length}/10):</strong> ${company.members.join(', ')}</p>
+          <p><strong>Workers (${company.workers}/${maxWorkers}):</strong> Generating ${tokensPerHour} tokens/hr</p>
+          <p><strong>Company Tokens:</strong> ${company.tokens} (Distributed daily)</p>
+          <p><strong>Last Distribution:</strong> ${new Date(company.last_distribution * 1000).toLocaleString()}</p>
+      `;
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      if (isOwner) {
+          actions.innerHTML += `
+              <button class="btn btn-primary" onclick="Company.invite('${company.id}')">Invite Member</button>
+              <button class="btn btn-primary" ${company.workers >= maxWorkers ? 'disabled' : ''} onclick="Company.buyWorker('${company.id}')">Buy Worker (${workerCost} tokens)</button>
+          `;
+      }
+      container.appendChild(actions);
+  },
+
+  async create() {
+      const name = await Modal.prompt('Enter company name:');
+      if (!name) return;
+      const data = await API.post('/api/create_company', { name });
+      if (data.success) {
+          await Modal.alert('Company created!');
+          Auth.refreshAccount();
+          this.refresh();
+      } else {
+          await Modal.alert(`Error: ${data.error}`);
+      }
+  },
+
+  async invite(companyId) {
+      const username = await Modal.prompt('Enter username to invite:');
+      if (!username) return;
+      const data = await API.post('/api/invite_to_company', { company_id: companyId, username });
+      if (data.success) {
+          await Modal.alert('User invited!');
+          this.refresh();
+      } else {
+          await Modal.alert(`Error: ${data.error}`);
+      }
+  },
+
+  async buyWorker(companyId) {
+      const data = await API.post('/api/buy_worker', { company_id: companyId });
+      if (data.success) {
+          await Modal.alert('Worker purchased!');
+          Auth.refreshAccount();
+          this.refresh();
+      } else {
+          await Modal.alert(`Error: ${data.error}`);
+      }
+  }
+};
+
 // Chat Management
 const Chat = {
   async send() {
@@ -1188,6 +1268,7 @@ const init = () => {
     Chat.refresh();
     Admin.refreshLeaderboard();
     Market.refresh();
+    Company.refresh();
   }, 1000);
 
   initEventListeners();
