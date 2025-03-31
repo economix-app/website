@@ -727,12 +727,24 @@ const Chat = {
       document.querySelector('[data-tab="chat"]').classList.add('new-messages');
     }
 
+    if (message.type === 'system') {
+      messagePrefix = '⚙️';
+    } else if (message.type === 'admin') {
+      messagePrefix = '🛠️';
+    } else if (message.type === 'mod') {
+      messagePrefix = '🛡️';
+    } else if (message.type === 'msg') {
+      messagePrefix = '💬';
+    } else {
+      messagePrefix = '';
+    }
+
     const messageEl = document.createElement('div');
     messageEl.className = `message ${type} ${isOwn ? 'own-message' : ''}`;
     messageEl.innerHTML = `
             <div class="message-header">
                 <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
-                    ${type === 'system' ? '⚙️' : type === 'admin' ? '🛠️' : type === 'mod' ? '🛡️' : type === 'msg' ? '💬' : ''}${message.username}
+                    ${messagePrefix} ${message.username}
                 </span>
                 <span class="message-time">${UI.formatTime(message.timestamp)}</span>
             </div>
