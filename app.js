@@ -673,6 +673,49 @@ const Casino = {
       }
       setTimeout(() => resultEl.classList.remove(won ? 'won' : 'lost'), 3000);
     }, CASINO_ANIMATION_DURATION);
+  },
+
+  async rollDice() {
+    const betAmount = parseFloat(document.getElementById('diceBetAmount').value);
+    const selectedNumber = document.querySelector('input[name="dice-number"]:checked');
+
+    // Validate input
+    if (!selectedNumber) {
+      await Modal.alert('Please select a number to bet on.');
+      return;
+    }
+    const choice = parseInt(selectedNumber.value);
+    if (!betAmount || betAmount <= 0) {
+      await Modal.alert('Please enter a valid bet amount.');
+      return;
+    }
+
+    // Send bet to backend
+    const data = await API.post('/api/dice_roll', { bet_amount: betAmount, choice });
+    if (!data.success) {
+      await Modal.alert(`Error placing bet: ${data.error}`);
+      return;
+    }
+
+    // Animate and display result
+    this.animateDiceRoll(data.result, data.won, betAmount, data.winnings);
+    Auth.refreshAccount(); // Update user's token display
+  },
+
+  animateDiceRoll(result, won, betAmount, winnings) {
+    const resultEl = document.getElementById('diceResult');
+    resultEl.textContent = 'Rolling dice...';
+
+    setTimeout(() => {
+      resultEl.textContent = `Result: ${result}! You ${won ? 'won' : 'lost'}! ${won ? `Winnings: ${winnings} tokens` : `Lost: ${betAmount} tokens`}`;
+      if (won) {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    }, CASINO_ANIMATION_DURATION);
   }
 };
 
@@ -1129,6 +1172,7 @@ const initEventListeners = () => {
   // Casino
   document.getElementById('betHeads').addEventListener('click', () => Casino.bet('heads'));
   document.getElementById('betTails').addEventListener('click', () => Casino.bet('tails'));
+  document.getElementById('rollDice').addEventListener('click', () => Casino.rollDice());
 };
 
 // Initialization

@@ -193,7 +193,8 @@
                 <p class="cooldown" id="cooldown"></p>
                 <p class="cooldown" id="mineCooldown"></p>
               </div>
-              <p id="creatorMessage" style="display: none;">Thanks for supporting <span id="creatorCodeMessage"></span>!</p>
+              <p id="creatorMessage" style="display: none;">Thanks for supporting <span id="creatorCodeMessage"></span>!
+              </p>
             </div>
           </div>
 
@@ -307,14 +308,35 @@
           <div class="tab-content" id="tab-casino">
             <div class="card">
               <div class="card-header">
-                <h2>Coin Flip Casino</h2>
+                <h2>Casino</h2>
               </div>
-              <div class="casino-actions">
-                <p>Bet tokens on a coin flip! Win double your bet or lose it all.</p>
-                <input type="number" id="betAmount" placeholder="Bet amount" min="1">
-                <button class="btn btn-primary" id="betHeads">Bet on Heads</button>
-                <button class="btn btn-primary" id="betTails">Bet on Tails</button>
-                <p id="casinoResult" style="margin-top: 1rem;"></p>
+              <div class="casino-game">
+                <div class="casino-actions">
+                  <p>Bet tokens on a coin flip! Win double your bet or lose it all.</p>
+                  <input type="number" id="betAmount" placeholder="Bet amount" min="1">
+                  <button class="btn btn-primary" id="betHeads">Bet on Heads</button>
+                  <button class="btn btn-primary" id="betTails">Bet on Tails</button>
+                  <p id="casinoResult" style="margin-top: 1rem;"></p>
+                </div>
+              </div>
+              <div class="casino-game">
+                <div class="casino-actions">
+                  <p>Bet on the outcome of a dice roll (1-6). Win 5x your bet if correct!</p>
+                  <div>
+                    <label>Choose a number:</label>
+                    <div class="radio-group">
+                      <label><input type="radio" name="dice-number" value="1"> 1</label>
+                      <label><input type="radio" name="dice-number" value="2"> 2</label>
+                      <label><input type="radio" name="dice-number" value="3"> 3</label>
+                      <label><input type="radio" name="dice-number" value="4"> 4</label>
+                      <label><input type="radio" name="dice-number" value="5"> 5</label>
+                      <label><input type="radio" name="dice-number" value="6"> 6</label>
+                    </div>
+                  </div>
+                  <input type="number" id="diceBetAmount" placeholder="Bet amount" min="1">
+                  <button class="btn btn-primary" id="rollDice">Roll Dice</button>
+                  <p id="diceResult" style="margin-top: 1rem;"></p>
+                </div>
               </div>
             </div>
           </div>
