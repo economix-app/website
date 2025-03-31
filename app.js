@@ -300,6 +300,15 @@ const Auth = {
     await Modal.alert(data.success ? `Creator code redeemed! Extra tokens: ${data.extra_tokens} | Extra pets: ${data.extra_pets}` : 'Error redeeming creator code.');
   },
 
+  async sendTokens() {
+    const recipient = await Modal.prompt('Enter recipient:');
+    if (!recipient) return;
+    const amount = await Modal.prompt('Enter amount:');
+    if (!amount) return;
+    const data = await API.post('/api/send_tokens', { recipient, amount });
+    await Modal.alert(data.success ? `Sent tokens!` : `Error sending tokens.`);
+  },
+
   async refreshAccount() {
     const data = await API.get('/api/account');
 
@@ -1198,6 +1207,7 @@ const initEventListeners = () => {
       }
     });
   });
+  document.getElementById('sendTokens').addEventListener('click', () => Auth.sendTokens());
   document.getElementById('sendMessage').addEventListener('click', () => Chat.send());
   document.getElementById('messageInput').addEventListener('keyup', e => e.key === 'Enter' && Chat.send());
   document.getElementById('themeSelect').addEventListener('change', (e) => UI.setTheme(e.target.value));
