@@ -959,13 +959,13 @@ a {
   border-radius: 0.5rem;
   border: 1px solid var(--border);
   box-shadow: 0 2px 4px var(--shadow);
+  margin-bottom: 1rem;
 }
 
 .casino-actions p {
   margin: 0;
   color: var(--text);
   font-size: 1rem;
-  margin-bottom: 1rem;
 }
 
 #betAmount {
