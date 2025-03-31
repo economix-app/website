@@ -732,7 +732,7 @@ const Chat = {
     messageEl.innerHTML = `
             <div class="message-header">
                 <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
-                    ${type === 'system' ? '⚙️' : type === 'admin' ? '🛠️' : type === 'mod' ? '🛡️' : ''}${message.username}
+                    ${type === 'system' ? '⚙️' : type === 'admin' ? '🛠️' : type === 'mod' ? '🛡️' : type === 'msg' ? '💬' : ''}${message.username}
                 </span>
                 <span class="message-time">${UI.formatTime(message.timestamp)}</span>
             </div>

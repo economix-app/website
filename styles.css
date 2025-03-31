@@ -636,6 +636,13 @@ a {
   border-left: 4px solid #ef4444;
 }
 
+.message.msg {
+  background: var(--own-message);
+  border-left: 4px solid #6366f1;
+  margin-left: auto;
+  max-width: 70%;
+}
+
 .own-message {
   background: var(--own-message);
   border-left: 4px solid #6366f1;
