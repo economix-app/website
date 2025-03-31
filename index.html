@@ -171,6 +171,7 @@
             Dashboard</button>
           <button class="tab" data-tab="inventory">📦 Inventory</button>
           <button class="tab" data-tab="market">🛒 Market</button>
+          <button class="tab" data-tab="casino">🎰 Casino</button>
           <button class="tab" data-tab="pets">🐾 Pets</button>
           <button class="tab chat-tab-button" data-tab="chat">💬 Chat</button>
           <button class="tab" data-tab="leaderboard">🏆 Leaderboard</button>
@@ -300,6 +301,21 @@
               </div>
               <ul class="item-list" id="marketList"></ul>
               <div id="marketplacePagination" style="margin-top: 10px; text-align: center;"></div>
+            </div>
+          </div>
+
+          <div class="tab-content" id="tab-casino">
+            <div class="card">
+              <div class="card-header">
+                <h2>Coin Flip Casino</h2>
+              </div>
+              <div class="casino-actions">
+                <p>Bet tokens on a coin flip! Win double your bet or lose it all.</p>
+                <input type="number" id="betAmount" placeholder="Bet amount" min="1">
+                <button class="btn btn-primary" id="betHeads">Bet on Heads</button>
+                <button class="btn btn-primary" id="betTails">Bet on Tails</button>
+                <p id="casinoResult" style="margin-top: 1rem;"></p>
+              </div>
             </div>
           </div>
 

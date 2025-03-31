@@ -3,6 +3,7 @@ const ITEM_CREATE_COOLDOWN = 60; // 1 minute in seconds
 const TOKEN_MINE_COOLDOWN = 180; // 3 minutes in seconds
 const ITEMS_PER_PAGE = 5;
 const API_BASE = 'https://api.economix.lol';
+const CASINO_ANIMATION_DURATION = 2000;
 
 // Utils
 function expForLevel(level) {
@@ -635,6 +636,46 @@ const Market = {
   }
 };
 
+// Casino
+const Casino = {
+  async bet(choice) {
+    const betAmount = parseFloat(document.getElementById('betAmount').value);
+    if (!betAmount || betAmount <= 0) {
+      await Modal.alert('Please enter a valid bet amount.');
+      return;
+    }
+
+    const data = await API.post('/api/coin_flip', { bet_amount: betAmount, choice });
+    if (!data.success) {
+      await Modal.alert(`Error placing bet: ${data.error}`);
+      return;
+    }
+
+    this.animateCoinFlip(data.result, data.won, betAmount, data.winnings);
+    Auth.refreshAccount();
+  },
+
+  animateCoinFlip(result, won, betAmount, winnings) {
+    const resultEl = document.getElementById('casinoResult');
+    resultEl.textContent = 'Flipping coin...';
+    resultEl.classList.add('flipping');
+
+    setTimeout(() => {
+      resultEl.classList.remove('flipping');
+      resultEl.textContent = `Result: ${result.toUpperCase()}! You ${won ? 'won' : 'lost'}! ${won ? `Winnings: ${winnings} tokens` : `Lost: ${betAmount} tokens`}`;
+      resultEl.classList.add(won ? 'won' : 'lost');
+      if (won) {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+      setTimeout(() => resultEl.classList.remove(won ? 'won' : 'lost'), 3000);
+    }, CASINO_ANIMATION_DURATION);
+  }
+};
+
 // Pet Management
 const Pets = {
   render(pets) {
@@ -1084,6 +1125,10 @@ const initEventListeners = () => {
   document.getElementById('listUsersMod').addEventListener('click', Admin.listUsers);
   document.getElementById('muteUserMod').addEventListener('click', Admin.muteUser);
   document.getElementById('unmuteUserMod').addEventListener('click', Admin.unmuteUser);
+
+  // Casino
+  document.getElementById('betHeads').addEventListener('click', () => Casino.bet('heads'));
+  document.getElementById('betTails').addEventListener('click', () => Casino.bet('tails'));
 };
 
 // Initialization
