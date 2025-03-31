@@ -638,7 +638,6 @@ a {
 
 .message.msg {
   background: var(--own-message);
-  border-left: 4px solid #6366f1;
   margin-left: auto;
   max-width: 70%;
 }
