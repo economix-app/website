@@ -136,12 +136,6 @@ const UI = {
       chatTab.classList.remove('new-messages');
     }
 
-    if (tabName === 'logViewer') {
-      LogViewer.connect();
-    } else {
-      LogViewer.disconnect();
-    }
-
     document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
@@ -337,8 +331,6 @@ const Auth = {
       return;
     }
 
-    LogViewer.init();
-
     this.updateAccountUI(data);
     state.items = data.items;
     state.pets = data.pets;
@@ -357,7 +349,6 @@ const Auth = {
 
     const roleDisplay = document.getElementById('roleDisplay');
     const adminTab = document.getElementById('adminDashboardTabButton');
-    const logTab = document.getElementById('logViewerTabButton');
     const modTab = document.getElementById('modDashboardTabButton');
     const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
 
@@ -372,13 +363,13 @@ const Auth = {
       modTab.style.display = 'inline-block';
       adminTab.style.display = 'none';
       logTab.style.display = 'none';
-      if (['logViewer', 'modDashboard'].includes(activeTab)) UI.switchTab('dashboard');
+      if (['modDashboard'].includes(activeTab)) UI.switchTab('dashboard');
     } else {
       roleDisplay.innerHTML = 'You are a <strong>User</strong>';
       adminTab.style.display = 'none';
       modTab.style.display = 'none';
       logTab.style.display = 'none';
-      if (['adminDashboard', 'modDashboard', 'logViewer'].includes(activeTab)) UI.switchTab('dashboard');
+      if (['adminDashboard', 'modDashboard'].includes(activeTab)) UI.switchTab('dashboard');
     }
 
     this.updateCooldowns(data);
@@ -797,28 +788,28 @@ const Pets = {
 
 const Company = {
   async refresh() {
-      const data = await API.get('/api/get_company');
-      this.render(data.company);
+    const data = await API.get('/api/get_company');
+    this.render(data.company);
   },
 
   render(company) {
-      const container = document.getElementById('companyDetails');
-      container.innerHTML = '';
+    const container = document.getElementById('companyDetails');
+    container.innerHTML = '';
 
-      if (!company) {
-          container.innerHTML = `
+    if (!company) {
+      container.innerHTML = `
               <p>You are not part of a company.</p>
               <button class="btn btn-primary" onclick="Company.create()">Create Company (500 tokens)</button>
           `;
-          return;
-      }
+      return;
+    }
 
-      const isOwner = company.owner === state.account.username;
-      const workerCost = 50;
-      const maxWorkers = 2 * company.members.length;
-      const tokensPerHour = company.workers * 5;
+    const isOwner = company.owner === state.account.username;
+    const workerCost = 50;
+    const maxWorkers = 2 * company.members.length;
+    const tokensPerHour = company.workers * 5;
 
-      container.innerHTML = `
+    container.innerHTML = `
           <h3>${company.name}</h3>
           <p><strong>Owner:</strong> ${company.owner}</p>
           <p><strong>Members (${company.members.length}/10):</strong> ${company.members.join(', ')}</p>
@@ -827,51 +818,51 @@ const Company = {
           <p><strong>Last Distribution:</strong> ${new Date(company.last_distribution * 1000).toLocaleString()}</p>
       `;
 
-      const actions = document.createElement('div');
-      actions.className = 'actions';
-      if (isOwner) {
-          actions.innerHTML += `
+    const actions = document.createElement('div');
+    actions.className = 'actions';
+    if (isOwner) {
+      actions.innerHTML += `
               <button class="btn btn-primary" onclick="Company.invite('${company.id}')">Invite Member</button>
               <button class="btn btn-primary" ${company.workers >= maxWorkers ? 'disabled' : ''} onclick="Company.buyWorker('${company.id}')">Buy Worker (${workerCost} tokens)</button>
           `;
-      }
-      container.appendChild(actions);
+    }
+    container.appendChild(actions);
   },
 
   async create() {
-      const name = await Modal.prompt('Enter company name:');
-      if (!name) return;
-      const data = await API.post('/api/create_company', { name });
-      if (data.success) {
-          await Modal.alert('Company created!');
-          Auth.refreshAccount();
-          this.refresh();
-      } else {
-          await Modal.alert(`Error: ${data.error}`);
-      }
+    const name = await Modal.prompt('Enter company name:');
+    if (!name) return;
+    const data = await API.post('/api/create_company', { name });
+    if (data.success) {
+      await Modal.alert('Company created!');
+      Auth.refreshAccount();
+      this.refresh();
+    } else {
+      await Modal.alert(`Error: ${data.error}`);
+    }
   },
 
   async invite(companyId) {
-      const username = await Modal.prompt('Enter username to invite:');
-      if (!username) return;
-      const data = await API.post('/api/invite_to_company', { company_id: companyId, username });
-      if (data.success) {
-          await Modal.alert('User invited!');
-          this.refresh();
-      } else {
-          await Modal.alert(`Error: ${data.error}`);
-      }
+    const username = await Modal.prompt('Enter username to invite:');
+    if (!username) return;
+    const data = await API.post('/api/invite_to_company', { company_id: companyId, username });
+    if (data.success) {
+      await Modal.alert('User invited!');
+      this.refresh();
+    } else {
+      await Modal.alert(`Error: ${data.error}`);
+    }
   },
 
   async buyWorker(companyId) {
-      const data = await API.post('/api/buy_worker', { company_id: companyId });
-      if (data.success) {
-          await Modal.alert('Worker purchased!');
-          Auth.refreshAccount();
-          this.refresh();
-      } else {
-          await Modal.alert(`Error: ${data.error}`);
-      }
+    const data = await API.post('/api/buy_worker', { company_id: companyId });
+    if (data.success) {
+      await Modal.alert('Worker purchased!');
+      Auth.refreshAccount();
+      this.refresh();
+    } else {
+      await Modal.alert(`Error: ${data.error}`);
+    }
   }
 };
 
@@ -1199,52 +1190,7 @@ const Admin = {
   },
 };
 
-// Log Viewer Management
-const LogViewer = {
-  source: null,
 
-  init() {
-    // Show the log viewer tab only for admins
-    if (state.account.type === 'admin') {
-      document.getElementById('logViewerTabButton').style.display = 'inline-block';
-    }
-  },
-
-  connect() {
-    // Close existing connection if any
-    if (this.source) this.source.close();
-    this.source = new EventSource(`${API_BASE}/api/logs`, {
-      headers: { 'Authorization': `Bearer ${state.token}` }
-    });
-
-    const container = document.getElementById('logContainer');
-    this.source.onmessage = (event) => {
-      const logLine = document.createElement('div');
-      logLine.textContent = event.data;
-      container.appendChild(logLine);
-      // Limit to 1000 lines to prevent memory issues
-      if (container.children.length > 1000) {
-        container.removeChild(container.firstChild);
-      }
-      // Auto-scroll to the bottom if already there
-      if (container.scrollTop + container.clientHeight >= container.scrollHeight - 10) {
-        container.scrollTop = container.scrollHeight;
-      }
-    };
-
-    this.source.onerror = () => {
-      this.source.close();
-      setTimeout(() => this.connect(), 2000);  // Reconnect after 2 seconds
-    };
-  },
-
-  disconnect() {
-    if (this.source) {
-      this.source.close();
-      this.source = null;
-    }
-  }
-};
 
 // Event Listeners
 const initEventListeners = () => {
