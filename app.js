@@ -136,6 +136,12 @@ const UI = {
       chatTab.classList.remove('new-messages');
     }
 
+    if (tabName === 'logViewer') {
+      LogViewer.connect();
+    } else {
+      LogViewer.disconnect();
+    }
+
     document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
@@ -331,6 +337,8 @@ const Auth = {
       return;
     }
 
+    LogViewer.init();
+
     this.updateAccountUI(data);
     state.items = data.items;
     state.pets = data.pets;
@@ -349,24 +357,28 @@ const Auth = {
 
     const roleDisplay = document.getElementById('roleDisplay');
     const adminTab = document.getElementById('adminDashboardTabButton');
+    const logTab = document.getElementById('logViewerTabButton');
     const modTab = document.getElementById('modDashboardTabButton');
     const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
 
     if (data.type === 'admin') {
       roleDisplay.innerHTML = 'You are an <strong>Admin</strong>';
       adminTab.style.display = 'inline-block';
+      logTab.style.display = 'inline-block';
       modTab.style.display = 'none';
       if (activeTab === 'modDashboard') UI.switchTab('dashboard');
     } else if (data.type === 'mod') {
       roleDisplay.innerHTML = 'You are a <strong>Mod</strong>';
       modTab.style.display = 'inline-block';
       adminTab.style.display = 'none';
-      if (activeTab === 'adminDashboard') UI.switchTab('dashboard');
+      logTab.style.display = 'none';
+      if (['logViewer', 'modDashboard'].includes(activeTab)) UI.switchTab('dashboard');
     } else {
       roleDisplay.innerHTML = 'You are a <strong>User</strong>';
       adminTab.style.display = 'none';
       modTab.style.display = 'none';
-      if (['adminDashboard', 'modDashboard'].includes(activeTab)) UI.switchTab('dashboard');
+      logTab.style.display = 'none';
+      if (['adminDashboard', 'modDashboard', 'logViewer'].includes(activeTab)) UI.switchTab('dashboard');
     }
 
     this.updateCooldowns(data);
@@ -1185,6 +1197,53 @@ const Admin = {
       await Modal.alert(container.innerHTML);
     }
   },
+};
+
+// Log Viewer Management
+const LogViewer = {
+  source: null,
+
+  init() {
+    // Show the log viewer tab only for admins
+    if (state.account.type === 'admin') {
+      document.getElementById('logViewerTabButton').style.display = 'inline-block';
+    }
+  },
+
+  connect() {
+    // Close existing connection if any
+    if (this.source) this.source.close();
+    this.source = new EventSource(`${API_BASE}/api/logs`, {
+      headers: { 'Authorization': `Bearer ${state.token}` }
+    });
+
+    const container = document.getElementById('logContainer');
+    this.source.onmessage = (event) => {
+      const logLine = document.createElement('div');
+      logLine.textContent = event.data;
+      container.appendChild(logLine);
+      // Limit to 1000 lines to prevent memory issues
+      if (container.children.length > 1000) {
+        container.removeChild(container.firstChild);
+      }
+      // Auto-scroll to the bottom if already there
+      if (container.scrollTop + container.clientHeight >= container.scrollHeight - 10) {
+        container.scrollTop = container.scrollHeight;
+      }
+    };
+
+    this.source.onerror = () => {
+      this.source.close();
+      setTimeout(() => this.connect(), 2000);  // Reconnect after 2 seconds
+    };
+  },
+
+  disconnect() {
+    if (this.source) {
+      this.source.close();
+      this.source = null;
+    }
+  }
 };
 
 // Event Listeners
