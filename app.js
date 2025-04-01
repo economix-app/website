@@ -1329,9 +1329,7 @@ const init = () => {
   UI.initializeTheme();
   Admin.refreshStats();
 
-  ServerStatus.updateUI();
   setInterval(() => {
-    ServerStatus.updateUI();
     if (!state.token || document.getElementById('homepage').style.display === 'block') return;
     Admin.refreshStats();
     Admin.refreshBanner();
