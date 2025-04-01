@@ -1000,6 +1000,15 @@ const Admin = {
     });
   },
 
+  async removeAdmin() {
+    const username = await Modal.prompt('Enter username:');
+    if (!username) return;
+    const data = await API.post('/api/remove_admin', { username });
+    await Modal.alert(data.success ? 'Admin removed!' : 'Error removing admin.').then(() => {
+      if (data.success) Auth.refreshAccount();
+    });
+  },
+
   async addMod() {
     const username = await Modal.prompt('Enter username:');
     if (!username) return;
@@ -1014,6 +1023,24 @@ const Admin = {
     if (!username) return;
     const data = await API.post('/api/remove_mod', { username });
     await Modal.alert(data.success ? 'Mod removed!' : 'Error removing mod.').then(() => {
+      if (data.success) Auth.refreshAccount();
+    });
+  },
+
+  async addMedia() {
+    const username = await Modal.prompt('Enter username:');
+    if (!username) return;
+    const data = await API.post('/api/add_media', { username });
+    await Modal.alert(data.success ? 'Media added!' : 'Error adding media.').then(() => {
+      if (data.success) Auth.refreshAccount();
+    });
+  },
+
+  async removeMedia() {
+    const username = await Modal.prompt('Enter username:');
+    if (!username) return;
+    const data = await API.post('/api/remove_media', { username });
+    await Modal.alert(data.success ? 'Media removed!' : 'Error removing media.').then(() => {
       if (data.success) Auth.refreshAccount();
     });
   },
@@ -1249,8 +1276,11 @@ const initEventListeners = () => {
     editExpAdmin: () => Admin.editExp(),
     editLevelAdmin: () => Admin.editLevel(),
     addAdminAdmin: Admin.addAdmin,
+    removeAdminAdmin: Admin.removeAdmin,
     addModAdmin: Admin.addMod,
     removeModAdmin: Admin.removeMod,
+    addMediaAdmin: Admin.addMedia,
+    removeMediaAdmin: Admin.removeMedia,
     banUserAdmin: Admin.banUser,
     unbanUserAdmin: Admin.unbanUser,
     muteUserAdmin: Admin.muteUser,
