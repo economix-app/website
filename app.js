@@ -1221,7 +1221,7 @@ const Admin = {
     const tokens = await Modal.prompt('Enter tokens:');
     if (!tokens) return;
     const data = await API.post('/api/set_company_tokens', { company, tokens });
-    await Modal.alert(data.success ? 'Company edited!' : 'Error edited company.').then(() => {
+    await Modal.alert(data.success ? 'Company edited!' : 'Error editing company.').then(() => {
       if (data.success) Auth.refreshAccount();
     });
   }
