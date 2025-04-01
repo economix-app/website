@@ -13,7 +13,7 @@
   --system-message: #f0fdf4;
   --admin-message: #eff6ff;
   --mod-message: #fef2f2;
-  --media-message: #f3f4f6;
+  --media-message: #ffcc80;
   --own-message: #e0e7ff;
   --rare: #0000ff;
   --epic: #bd1fdd;
@@ -36,7 +36,7 @@
   --system-message: rgba(240, 253, 244, 0.1);
   --admin-message: rgba(239, 246, 255, 0.1);
   --mod-message: rgba(254, 242, 242, 0.1);
-  --media-message: rgba(243, 244, 246, 0.1);
+  --media-message: rgba(255, 140, 0, 0.2);
   --own-message: rgba(224, 231, 255, 0.1);
 }
 
@@ -54,7 +54,7 @@
   --system-message: #F5F5DC;
   --admin-message: #FAEBD7;
   --mod-message: #FFE4C4;
-  --media-message: #FDF5E6;
+  --media-message: #e9967a;
   --own-message: #FFFACD;
 }
 
@@ -72,7 +72,7 @@
   --system-message: #b58900;
   --admin-message: #cb4b16;
   --mod-message: #d33682;
-  --media-message: #268bd2;
+  --media-message: #e9967a;
   --own-message: #6c71c4;
 }
 
@@ -90,7 +90,7 @@
   --system-message: rgba(163, 190, 140, 0.1);
   --admin-message: rgba(129, 161, 193, 0.1);
   --mod-message: rgba(191, 97, 106, 0.1);
-  --media-message: rgba(94, 129, 172, 0.1);
+  --media-message: rgba(191, 97, 6, 0.2);
   --own-message: rgba(94, 129, 172, 0.1);
 }
 
@@ -108,7 +108,7 @@
   --system-message: rgba(80, 250, 123, 0.1);
   --admin-message: rgba(189, 147, 249, 0.1);
   --mod-message: rgba(255, 85, 85, 0.1);
-  --media-message: rgba(255, 121, 198, 0.1);
+  --media-message: rgba(255, 140, 0, 0.3);
   --own-message: rgba(255, 121, 198, 0.1);
 }
 
@@ -126,7 +126,7 @@
   --system-message: rgba(166, 226, 46, 0.1);
   --admin-message: rgba(102, 217, 239, 0.1);
   --mod-message: rgba(249, 38, 114, 0.1);
-  --media-message: rgba(253, 151, 31, 0.1);
+  --media-message: rgba(255, 165, 0, 0.3);
   --own-message: rgba(253, 151, 31, 0.1);
 }
 
@@ -144,7 +144,7 @@
   --system-message: rgba(152, 151, 26, 0.1);
   --admin-message: rgba(69, 133, 136, 0.1);
   --mod-message: rgba(204, 36, 29, 0.1);
-  --media-message: rgba(215, 153, 33, 0.1);
+  --media-message: rgba(255, 165, 0, 0.3);
   --own-message: rgba(215, 153, 33, 0.1);
 }
 
@@ -162,7 +162,7 @@
   --system-message: rgba(153, 199, 148, 0.1);
   --admin-message: rgba(197, 148, 197, 0.1);
   --mod-message: rgba(236, 95, 103, 0.1);
-  --media-message: rgba(78, 201, 176, 0.1);
+  --media-message: rgba(255, 165, 0, 0.3);
   --own-message: rgba(78, 201, 176, 0.1);
 }
 
@@ -180,7 +180,7 @@
   --system-message: rgba(158, 206, 106, 0.1);
   --admin-message: rgba(122, 162, 247, 0.1);
   --mod-message: rgba(247, 118, 142, 0.1);
-  --media-message: rgba(187, 154, 247, 0.1);
+  --media-message: rgba(255, 165, 0, 0.3);
   --own-message: rgba(187, 154, 247, 0.1);
 }
 
@@ -199,7 +199,7 @@
   --system-message: #e6f3e6;
   --admin-message: #e6f0fa;
   --mod-message: #ffe6e6;
-  --media-message: #f0e6fa;
+  --media-message: rgb(255, 234, 194);
   --own-message: #f0e6fa;
 }
 
@@ -217,7 +217,7 @@
   --system-message: rgba(0, 255, 0, 0.2);
   --admin-message: rgba(0, 255, 159, 0.2);
   --mod-message: rgba(255, 0, 51, 0.2);
-  --media-message: rgba(255, 0, 255, 0.2);
+  --media-message: rgba(255, 140, 0, 0.3);
   --own-message: rgba(255, 0, 255, 0.2);
 }
 
