@@ -355,20 +355,17 @@ const Auth = {
     if (data.type === 'admin') {
       roleDisplay.innerHTML = 'You are an <strong>Admin</strong>';
       adminTab.style.display = 'inline-block';
-      logTab.style.display = 'inline-block';
       modTab.style.display = 'none';
       if (activeTab === 'modDashboard') UI.switchTab('dashboard');
     } else if (data.type === 'mod') {
       roleDisplay.innerHTML = 'You are a <strong>Mod</strong>';
       modTab.style.display = 'inline-block';
       adminTab.style.display = 'none';
-      logTab.style.display = 'none';
       if (['modDashboard'].includes(activeTab)) UI.switchTab('dashboard');
     } else {
       roleDisplay.innerHTML = 'You are a <strong>User</strong>';
       adminTab.style.display = 'none';
       modTab.style.display = 'none';
-      logTab.style.display = 'none';
       if (['adminDashboard', 'modDashboard'].includes(activeTab)) UI.switchTab('dashboard');
     }
 
