@@ -1191,12 +1191,17 @@ const Admin = {
 
 // Event Listeners
 const initEventListeners = () => {
-  document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => UI.switchTab(btn.dataset.tab)));
-  document.getElementById('createItem').addEventListener('click', () => Inventory.create());
+  // Tabs
+  document.querySelectorAll('.tab').forEach(btn =>
+    btn.addEventListener('click', () => UI.switchTab(btn.dataset.tab))
+  );
+
+  // Inventory Actions
+  document.getElementById('createItem').addEventListener('click', Inventory.create);
   document.getElementById('mineItem').addEventListener('click', async () => {
     const data = await API.post('/api/mine_tokens');
-    if (data.error) return await Modal.alert(`Error mining tokens: ${data.error}`);
-    await Modal.alert(`Mined ${data.tokens} tokens!`).then(() => Auth.refreshAccount());
+    if (data.error) return Modal.alert(`Error mining tokens: ${data.error}`);
+    await Modal.alert(`Mined ${data.tokens} tokens!`).then(Auth.refreshAccount);
   });
   document.getElementById('takeItem').addEventListener('click', async () => {
     const secret = await Modal.prompt('Enter secret:');
@@ -1209,52 +1214,64 @@ const initEventListeners = () => {
       }
     });
   });
-  document.getElementById('sendTokens').addEventListener('click', () => Auth.sendTokens());
-  document.getElementById('sendMessage').addEventListener('click', () => Chat.send());
-  document.getElementById('messageInput').addEventListener('keyup', e => e.key === 'Enter' && Chat.send());
-  document.getElementById('themeSelect').addEventListener('change', (e) => UI.setTheme(e.target.value));
+
+  // User Actions
+  document.getElementById('sendTokens').addEventListener('click', Auth.sendTokens);
+  document.getElementById('sendMessage').addEventListener('click', Chat.send);
+  document.getElementById('messageInput').addEventListener('keyup', e => {
+    if (e.key === 'Enter') Chat.send();
+  });
+  document.getElementById('themeSelect').addEventListener('change', e => UI.setTheme(e.target.value));
   document.getElementById('redeemCreatorCode').addEventListener('click', Auth.redeemCreatorCode);
   document.getElementById('deleteAccount').addEventListener('click', Auth.deleteAccount);
   document.getElementById('logout').addEventListener('click', () => {
     localStorage.removeItem('token');
     location.reload();
   });
+
+  // Two-Factor Authentication (2FA)
   document.getElementById('setup2FA').addEventListener('click', Auth.setup2FA);
   document.getElementById('disable2FA').addEventListener('click', Auth.disable2FA);
   document.getElementById('2faSetupSubmit').addEventListener('click', Auth.enable2FA);
   document.getElementById('2faSetupCancel').addEventListener('click', () => location.reload());
 
   // Admin Dashboard
-  document.getElementById('listUsersAdmin').addEventListener('click', Admin.listUsers);
-  document.getElementById('getBannedUsersAdmin').addEventListener('click', Admin.getBannedUsers);
-  document.getElementById('createCreatorCodeAdmin').addEventListener('click', Admin.createCreatorCode);
-  document.getElementById('deleteCreatorCodeAdmin').addEventListener('click', Admin.deleteCreatorCode);
-  document.getElementById('getCreatorCodesAdmin').addEventListener('click', Admin.getCreatorCodes);
-  document.getElementById('setBannerAdmin').addEventListener('click', Admin.setBanner);
-  document.getElementById('editTokensAdmin').addEventListener('click', () => Admin.editTokens());
-  document.getElementById('editExpAdmin').addEventListener('click', () => Admin.editExp());
-  document.getElementById('editLevelAdmin').addEventListener('click', () => Admin.editLevel());
-  document.getElementById('editExpForUserAdmin').addEventListener('click', async () => {
-    const username = await Modal.prompt('Enter username:');
-    if (username) Admin.editExp(username);
+  const adminActions = {
+    listUsersAdmin: Admin.listUsers,
+    getBannedUsersAdmin: Admin.getBannedUsers,
+    createCreatorCodeAdmin: Admin.createCreatorCode,
+    deleteCreatorCodeAdmin: Admin.deleteCreatorCode,
+    getCreatorCodesAdmin: Admin.getCreatorCodes,
+    setBannerAdmin: Admin.setBanner,
+    editTokensAdmin: () => Admin.editTokens(),
+    editExpAdmin: () => Admin.editExp(),
+    editLevelAdmin: () => Admin.editLevel(),
+    addAdminAdmin: Admin.addAdmin,
+    addModAdmin: Admin.addMod,
+    removeModAdmin: Admin.removeMod,
+    banUserAdmin: Admin.banUser,
+    unbanUserAdmin: Admin.unbanUser,
+    muteUserAdmin: Admin.muteUser,
+    unmuteUserAdmin: Admin.unmuteUser,
+    fineUserAdmin: Admin.fineUser,
+    deleteUserAdmin: Admin.deleteUser
+  };
+  Object.keys(adminActions).forEach(id =>
+    document.getElementById(id).addEventListener('click', adminActions[id])
+  );
+
+  // User-Specific Admin Edits
+  const promptActions = {
+    editExpForUserAdmin: Admin.editExp,
+    editLevelForUserAdmin: Admin.editLevel,
+    editTokensForUserAdmin: Admin.editTokens
+  };
+  Object.keys(promptActions).forEach(id => {
+    document.getElementById(id).addEventListener('click', async () => {
+      const username = await Modal.prompt('Enter username:');
+      if (username) promptActions[id](username);
+    });
   });
-  document.getElementById('editLevelForUserAdmin').addEventListener('click', async () => {
-    const username = await Modal.prompt('Enter username:');
-    if (username) Admin.editLevel(username);
-  });
-  document.getElementById('addAdminAdmin').addEventListener('click', Admin.addAdmin);
-  document.getElementById('addModAdmin').addEventListener('click', Admin.addMod);
-  document.getElementById('removeModAdmin').addEventListener('click', Admin.removeMod);
-  document.getElementById('editTokensForUserAdmin').addEventListener('click', async () => {
-    const username = await Modal.prompt('Enter username:');
-    if (username) Admin.editTokens(username);
-  });
-  document.getElementById('banUserAdmin').addEventListener('click', Admin.banUser);
-  document.getElementById('unbanUserAdmin').addEventListener('click', Admin.unbanUser);
-  document.getElementById('muteUserAdmin').addEventListener('click', Admin.muteUser);
-  document.getElementById('unmuteUserAdmin').addEventListener('click', Admin.unmuteUser);
-  document.getElementById('fineUserAdmin').addEventListener('click', Admin.fineUser);
-  document.getElementById('deleteUserAdmin').addEventListener('click', Admin.deleteUser);
 
   // Mod Dashboard
   document.getElementById('listUsersMod').addEventListener('click', Admin.listUsers);
@@ -1264,8 +1281,9 @@ const initEventListeners = () => {
   // Casino
   document.getElementById('betHeads').addEventListener('click', () => Casino.bet('heads'));
   document.getElementById('betTails').addEventListener('click', () => Casino.bet('tails'));
-  document.getElementById('rollDice').addEventListener('click', () => Casino.rollDice());
+  document.getElementById('rollDice').addEventListener('click', Casino.rollDice);
 };
+
 
 // Initialization
 const init = () => {
