@@ -1,541 +1,504 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <!-- Charset & Viewport -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <!-- Charset & Viewport -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-    rel="stylesheet">
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet">
 
-  <!-- SEO -->
-  <meta name="description" content="Economix: The ultimate game of trade, risk, and reward">
-  <meta name="keywords"
-    content="Economix, game, buying, selling, marketplace, trade, economy, fun, fun game, cool game">
-  <meta property="og:title" content="Economix - The Game of Trade">
-  <meta property="og:description" content="Economix is a game where you can buy, sell, and trade your way to the top.">
-  <meta property="og:url" content="https://economix.proplayer919.dev">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Economix - The Game of Trade">
-  <meta name="twitter:description"
-    content="Economix is a game where you can buy, sell, and trade your way to the top. It's super fun and you should play it.">
+    <!-- SEO -->
+    <meta name="description" content="Economix: The ultimate game of trade, risk, and reward">
+    <meta name="keywords"
+      content="Economix, game, buying, selling, marketplace, trade, economy, fun, fun game, cool game">
+    <meta property="og:title" content="Economix - The Game of Trade">
+    <meta property="og:description"
+      content="Economix is a game where you can buy, sell, and trade your way to the top.">
+    <meta property="og:url" content="https://economix.proplayer919.dev">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Economix - The Game of Trade">
+    <meta name="twitter:description"
+      content="Economix is a game where you can buy, sell, and trade your way to the top. It's super fun and you should play it.">
 
-  <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css" />
 
-  <title>Economix v2.0</title>
-</head>
+    <title>Economix v2.0</title>
+  </head>
 
-<body>
-  <div class="container">
-    <div id="serverDownPage" style="display: none;">
-      <div class="container">
-        <h1>It looks like Economix is down, maybe play some other games instead?</h1>
-        <div class="game-container">
-          <!-- Snake Game -->
-          <div class="game-card">
-            <h2>Snake</h2>
-            <canvas id="snakeCanvas" width="400" height="400"></canvas>
-            <p>Use arrow keys to move. Score: <span id="snakeScore">0</span></p>
+  <body>
+    <div class="container">
+      <div id="homepage">
+        <nav class="hero-nav">
+          <h1>💸 Economix v2.0</h1>
+          <div class="auth-actions">
+            <button class="btn btn-outline" onclick="UI.showAuthForms()">Login</button>
+            <button class="btn btn-primary" onclick="UI.showAuthForms()">Join Now</button>
           </div>
-          
-          <!-- Tic-Tac-Toe Game -->
-          <div class="game-card">
-            <h2>Tic-Tac-Toe</h2>
-            <div id="ticTacToeBoard" class="tic-tac-toe">
-              <div class="row">
-                <div class="cell" data-index="0"></div>
-                <div class="cell" data-index="1"></div>
-                <div class="cell" data-index="2"></div>
-              </div>
-              <div class="row">
-                <div class="cell" data-index="3"></div>
-                <div class="cell" data-index="4"></div>
-                <div class="cell" data-index="5"></div>
-              </div>
-              <div class="row">
-                <div class="cell" data-index="6"></div>
-                <div class="cell" data-index="7"></div>
-                <div class="cell" data-index="8"></div>
-              </div>
-            </div>
-            <p>Status: <span id="ticTacToeStatus">X's turn</span></p>
-            <button class="btn btn-primary" id="resetTicTacToe">Reset Game</button>
-          </div>
-        </div>
-      </div>
-    </div>
+        </nav>
 
-    <div id="homepage">
-      <div class="banner" id="homeBanner">Economix is currently experiencing technical difficulties. Please wait until we mitigate this issue. Expected outage time: Until 4:30 PM AEST.</div>
-
-      <nav class="hero-nav">
-        <h1>💸 Economix v2.0</h1>
-        <div class="auth-actions">
-          <button class="btn btn-outline" onclick="UI.showAuthForms()">Login</button>
-          <button class="btn btn-primary" onclick="UI.showAuthForms()">Join Now</button>
-        </div>
-      </nav>
-
-      <section class="hero">
-        <div class="hero-content">
-          <h2>Master the Market</h2>
-          <p class="hero-subtitle">Build your empire through smart trades, strategic investments, and ruthless
-            competition
-          </p>
-          <div class="hero-cta">
-            <button class="btn btn-lg btn-primary" onclick="UI.showAuthForms()">
-              Start Trading Now ➔
-            </button>
-          </div>
-          <div class="hero-stats">
-            <div class="stat">
-              <div class="stat-value" id="totalTokens"></div>
-              <div class="stat-label">Total Tokens</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value" id="totalAccounts"></div>
-              <div class="stat-label">Active Traders</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value" id="totalItems"></div>
-              <div class="stat-label">Unique Items</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="features">
-        <div class="feature-card">
-          <div class="feature-icon">💎</div>
-          <h3>Dynamic Economy</h3>
-          <p>Real-time market fluctuations based on player activity and global events</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🏆</div>
-          <h3>Competitive Leaderboards</h3>
-          <p>Climb the rankings and become the top trader</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">💬</div>
-          <h3>Active Chat</h3>
-          <p>Engage in real-time conversations with other traders with an easy-to-use chat interface</p>
-        </div>
-      </section>
-
-      <section class="rules-preview">
-        <h2>The Trader's Code</h2>
-        <div class="rules-grid">
-          <div class="rule-card">
-            <div class="rule-emoji">🚫</div>
-            <h3>Fair Play</h3>
-            <p>Strict anti-cheat measures and active moderation</p>
-          </div>
-          <div class="rule-card">
-            <div class="rule-emoji">💬</div>
-            <h3>Respect</h3>
-            <p>Keep chat civil and market-focused</p>
-          </div>
-          <div class="rule-card">
-            <div class="rule-emoji">🛡️</div>
-            <h3>Security</h3>
-            <p>Military-grade encryption and 2FA protection</p>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <!-- Auth Forms -->
-    <div id="authForms" style="display: none">
-      <div class="card-container">
-        <div class="card">
-          <div class="auth-form">
-            <h2>Welcome to 💸 Economix v2.0</h2>
-            <input type="text" id="loginUsername" placeholder="Username" />
-            <input type="password" id="loginPassword" placeholder="Password" />
-            <button class="btn btn-primary" onclick="Auth.login()">Login</button>
-          </div>
-        </div>
-        <div class="card">
-          <div class="auth-form">
-            <h2>Create Account</h2>
-            <input type="text" id="registerUsername" placeholder="Username" />
-            <input type="password" id="registerPassword" placeholder="Password" />
-            <button class="btn btn-success" onclick="Auth.register()">Register</button>
-          </div>
-        </div>
-        <div class="card">
-          <div class="auth-form">
-            <h2>Rules</h2>
-            <p>
-              👉 Do not create alternate accounts without permission. Creating alternate accounts can result in a ban
-              on your main account if you continue to do so.<br>
-              👉 Do not be disrespectful in the chat. You will be muted.<br>
-              👉 Do not exploit any bugs, glitches, or oversights to gain an unfair advantage against other players.
-              You will be banned.
+        <section class="hero">
+          <div class="hero-content">
+            <h2>Master the Market</h2>
+            <p class="hero-subtitle">Build your empire through smart trades, strategic investments, and ruthless
+              competition
             </p>
-            <b>By using Economix, you agree to these rules.</b>
+            <div class="hero-cta">
+              <button class="btn btn-lg btn-primary" onclick="UI.showAuthForms()">
+                Start Trading Now ➔
+              </button>
+            </div>
+            <div class="hero-stats">
+              <div class="stat">
+                <div class="stat-value" id="totalTokens"></div>
+                <div class="stat-label">Total Tokens</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" id="totalAccounts"></div>
+                <div class="stat-label">Active Traders</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" id="totalItems"></div>
+                <div class="stat-label">Unique Items</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="features">
+          <div class="feature-card">
+            <div class="feature-icon">💎</div>
+            <h3>Dynamic Economy</h3>
+            <p>Real-time market fluctuations based on player activity and global events</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🏆</div>
+            <h3>Competitive Leaderboards</h3>
+            <p>Climb the rankings and become the top trader</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💬</div>
+            <h3>Active Chat</h3>
+            <p>Engage in real-time conversations with other traders with an easy-to-use chat interface</p>
+          </div>
+        </section>
+
+        <section class="rules-preview">
+          <h2>The Trader's Code</h2>
+          <div class="rules-grid">
+            <div class="rule-card">
+              <div class="rule-emoji">🚫</div>
+              <h3>Fair Play</h3>
+              <p>Strict anti-cheat measures and active moderation</p>
+            </div>
+            <div class="rule-card">
+              <div class="rule-emoji">💬</div>
+              <h3>Respect</h3>
+              <p>Keep chat civil and market-focused</p>
+            </div>
+            <div class="rule-card">
+              <div class="rule-emoji">🛡️</div>
+              <h3>Security</h3>
+              <p>Military-grade encryption and 2FA protection</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Auth Forms -->
+      <div id="authForms" style="display: none">
+        <div class="card-container">
+          <div class="card">
+            <div class="auth-form">
+              <h2>Welcome to 💸 Economix v2.0</h2>
+              <input type="text" id="loginUsername" placeholder="Username" />
+              <input type="password" id="loginPassword" placeholder="Password" />
+              <button class="btn btn-primary" onclick="Auth.login()">Login</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="auth-form">
+              <h2>Create Account</h2>
+              <input type="text" id="registerUsername" placeholder="Username" />
+              <input type="password" id="registerPassword" placeholder="Password" />
+              <button class="btn btn-success" onclick="Auth.register()">Register</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="auth-form">
+              <h2>Rules</h2>
+              <p>
+                👉 Do not create alternate accounts without permission. Creating alternate accounts can result in a ban
+                on your main account if you continue to do so.<br>
+                👉 Do not be disrespectful in the chat. You will be muted.<br>
+                👉 Do not exploit any bugs, glitches, or oversights to gain an unfair advantage against other players.
+                You will be banned.
+              </p>
+              <b>By using Economix, you agree to these rules.</b>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Main Content -->
-    <div id="mainContent" style="display: none;">
-      <div class="banner" id="banner" style="display: none;"></div>
+      <!-- Main Content -->
+      <div id="mainContent" style="display: none;">
+        <div class="banner" id="banner" style="display: none;"></div>
 
-      <div class="navbar">
-        <h1>💸 Economix v2.0</h1>
-        <div class="user-info">
-          <div class="card" style="padding: 1rem;">
-            <p>Welcome, <strong id="usernameDisplay"></strong>!</p>
-            <p id="roleDisplay"></p>
-            <p>Tokens: <strong id="tokens">0</strong></p>
-            <p>Level: <strong id="level">1</strong> (<strong id="exp">0</strong> EXP)</p>
+        <div class="navbar">
+          <h1>💸 Economix v2.0</h1>
+          <div class="user-info">
+            <div class="card" style="padding: 1rem;">
+              <p>Welcome, <strong id="usernameDisplay"></strong>!</p>
+              <p id="roleDisplay"></p>
+              <p>Tokens: <strong id="tokens">0</strong></p>
+              <p>Level: <strong id="level">1</strong> (<strong id="exp">0</strong> EXP)</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Tab Navigation -->
-      <div class="tabs">
-        <button class="tab active" data-tab="dashboard">📊 Dashboard</button>
-        <button class="tab" data-tab="adminDashboard" id="adminDashboardTabButton" style="display: none;">🛠️ Admin
-          Dashboard</button>
+        <!-- Tab Navigation -->
+        <div class="tabs">
+          <button class="tab active" data-tab="dashboard">📊 Dashboard</button>
+          <button class="tab" data-tab="adminDashboard" id="adminDashboardTabButton" style="display: none;">🛠️ Admin
+            Dashboard</button>
           <button class="tab" data-tab="logViewer" id="logViewerTabButton" style="display: none;">📜 Logs</button>
-        <button class="tab" data-tab="modDashboard" id="modDashboardTabButton" style="display: none;">🛡️ Mod
-          Dashboard</button>
-        <button class="tab" data-tab="inventory">📦 Inventory</button>
-        <button class="tab" data-tab="market">🛒 Market</button>
-        <button class="tab" data-tab="casino">🎰 Casino</button>
-        <button class="tab" data-tab="pets">🐾 Pets</button>
-        <button class="tab" data-tab="company">🏢 Company</button>
-        <button class="tab chat-tab-button" data-tab="chat">💬 Chat</button>
-        <button class="tab" data-tab="leaderboard">🏆 Leaderboard</button>
-        <button class="tab" data-tab="settings">⚙️ Settings</button>
-      </div>
-
-      <!-- Tab Contents -->
-      <div class="tab-contents">
-        <!-- Dashboard Tab -->
-        <div class="tab-content active" id="tab-dashboard">
-          <div class="card">
-            <div class="card-header">
-              <h2>Actions</h2>
-            </div>
-            <div class="actions">
-              <button class="btn btn-primary" id="takeItem">🔍 Take Item (costs 10 tokens)</button>
-              <button class="btn btn-primary" id="createItem">✨ Create Item (costs 10 tokens)</button>
-              <button class="btn btn-primary" id="mineItem">⛏️ Mine Tokens</button>
-              <button class="btn btn-primary" id="sendTokens">📨 Send Tokens</button>
-              <p class="cooldown" id="cooldown"></p>
-              <p class="cooldown" id="mineCooldown"></p>
-            </div>
-            <p id="creatorMessage" style="display: none;">Thanks for supporting <span id="creatorCodeMessage"></span>!
-            </p>
-          </div>
+          <button class="tab" data-tab="modDashboard" id="modDashboardTabButton" style="display: none;">🛡️ Mod
+            Dashboard</button>
+          <button class="tab" data-tab="inventory">📦 Inventory</button>
+          <button class="tab" data-tab="market">🛒 Market</button>
+          <button class="tab" data-tab="casino">🎰 Casino</button>
+          <button class="tab" data-tab="pets">🐾 Pets</button>
+          <button class="tab" data-tab="company">🏢 Company</button>
+          <button class="tab chat-tab-button" data-tab="chat">💬 Chat</button>
+          <button class="tab" data-tab="leaderboard">🏆 Leaderboard</button>
+          <button class="tab" data-tab="settings">⚙️ Settings</button>
         </div>
 
-        <!-- Admin Dashboard Tab -->
-        <div class="tab-content" id="tab-adminDashboard">
-          <div class="card">
-            <div class="card-header">
-              <h2>Admin Dashboard</h2>
-            </div>
-            <div class="actions">
-              <button class="btn btn-primary" id="listUsersAdmin">👥 List Users</button>
-              <button class="btn btn-primary" id="getBannedUsersAdmin">🚫 Get Banned Users</button>
-              <button class="btn btn-primary" id="createCreatorCodeAdmin">🔑 Create Creator Code</button>
-              <button class="btn btn-primary" id="deleteCreatorCodeAdmin">🗑️ Delete Creator Code</button>
-              <button class="btn btn-primary" id="getCreatorCodesAdmin">🔑 Get Creator Codes</button>
-              <button class="btn btn-primary" id="setBannerAdmin">🎉 Set Banner</button>
-              <button class="btn btn-primary" id="editTokensAdmin">💸 Edit Tokens</button>
-              <button class="btn btn-primary" id="editTokensForUserAdmin">💸 Edit Tokens For User</button>
-              <button class="btn btn-primary" id="editLevelAdmin">📈 Edit Level</button>
-              <button class="btn btn-primary" id="editLevelForUserAdmin">📈 Edit Level For User</button>
-              <button class="btn btn-primary" id="editExpAdmin">✨ Edit EXP</button>
-              <button class="btn btn-primary" id="editExpForUserAdmin">✨ Edit EXP For User</button>
-              <button class="btn btn-primary" id="addAdminAdmin">🤝 Add Admin</button>
-              <button class="btn btn-primary" id="addModAdmin">🤝 Add Mod</button>
-              <button class="btn btn-primary" id="removeModAdmin">🚫 Remove Mod</button>
-              <button class="btn btn-primary" id="banUserAdmin">⛓️ Ban User</button>
-              <button class="btn btn-primary" id="unbanUserAdmin">⚖️ Unban User</button>
-              <button class="btn btn-primary" id="muteUserAdmin">🔇 Mute User</button>
-              <button class="btn btn-primary" id="unmuteUserAdmin">🔊 Unmute User</button>
-              <button class="btn btn-primary" id="fineUserAdmin">💰 Fine User</button>
-              <button class="btn btn-primary" id="deleteUserAdmin">🗑️ Delete User</button>
+        <!-- Tab Contents -->
+        <div class="tab-contents">
+          <!-- Dashboard Tab -->
+          <div class="tab-content active" id="tab-dashboard">
+            <div class="card">
+              <div class="card-header">
+                <h2>Actions</h2>
+              </div>
+              <div class="actions">
+                <button class="btn btn-primary" id="takeItem">🔍 Take Item (costs 10 tokens)</button>
+                <button class="btn btn-primary" id="createItem">✨ Create Item (costs 10 tokens)</button>
+                <button class="btn btn-primary" id="mineItem">⛏️ Mine Tokens</button>
+                <button class="btn btn-primary" id="sendTokens">📨 Send Tokens</button>
+                <p class="cooldown" id="cooldown"></p>
+                <p class="cooldown" id="mineCooldown"></p>
+              </div>
+              <p id="creatorMessage" style="display: none;">Thanks for supporting <span id="creatorCodeMessage"></span>!
+              </p>
             </div>
           </div>
-        </div>
 
-        <!-- Logs Tab -->
-        <div class="tab-content" id="tab-logViewer">
-          <div class="card">
-            <div class="card-header">
-              <h2>📜 Log Viewer</h2>
-            </div>
-            <div class="log-container" id="logContainer" style="max-height: 500px; overflow-y: auto; white-space: pre-wrap; font-family: monospace; padding: 1rem; background: var(--card-bg); border-radius: 0.5rem;"></div>
-          </div>
-        </div>
-
-        <!-- Mod Dashboard Tab -->
-        <div class="tab-content" id="tab-modDashboard">
-          <div class="card">
-            <div class="card-header">
-              <h2>Mod Dashboard</h2>
-            </div>
-            <div class="actions">
-              <button class="btn btn-primary" id="listUsersMod">👥 List Users</button>
-              <button class="btn btn-primary" id="muteUserMod">🔇 Mute User</button>
-              <button class="btn btn-primary" id="unmuteUserMod">🔊 Unmute User</button>
-            </div>
-            <p>Some actions (e.g. ban) are only available to admins, please contact one to use them.</p>
-          </div>
-        </div>
-
-        <!-- Inventory Tab -->
-        <div class="tab-content" id="tab-inventory">
-          <div class="card">
-            <div class="card-header">
-              <h2>My Items</h2>
-              <div class="filters">
-                <input type="text" id="inventorySearch" placeholder="Search items..."
-                  oninput="Inventory.applyFilters()">
-                <select id="inventoryRarityFilter" onchange="Inventory.applyFilters()">
-                  <option value="">All Rarities</option>
-                  <option>Trash</option>
-                  <option>Scrap</option>
-                  <option>Common</option>
-                  <option>Uncommon</option>
-                  <option>Rare</option>
-                  <option>Epic</option>
-                  <option>Legendary</option>
-                  <option>Godlike</option>
-                </select>
-                <select id="inventorySaleFilter" onchange="Inventory.applyFilters()">
-                  <option value="all">All Items</option>
-                  <option value="forsale">For Sale</option>
-                  <option value="notforsale">Not For Sale</option>
-                </select>
+          <!-- Admin Dashboard Tab -->
+          <div class="tab-content" id="tab-adminDashboard">
+            <div class="card">
+              <div class="card-header">
+                <h2>Admin Dashboard</h2>
+              </div>
+              <div class="actions">
+                <button class="btn btn-primary" id="listUsersAdmin">👥 List Users</button>
+                <button class="btn btn-primary" id="getBannedUsersAdmin">🚫 Get Banned Users</button>
+                <button class="btn btn-primary" id="createCreatorCodeAdmin">🔑 Create Creator Code</button>
+                <button class="btn btn-primary" id="deleteCreatorCodeAdmin">🗑️ Delete Creator Code</button>
+                <button class="btn btn-primary" id="getCreatorCodesAdmin">🔑 Get Creator Codes</button>
+                <button class="btn btn-primary" id="setBannerAdmin">🎉 Set Banner</button>
+                <button class="btn btn-primary" id="editTokensAdmin">💸 Edit Tokens</button>
+                <button class="btn btn-primary" id="editTokensForUserAdmin">💸 Edit Tokens For User</button>
+                <button class="btn btn-primary" id="editLevelAdmin">📈 Edit Level</button>
+                <button class="btn btn-primary" id="editLevelForUserAdmin">📈 Edit Level For User</button>
+                <button class="btn btn-primary" id="editExpAdmin">✨ Edit EXP</button>
+                <button class="btn btn-primary" id="editExpForUserAdmin">✨ Edit EXP For User</button>
+                <button class="btn btn-primary" id="addAdminAdmin">🤝 Add Admin</button>
+                <button class="btn btn-primary" id="addModAdmin">🤝 Add Mod</button>
+                <button class="btn btn-primary" id="removeModAdmin">🚫 Remove Mod</button>
+                <button class="btn btn-primary" id="banUserAdmin">⛓️ Ban User</button>
+                <button class="btn btn-primary" id="unbanUserAdmin">⚖️ Unban User</button>
+                <button class="btn btn-primary" id="muteUserAdmin">🔇 Mute User</button>
+                <button class="btn btn-primary" id="unmuteUserAdmin">🔊 Unmute User</button>
+                <button class="btn btn-primary" id="fineUserAdmin">💰 Fine User</button>
+                <button class="btn btn-primary" id="deleteUserAdmin">🗑️ Delete User</button>
               </div>
             </div>
-            <ul class="item-list" id="itemsList"></ul>
-            <div id="inventoryPagination" style="margin-top: 10px; text-align: center;"></div>
           </div>
-        </div>
 
-        <!-- Market Tab -->
-        <div class="tab-content" id="tab-market">
-          <div class="card">
-            <div class="card-header">
-              <h2>Marketplace</h2>
-              <div class="filters">
-                <input type="text" id="marketSearch" placeholder="Search items..." oninput="Market.applyFilters()">
-                <select id="marketRarityFilter" onchange="Market.applyFilters()">
-                  <option value="">All Rarities</option>
-                  <option>Trash</option>
-                  <option>Scrap</option>
-                  <option>Common</option>
-                  <option>Uncommon</option>
-                  <option>Rare</option>
-                  <option>Epic</option>
-                  <option>Legendary</option>
-                  <option>Godlike</option>
-                </select>
-                <input type="number" id="marketPriceMin" placeholder="Min price" oninput="Market.applyFilters()">
-                <input type="number" id="marketPriceMax" placeholder="Max price" oninput="Market.applyFilters()">
-                <input type="text" id="marketSellerFilter" placeholder="Seller username"
-                  oninput="Market.applyFilters()">
+          <!-- Logs Tab -->
+          <div class="tab-content" id="tab-logViewer">
+            <div class="card">
+              <div class="card-header">
+                <h2>📜 Log Viewer</h2>
+              </div>
+              <div class="log-container" id="logContainer"
+                style="max-height: 500px; overflow-y: auto; white-space: pre-wrap; font-family: monospace; padding: 1rem; background: var(--card-bg); border-radius: 0.5rem;">
               </div>
             </div>
-            <ul class="item-list" id="marketList"></ul>
-            <div id="marketplacePagination" style="margin-top: 10px; text-align: center;"></div>
           </div>
-        </div>
 
-        <div class="tab-content" id="tab-casino">
-          <div class="card">
-            <div class="card-header">
-              <h2>Casino</h2>
+          <!-- Mod Dashboard Tab -->
+          <div class="tab-content" id="tab-modDashboard">
+            <div class="card">
+              <div class="card-header">
+                <h2>Mod Dashboard</h2>
+              </div>
+              <div class="actions">
+                <button class="btn btn-primary" id="listUsersMod">👥 List Users</button>
+                <button class="btn btn-primary" id="muteUserMod">🔇 Mute User</button>
+                <button class="btn btn-primary" id="unmuteUserMod">🔊 Unmute User</button>
+              </div>
+              <p>Some actions (e.g. ban) are only available to admins, please contact one to use them.</p>
             </div>
-            <div class="casino-game">
-              <div class="casino-actions">
-                <p>Bet tokens on a coin flip! Win double your bet or lose it all.</p>
-                <input type="number" id="betAmount" placeholder="Bet amount" min="1">
-                <button class="btn btn-primary" id="betHeads">Bet on Heads</button>
-                <button class="btn btn-primary" id="betTails">Bet on Tails</button>
-                <p id="casinoResult" style="margin-top: 1rem;"></p>
+          </div>
+
+          <!-- Inventory Tab -->
+          <div class="tab-content" id="tab-inventory">
+            <div class="card">
+              <div class="card-header">
+                <h2>My Items</h2>
+                <div class="filters">
+                  <input type="text" id="inventorySearch" placeholder="Search items..."
+                    oninput="Inventory.applyFilters()">
+                  <select id="inventoryRarityFilter" onchange="Inventory.applyFilters()">
+                    <option value="">All Rarities</option>
+                    <option>Trash</option>
+                    <option>Scrap</option>
+                    <option>Common</option>
+                    <option>Uncommon</option>
+                    <option>Rare</option>
+                    <option>Epic</option>
+                    <option>Legendary</option>
+                    <option>Godlike</option>
+                  </select>
+                  <select id="inventorySaleFilter" onchange="Inventory.applyFilters()">
+                    <option value="all">All Items</option>
+                    <option value="forsale">For Sale</option>
+                    <option value="notforsale">Not For Sale</option>
+                  </select>
+                </div>
+              </div>
+              <ul class="item-list" id="itemsList"></ul>
+              <div id="inventoryPagination" style="margin-top: 10px; text-align: center;"></div>
+            </div>
+          </div>
+
+          <!-- Market Tab -->
+          <div class="tab-content" id="tab-market">
+            <div class="card">
+              <div class="card-header">
+                <h2>Marketplace</h2>
+                <div class="filters">
+                  <input type="text" id="marketSearch" placeholder="Search items..." oninput="Market.applyFilters()">
+                  <select id="marketRarityFilter" onchange="Market.applyFilters()">
+                    <option value="">All Rarities</option>
+                    <option>Trash</option>
+                    <option>Scrap</option>
+                    <option>Common</option>
+                    <option>Uncommon</option>
+                    <option>Rare</option>
+                    <option>Epic</option>
+                    <option>Legendary</option>
+                    <option>Godlike</option>
+                  </select>
+                  <input type="number" id="marketPriceMin" placeholder="Min price" oninput="Market.applyFilters()">
+                  <input type="number" id="marketPriceMax" placeholder="Max price" oninput="Market.applyFilters()">
+                  <input type="text" id="marketSellerFilter" placeholder="Seller username"
+                    oninput="Market.applyFilters()">
+                </div>
+              </div>
+              <ul class="item-list" id="marketList"></ul>
+              <div id="marketplacePagination" style="margin-top: 10px; text-align: center;"></div>
+            </div>
+          </div>
+
+          <div class="tab-content" id="tab-casino">
+            <div class="card">
+              <div class="card-header">
+                <h2>Casino</h2>
+              </div>
+              <div class="casino-game">
+                <div class="casino-actions">
+                  <p>Bet tokens on a coin flip! Win double your bet or lose it all.</p>
+                  <input type="number" id="betAmount" placeholder="Bet amount" min="1">
+                  <button class="btn btn-primary" id="betHeads">Bet on Heads</button>
+                  <button class="btn btn-primary" id="betTails">Bet on Tails</button>
+                  <p id="casinoResult" style="margin-top: 1rem;"></p>
+                </div>
+              </div>
+              <div class="casino-game">
+                <div class="casino-actions">
+                  <p>Bet on the outcome of a dice roll (1-6). Win 5x your bet if correct!</p>
+                  <div>
+                    <label>Choose a number:</label>
+                    <div class="radio-group">
+                      <label><input type="radio" name="dice-number" value="1"> 1</label>
+                      <label><input type="radio" name="dice-number" value="2"> 2</label>
+                      <label><input type="radio" name="dice-number" value="3"> 3</label>
+                      <label><input type="radio" name="dice-number" value="4"> 4</label>
+                      <label><input type="radio" name="dice-number" value="5"> 5</label>
+                      <label><input type="radio" name="dice-number" value="6"> 6</label>
+                    </div>
+                  </div>
+                  <input type="number" id="diceBetAmount" placeholder="Bet amount" min="1">
+                  <button class="btn btn-primary" id="rollDice">Roll Dice</button>
+                  <p id="diceResult" style="margin-top: 1rem;"></p>
+                </div>
               </div>
             </div>
-            <div class="casino-game">
-              <div class="casino-actions">
-                <p>Bet on the outcome of a dice roll (1-6). Win 5x your bet if correct!</p>
-                <div>
-                  <label>Choose a number:</label>
-                  <div class="radio-group">
-                    <label><input type="radio" name="dice-number" value="1"> 1</label>
-                    <label><input type="radio" name="dice-number" value="2"> 2</label>
-                    <label><input type="radio" name="dice-number" value="3"> 3</label>
-                    <label><input type="radio" name="dice-number" value="4"> 4</label>
-                    <label><input type="radio" name="dice-number" value="5"> 5</label>
-                    <label><input type="radio" name="dice-number" value="6"> 6</label>
+          </div>
+
+          <!-- Pets Tab -->
+          <div class="tab-content" id="tab-pets">
+            <div class="card">
+              <div class="card-header">
+                <h2>My Pets</h2>
+              </div>
+              <ul class="pet-list" id="pet-list"></ul>
+            </div>
+          </div>
+
+          <!-- Company Tab -->
+          <div class="tab-content" id="tab-company">
+            <div class="card">
+              <div class="card-header">
+                <h2>My Company</h2>
+              </div>
+              <div class="company-details" id="companyDetails"></div>
+            </div>
+          </div>
+
+          <!-- Chat Tab -->
+          <div class="tab-content" id="tab-chat">
+            <div class="card chat-card">
+              <div class="sidebar">
+                <div class="card-header">
+                  <h2>Chat</h2>
+                  <div class="chat-tabs">
+                    <button class="btn btn-primary active" id="globalChatTab">Global Chat</button>
                   </div>
                 </div>
-                <input type="number" id="diceBetAmount" placeholder="Bet amount" min="1">
-                <button class="btn btn-primary" id="rollDice">Roll Dice</button>
-                <p id="diceResult" style="margin-top: 1rem;"></p>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Pets Tab -->
-        <div class="tab-content" id="tab-pets">
-          <div class="card">
-            <div class="card-header">
-              <h2>My Pets</h2>
-            </div>
-            <ul class="pet-list" id="pet-list"></ul>
-          </div>
-        </div>
-
-        <!-- Company Tab -->
-        <div class="tab-content" id="tab-company">
-          <div class="card">
-            <div class="card-header">
-              <h2>My Company</h2>
-            </div>
-            <div class="company-details" id="companyDetails"></div>
-          </div>
-        </div>
-
-        <!-- Chat Tab -->
-        <div class="tab-content" id="tab-chat">
-          <div class="card chat-card">
-            <div class="sidebar">
-              <div class="card-header">
-                <h2>Chat</h2>
-                <div class="chat-tabs">
-                  <button class="btn btn-primary active" id="globalChatTab">Global Chat</button>
+              <div class="chat-area">
+                <div class="message-container" id="globalMessages"></div>
+                <div class="message-input">
+                  <input type="text" id="messageInput" autocomplete="off" placeholder="Type your message..." />
+                  <button id="sendMessage">Send</button>
                 </div>
               </div>
             </div>
-            <div class="chat-area">
-              <div class="message-container" id="globalMessages"></div>
-              <div class="message-input">
-                <input type="text" id="messageInput" autocomplete="off" placeholder="Type your message..." />
-                <button id="sendMessage">Send</button>
+          </div>
+
+          <!-- Leaderboard Tab -->
+          <div class="tab-content" id="tab-leaderboard">
+            <div class="card">
+              <div class="card-header">
+                <h2>Leaderboard</h2>
+              </div>
+              <ul class="item-list" id="leaderboard"></ul>
+            </div>
+          </div>
+
+          <!-- Settings Tab -->
+          <div class="tab-content" id="tab-settings">
+            <div class="card">
+              <div class="card-header">
+                <h2>Settings</h2>
+              </div>
+              <div class="actions">
+                <button class="btn btn-primary" id="redeemCreatorCode">🎁 Redeem Creator Code</button>
+                <button class="btn btn-primary" id="setup2FA">🔑 Setup 2FA</button>
+                <button class="btn btn-danger" id="disable2FA">🔒 Disable 2FA</button>
+                <button class="btn btn-danger" id="logout">↪️ Logout</button>
+                <button class="btn btn-danger" id="deleteAccount">🗑️ Delete Account</button>
+              </div>
+              <div class="theme-selector">
+                <label for="themeSelect">Select Theme:</label>
+                <select id="themeSelect" class="form-select">
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                  <option value="sepia">Sepia</option>
+                  <option value="solarized">Solarized</option>
+                  <option value="nord">Nord</option>
+                  <option value="dracula">Dracula</option>
+                  <option value="monokai">Monokai</option>
+                  <option value="gruvbox">Gruvbox</option>
+                  <option value="oceanic">Oceanic</option>
+                  <option value="pastel">Pastel</option>
+                  <option value="cyberpunk">Cyberpunk</option>
+                  <option value="tokyonight">Tokyo Night</option>
+                </select>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <!-- Leaderboard Tab -->
-        <div class="tab-content" id="tab-leaderboard">
-          <div class="card">
-            <div class="card-header">
-              <h2>Leaderboard</h2>
-            </div>
-            <ul class="item-list" id="leaderboard"></ul>
-          </div>
+    <!-- Banned Page -->
+    <div id="bannedPage" style="display: none;">
+      <div class="card card-center">
+        <div class="card-header">
+          <h2>🚫 Your account has been banned</h2>
         </div>
+        <p><b>Reason:</b> <span id="banReason"></span></p>
+        <p><b>Expires:</b> <span id="banExpires"></span></p>
+      </div>
+    </div>
 
-        <!-- Settings Tab -->
-        <div class="tab-content" id="tab-settings">
-          <div class="card">
-            <div class="card-header">
-              <h2>Settings</h2>
-            </div>
-            <div class="actions">
-              <button class="btn btn-primary" id="redeemCreatorCode">🎁 Redeem Creator Code</button>
-              <button class="btn btn-primary" id="setup2FA">🔑 Setup 2FA</button>
-              <button class="btn btn-danger" id="disable2FA">🔒 Disable 2FA</button>
-              <button class="btn btn-danger" id="logout">↪️ Logout</button>
-              <button class="btn btn-danger" id="deleteAccount">🗑️ Delete Account</button>
-            </div>
-            <div class="theme-selector">
-              <label for="themeSelect">Select Theme:</label>
-              <select id="themeSelect" class="form-select">
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-                <option value="sepia">Sepia</option>
-                <option value="solarized">Solarized</option>
-                <option value="nord">Nord</option>
-                <option value="dracula">Dracula</option>
-                <option value="monokai">Monokai</option>
-                <option value="gruvbox">Gruvbox</option>
-                <option value="oceanic">Oceanic</option>
-                <option value="pastel">Pastel</option>
-                <option value="cyberpunk">Cyberpunk</option>
-                <option value="tokyonight">Tokyo Night</option>
-              </select>
-            </div>
-          </div>
+    <!-- 2FA Setup Page -->
+    <div id="2faSetupPage" style="display: none;">
+      <div class="card card-center">
+        <div class="card-header">
+          <h2>🔑 2FA Setup</h2>
+        </div>
+        <p>Scan the QR code below with your authenticator app:</p>
+        <img id="2faQrCode" src="" alt="2FA QR Code">
+        <p>Enter the code from your authenticator app:</p>
+        <input type="text" id="2faCode" placeholder="Enter code">
+        <button class="btn btn-primary" id="2faSetupSubmit">Submit</button>
+        <button class="btn btn-danger" id="2faSetupCancel">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Custom Modal -->
+    <div id="customModal" class="modal">
+      <div class="modal-content">
+        <span id="modalClose" class="close">&times;</span>
+        <p id="modalMessage"></p>
+        <div id="modalInputContainer" style="display: none;">
+          <input type="text" id="modalInput"
+            style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; margin-top: 1rem;" />
+        </div>
+        <div class="modal-actions">
+          <button id="modalCancel" class="btn btn-danger">Cancel</button>
+          <button id="modalOk" class="btn btn-primary">OK</button>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Banned Page -->
-  <div id="bannedPage" style="display: none;">
-    <div class="card card-center">
-      <div class="card-header">
-        <h2>🚫 Your account has been banned</h2>
-      </div>
-      <p><b>Reason:</b> <span id="banReason"></span></p>
-      <p><b>Expires:</b> <span id="banExpires"></span></p>
+    <div class="footer">
+      <p>&copy; 2025 <a href="https://github.com/economix-app">Economix</a>. All rights reserved. Read the <a
+          href="https://community.economix.lol/policies/tos.html">Terms of Service</a>, <a
+          href="https://community.economix.lol/policies/privacy.html">Privacy Policy</a>, and <a
+          href="https://community.economix.lol/policies/guidelines.html">Community Guidelines</a> before using Economix.
+        Check out the
+        source code on <a href="https://github.com/economix-app" target="_blank">GitHub</a>. Join the <a
+          href="https://discord.gg/VwgTgnNe5T" target="_blank">Discord Server</a>. Be a part of the community in our <a
+          href="https://github.com/orgs/economix-app/discussions">discussions</a>.
+      </p>
     </div>
-  </div>
 
-  <!-- 2FA Setup Page -->
-  <div id="2faSetupPage" style="display: none;">
-    <div class="card card-center">
-      <div class="card-header">
-        <h2>🔑 2FA Setup</h2>
-      </div>
-      <p>Scan the QR code below with your authenticator app:</p>
-      <img id="2faQrCode" src="" alt="2FA QR Code">
-      <p>Enter the code from your authenticator app:</p>
-      <input type="text" id="2faCode" placeholder="Enter code">
-      <button class="btn btn-primary" id="2faSetupSubmit">Submit</button>
-      <button class="btn btn-danger" id="2faSetupCancel">Cancel</button>
-    </div>
-  </div>
-
-  <!-- Custom Modal -->
-  <div id="customModal" class="modal">
-    <div class="modal-content">
-      <span id="modalClose" class="close">&times;</span>
-      <p id="modalMessage"></p>
-      <div id="modalInputContainer" style="display: none;">
-        <input type="text" id="modalInput"
-          style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; margin-top: 1rem;" />
-      </div>
-      <div class="modal-actions">
-        <button id="modalCancel" class="btn btn-danger">Cancel</button>
-        <button id="modalOk" class="btn btn-primary">OK</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">
-    <p>&copy; 2025 <a href="https://github.com/economix-app">Economix</a>. All rights reserved. Read the <a
-        href="https://community.economix.lol/policies/tos.html">Terms of Service</a>, <a
-        href="https://community.economix.lol/policies/privacy.html">Privacy Policy</a>, and <a
-        href="https://community.economix.lol/policies/guidelines.html">Community Guidelines</a> before using Economix.
-      Check out the
-      source code on <a href="https://github.com/economix-app" target="_blank">GitHub</a>. Join the <a
-        href="https://discord.gg/VwgTgnNe5T" target="_blank">Discord Server</a>. Be a part of the community in our <a
-        href="https://github.com/orgs/economix-app/discussions">discussions</a>.
-    </p>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <script src="app.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="app.js"></script>
+  </body>
 
 </html>
