@@ -1246,6 +1246,179 @@ const LogViewer = {
   }
 };
 
+// Server Status Checker
+const ServerStatus = {
+  async check() {
+    try {
+      const response = await fetch(`${API_BASE}/api/ping`, { method: 'GET', timeout: 5000 });
+      return response.ok;
+    } catch (error) {
+      return false;
+    }
+  },
+
+  async updateUI() {
+    const isServerUp = await this.check();
+    const serverDownPage = document.getElementById('serverDownPage');
+    const homepage = document.getElementById('homepage');
+    const mainContent = document.getElementById('mainContent');
+    const authForms = document.getElementById('authForms');
+
+    if (!isServerUp) {
+      serverDownPage.style.display = 'block';
+      homepage.style.display = 'none';
+      mainContent.style.display = 'none';
+      authForms.style.display = 'none';
+      this.initGames();
+    } else {
+      serverDownPage.style.display = 'none';
+      if (!state.token) {
+        homepage.style.display = 'block';
+      } else {
+        mainContent.style.display = 'block';
+      }
+    }
+  },
+
+  initGames() {
+    this.initSnake();
+    this.initTicTacToe();
+  },
+
+  // Snake Game Logic
+  initSnake() {
+    const canvas = document.getElementById('snakeCanvas');
+    const ctx = canvas.getContext('2d');
+    const gridSize = 20;
+    const tileCount = canvas.width / gridSize;
+    let snake = [{ x: 10, y: 10 }];
+    let food = { x: 15, y: 15 };
+    let dx = 0;
+    let dy = 0;
+    let score = 0;
+
+    function draw() {
+      // Move snake
+      const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+      snake.unshift(head);
+
+      if (head.x === food.x && head.y === food.y) {
+        score += 10;
+        document.getElementById('snakeScore').textContent = score;
+        food = {
+          x: Math.floor(Math.random() * tileCount),
+          y: Math.floor(Math.random() * tileCount),
+        };
+      } else {
+        snake.pop();
+      }
+
+      // Check collision with walls
+      if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+        snake = [{ x: 10, y: 10 }];
+        dx = 0;
+        dy = 0;
+        score = 0;
+        document.getElementById('snakeScore').textContent = score;
+      }
+
+      // Check collision with self
+      for (let i = 1; i < snake.length; i++) {
+        if (head.x === snake[i].x && head.y === snake[i].y) {
+          snake = [{ x: 10, y: 10 }];
+          dx = 0;
+          dy = 0;
+          score = 0;
+          document.getElementById('snakeScore').textContent = score;
+        }
+      }
+
+      // Clear canvas
+      ctx.fillStyle = 'var(--card-bg)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw snake
+      ctx.fillStyle = 'var(--success)';
+      snake.forEach(segment => {
+        ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+      });
+
+      // Draw food
+      ctx.fillStyle = 'var(--danger)';
+      ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
+
+      setTimeout(draw, 100);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      switch (e.key) {
+        case 'ArrowUp': if (dy !== 1) { dx = 0; dy = -1; } break;
+        case 'ArrowDown': if (dy !== -1) { dx = 0; dy = 1; } break;
+        case 'ArrowLeft': if (dx !== 1) { dx = -1; dy = 0; } break;
+        case 'ArrowRight': if (dx !== -1) { dx = 1; dy = 0; } break;
+      }
+    });
+
+    draw();
+  },
+
+  // Tic-Tac-Toe Game Logic
+  initTicTacToe() {
+    const cells = document.querySelectorAll('.cell');
+    const status = document.getElementById('ticTacToeStatus');
+    const resetButton = document.getElementById('resetTicTacToe');
+    let board = Array(9).fill(null);
+    let currentPlayer = 'X';
+    let gameActive = true;
+
+    const winningCombinations = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+      [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+      [0, 4, 8], [2, 4, 6]             // Diagonals
+    ];
+
+    function checkWin() {
+      return winningCombinations.some(combo => {
+        return combo.every(index => board[index] === currentPlayer);
+      });
+    }
+
+    function checkDraw() {
+      return board.every(cell => cell !== null);
+    }
+
+    function handleClick(e) {
+      const index = e.target.dataset.index;
+      if (!gameActive || board[index]) return;
+
+      board[index] = currentPlayer;
+      e.target.textContent = currentPlayer;
+
+      if (checkWin()) {
+        status.textContent = `${currentPlayer} wins!`;
+        gameActive = false;
+      } else if (checkDraw()) {
+        status.textContent = "It's a draw!";
+        gameActive = false;
+      } else {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        status.textContent = `${currentPlayer}'s turn`;
+      }
+    }
+
+    function resetGame() {
+      board = Array(9).fill(null);
+      currentPlayer = 'X';
+      gameActive = true;
+      status.textContent = "X's turn";
+      cells.forEach(cell => (cell.textContent = ''));
+    }
+
+    cells.forEach(cell => cell.addEventListener('click', handleClick));
+    resetButton.addEventListener('click', resetGame);
+  }
+};
+
 // Event Listeners
 const initEventListeners = () => {
   document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => UI.switchTab(btn.dataset.tab)));
@@ -1329,7 +1502,9 @@ const init = () => {
   UI.initializeTheme();
   Admin.refreshStats();
 
+  ServerStatus.updateUI();
   setInterval(() => {
+    ServerStatus.updateUI();
     if (!state.token || document.getElementById('homepage').style.display === 'block') return;
     Admin.refreshStats();
     Admin.refreshBanner();
