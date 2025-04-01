@@ -1214,6 +1214,17 @@ const Admin = {
       await Modal.alert(container.innerHTML);
     }
   },
+
+  async setCompanyTokens() {
+    const company = await Modal.prompt('Enter company name:');
+    if (!company) return;
+    const tokens = await Modal.prompt('Enter tokens:');
+    if (!tokens) return;
+    const data = await API.post('/api/set_company_tokens', { company, tokens });
+    await Modal.alert(data.success ? 'Company edited!' : 'Error edited company.').then(() => {
+      if (data.success) Auth.refreshAccount();
+    });
+  }
 };
 
 
@@ -1272,9 +1283,10 @@ const initEventListeners = () => {
     deleteCreatorCodeAdmin: Admin.deleteCreatorCode,
     getCreatorCodesAdmin: Admin.getCreatorCodes,
     setBannerAdmin: Admin.setBanner,
-    editTokensAdmin: () => Admin.editTokens(),
-    editExpAdmin: () => Admin.editExp(),
-    editLevelAdmin: () => Admin.editLevel(),
+    editTokensAdmin: Admin.editTokens,
+    editCompanyTokensAdmin: Admin.setCompanyTokens,
+    editExpAdmin: Admin.editExp,
+    editLevelAdmin: Admin.editLevel,
     addAdminAdmin: Admin.addAdmin,
     removeAdminAdmin: Admin.removeAdmin,
     addModAdmin: Admin.addMod,
