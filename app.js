@@ -906,6 +906,8 @@ const Chat = {
       messagePrefix = '🛠️';
     } else if (message.type === 'mod') {
       messagePrefix = '🛡️';
+    } else if (message.type === 'media') {
+      messagePrefix = '🎥';
     } else if (message.type === 'msg') {
       messagePrefix = '💬';
     } else {
