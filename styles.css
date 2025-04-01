@@ -1145,18 +1145,24 @@ a {
   align-items: center;
   justify-content: center;
   font-size: 2rem;
+  font-weight: bold;
   cursor: pointer;
   background: var(--card-bg);
   transition: background 0.2s ease;
 }
 
-.cell:hover {
+.cell:hover:not(:empty) {
   background: var(--background);
 }
 
 #ticTacToeStatus {
   font-weight: bold;
   margin: 1rem 0;
+  color: var(--text);
+}
+
+#resetTicTacToe {
+  margin-top: 1rem;
 }
 
 @media (max-width: 768px) {

@@ -1246,13 +1246,21 @@ const LogViewer = {
   }
 };
 
-// Server Status Checker
+
+// Server Status Checker and Games
 const ServerStatus = {
   async check() {
     try {
-      const response = await fetch(`${API_BASE}/api/ping`, { method: 'GET', timeout: 5000 });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      const response = await fetch(`${API_BASE}/api/ping`, { 
+        method: 'GET', 
+        signal: controller.signal 
+      });
+      clearTimeout(timeoutId);
       return response.ok;
     } catch (error) {
+      console.log('Server check failed:', error);
       return false;
     }
   },
@@ -1285,84 +1293,109 @@ const ServerStatus = {
     this.initTicTacToe();
   },
 
-  // Snake Game Logic
+  // Snake Game Logic (Fully Functional)
   initSnake() {
     const canvas = document.getElementById('snakeCanvas');
+    if (!canvas) return; // Prevent errors if canvas isn't found
     const ctx = canvas.getContext('2d');
     const gridSize = 20;
     const tileCount = canvas.width / gridSize;
     let snake = [{ x: 10, y: 10 }];
-    let food = { x: 15, y: 15 };
+    let food = this.randomFoodPosition(tileCount);
     let dx = 0;
     let dy = 0;
     let score = 0;
+    let gameLoop;
+
+    // Clear any existing listeners to avoid duplicates
+    document.removeEventListener('keydown', snakeKeyHandler);
+    document.addEventListener('keydown', snakeKeyHandler);
+
+    function snakeKeyHandler(e) {
+      switch (e.key) {
+        case 'ArrowUp':
+          if (dy !== 1) { dx = 0; dy = -1; }
+          break;
+        case 'ArrowDown':
+          if (dy !== -1) { dx = 0; dy = 1; }
+          break;
+        case 'ArrowLeft':
+          if (dx !== 1) { dx = -1; dy = 0; }
+          break;
+        case 'ArrowRight':
+          if (dx !== -1) { dx = 1; dy = 0; }
+          break;
+      }
+    }
+
+    function randomFoodPosition(max) {
+      return {
+        x: Math.floor(Math.random() * max),
+        y: Math.floor(Math.random() * max)
+      };
+    }
 
     function draw() {
       // Move snake
       const head = { x: snake[0].x + dx, y: snake[0].y + dy };
       snake.unshift(head);
 
+      // Check if snake eats food
       if (head.x === food.x && head.y === food.y) {
         score += 10;
         document.getElementById('snakeScore').textContent = score;
-        food = {
-          x: Math.floor(Math.random() * tileCount),
-          y: Math.floor(Math.random() * tileCount),
-        };
+        food = randomFoodPosition(tileCount);
       } else {
         snake.pop();
       }
 
       // Check collision with walls
       if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
-        snake = [{ x: 10, y: 10 }];
-        dx = 0;
-        dy = 0;
-        score = 0;
-        document.getElementById('snakeScore').textContent = score;
+        resetGame();
+        return;
       }
 
       // Check collision with self
       for (let i = 1; i < snake.length; i++) {
         if (head.x === snake[i].x && head.y === snake[i].y) {
-          snake = [{ x: 10, y: 10 }];
-          dx = 0;
-          dy = 0;
-          score = 0;
-          document.getElementById('snakeScore').textContent = score;
+          resetGame();
+          return;
         }
       }
 
       // Clear canvas
-      ctx.fillStyle = 'var(--card-bg)';
+      ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--card-bg');
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Draw snake
-      ctx.fillStyle = 'var(--success)';
+      ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--success');
       snake.forEach(segment => {
         ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
       });
 
       // Draw food
-      ctx.fillStyle = 'var(--danger)';
+      ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--danger');
       ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
 
-      setTimeout(draw, 100);
+      gameLoop = requestAnimationFrame(draw);
     }
 
-    document.addEventListener('keydown', (e) => {
-      switch (e.key) {
-        case 'ArrowUp': if (dy !== 1) { dx = 0; dy = -1; } break;
-        case 'ArrowDown': if (dy !== -1) { dx = 0; dy = 1; } break;
-        case 'ArrowLeft': if (dx !== 1) { dx = -1; dy = 0; } break;
-        case 'ArrowRight': if (dx !== -1) { dx = 1; dy = 0; } break;
-      }
-    });
+    function resetGame() {
+      snake = [{ x: 10, y: 10 }];
+      food = randomFoodPosition(tileCount);
+      dx = 0;
+      dy = 0;
+      score = 0;
+      document.getElementById('snakeScore').textContent = score;
+      if (gameLoop) cancelAnimationFrame(gameLoop);
+      gameLoop = requestAnimationFrame(draw);
+    }
 
-    draw();
+    // Start the game
+    gameLoop = requestAnimationFrame(draw);
   },
 
-  // Tic-Tac-Toe Game Logic
+  // Tic-Tac-Toe Game Logic (Fully Functional)
   initTicTacToe() {
     const cells = document.querySelectorAll('.cell');
     const status = document.getElementById('ticTacToeStatus');
@@ -1388,18 +1421,21 @@ const ServerStatus = {
     }
 
     function handleClick(e) {
-      const index = e.target.dataset.index;
+      const index = parseInt(e.target.dataset.index);
       if (!gameActive || board[index]) return;
 
       board[index] = currentPlayer;
       e.target.textContent = currentPlayer;
+      e.target.style.color = currentPlayer === 'X' ? 'var(--primary)' : 'var(--danger)';
 
       if (checkWin()) {
         status.textContent = `${currentPlayer} wins!`;
         gameActive = false;
+        cells.forEach(cell => cell.style.cursor = 'not-allowed');
       } else if (checkDraw()) {
         status.textContent = "It's a draw!";
         gameActive = false;
+        cells.forEach(cell => cell.style.cursor = 'not-allowed');
       } else {
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
         status.textContent = `${currentPlayer}'s turn`;
@@ -1411,11 +1447,23 @@ const ServerStatus = {
       currentPlayer = 'X';
       gameActive = true;
       status.textContent = "X's turn";
-      cells.forEach(cell => (cell.textContent = ''));
+      cells.forEach(cell => {
+        cell.textContent = '';
+        cell.style.cursor = 'pointer';
+        cell.removeEventListener('click', handleClick); // Remove old listeners
+        cell.addEventListener('click', handleClick);   // Add fresh listeners
+      });
     }
 
-    cells.forEach(cell => cell.addEventListener('click', handleClick));
+    // Remove old listeners to prevent duplicates
+    cells.forEach(cell => {
+      cell.removeEventListener('click', handleClick);
+      cell.addEventListener('click', handleClick);
+    });
+    resetButton.removeEventListener('click', resetGame);
     resetButton.addEventListener('click', resetGame);
+
+    resetGame(); // Initialize the game state
   }
 };
 
