@@ -798,12 +798,17 @@ const Company = {
     const maxWorkers = 2 * company.members.length;
     const tokensPerHour = company.workers * 5;
 
+    const now = Date.now() / 1000;
+    const lastDist = company.last_distribution;
+    const hoursSinceLastDist = (now - lastDist) / 3600;
+    const formattedHours = 24 - Math.round(hoursSinceLastDist); 
+
     container.innerHTML = `
           <h3>${company.name}</h3>
           <p><strong>Owner:</strong> ${company.owner}</p>
           <p><strong>Members (${company.members.length}/10):</strong> ${company.members.join(', ')}</p>
           <p><strong>Workers (${company.workers}/${maxWorkers}):</strong> Generating ${tokensPerHour} tokens/hr</p>
-          <p><strong>Company Tokens:</strong> ${company.tokens} (Distributed daily)</p>
+          <p><strong>Company Tokens:</strong> ${company.tokens} (Distributed in ${formattedHours} hours)</p>
           <p><strong>Last Distribution:</strong> ${new Date(company.last_distribution * 1000).toLocaleString()}</p>
       `;
 
