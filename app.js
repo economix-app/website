@@ -822,6 +822,10 @@ const Company = {
               <button class="btn btn-primary" onclick="Company.invite('${company.id}')">Invite Member</button>
               <button class="btn btn-primary" ${company.workers >= maxWorkers ? 'disabled' : ''} onclick="Company.buyWorker('${company.id}')">Buy Worker (${workerCost} tokens)</button>
           `;
+    } else {
+      actions.innerHTML += `
+      <button class="btn btn-primary" onclick="Company.leave()">Leave Company</button>
+      `
     }
     container.appendChild(actions);
   },
@@ -859,6 +863,16 @@ const Company = {
       this.refresh();
     } else {
       await Modal.alert(`Error: ${data.error}`);
+    }
+  },
+
+  async leaveCompany() {
+    if (!Modal.confirm('Are you sure you want to leave your company?')) return;
+    const data = await API.post('/api/leave_company');
+    if (data.success) {
+      await Modal.alert('Left company!');
+    } else {
+      await Modal.alert('Failed to leave company.');
     }
   }
 };
