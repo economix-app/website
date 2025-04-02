@@ -867,7 +867,7 @@ const Company = {
   },
 
   async leaveCompany() {
-    if (!Modal.confirm('Are you sure you want to leave your company?')) return;
+    if (!await Modal.confirm('Are you sure you want to leave your company?')) return;
     const data = await API.post('/api/leave_company');
     if (data.success) {
       await Modal.alert('Left company!');
