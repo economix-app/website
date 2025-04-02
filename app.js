@@ -158,14 +158,6 @@ const UI = {
     }
   },
 
-  isAtBottom(container) {
-    return container.scrollHeight - container.scrollTop <= container.clientHeight + 2;
-  },
-
-  scrollToBottom(container) {
-    container.scrollTop = container.scrollHeight;
-  },
-
   formatTime(timestamp) {
     return new Date(timestamp * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   },
@@ -941,7 +933,6 @@ const Chat = {
             ${(state.account.type === 'admin' || state.account.type === 'mod') ? `<button class="delete-message" onclick="Chat.delete('${message.id}')">🗑️</button>` : ''}
         `;
     container.appendChild(messageEl);
-    if (UI.isAtBottom(container)) UI.scrollToBottom(container);
   },
 
   async delete(messageId) {
