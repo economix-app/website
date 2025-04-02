@@ -888,10 +888,8 @@ const Chat = {
     if (!data.messages || data.messages.length === state.globalMessages.length) return;
 
     const container = document.getElementById('globalMessages');
-    const wasAtBottom = UI.isAtBottom(container);
     container.innerHTML = '';
     data.messages.forEach(msg => this.append(msg));
-    if (wasAtBottom) UI.scrollToBottom(container);
     state.globalMessages = data.messages;
   },
 
