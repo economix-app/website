@@ -824,7 +824,7 @@ const Company = {
           `;
     } else {
       actions.innerHTML += `
-      <button class="btn btn-primary" onclick="Company.leave()">Leave Company</button>
+      <button class="btn btn-primary" onclick="Company.leaveCompany()">Leave Company</button>
       `
     }
     container.appendChild(actions);
