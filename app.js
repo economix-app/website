@@ -1350,10 +1350,10 @@ const initEventListeners = () => {
 
 
 // Initialization
-const init = () => {
+const init = async () => {
   UI.initializeTheme();
 
-  if (!ServerStatus.checkServerOnline()) {
+  if (!await ServerStatus.checkServerOnline()) {
     window.location.href = 'unavailable.html';
   }
 
