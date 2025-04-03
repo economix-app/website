@@ -1373,4 +1373,4 @@ const init = async () => {
   initEventListeners();
 };
 
-await init();
+init();
