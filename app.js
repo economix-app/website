@@ -193,7 +193,7 @@ const API = {
       const response = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
 
       if (!response.ok) {
-        return {error: error || `API error: ${response.status}`, success: false };
+        return { error: error || `API error: ${response.status}`, success: false };
       }
 
       let json = await response.json();
@@ -801,7 +801,7 @@ const Company = {
     const now = Date.now() / 1000;
     const lastDist = company.last_distribution;
     const hoursSinceLastDist = (now - lastDist) / 3600;
-    const formattedHours = 24 - Math.round(hoursSinceLastDist); 
+    const formattedHours = 24 - Math.round(hoursSinceLastDist);
 
     container.innerHTML = `
           <h3>${company.name}</h3>
@@ -1235,6 +1235,17 @@ const Admin = {
   }
 };
 
+const ServerStatus = {
+  async checkServerOnline() {
+    const response = await fetch(`${API_BASE}/api/ping`);
+    if (response.ok) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
 
 
 // Event Listeners
@@ -1340,6 +1351,11 @@ const initEventListeners = () => {
 // Initialization
 const init = () => {
   UI.initializeTheme();
+
+  if (!ServerStatus.checkServerOnline()) {
+    window.location.href = 'unavailable.html';
+  }
+
   Admin.refreshStats();
 
   setInterval(() => {
