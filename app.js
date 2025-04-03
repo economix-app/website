@@ -1373,4 +1373,4 @@ const init = async () => {
   initEventListeners();
 };
 
-document.addEventListener('DOMContentLoaded', init);
+await init();
