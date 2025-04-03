@@ -1237,10 +1237,11 @@ const Admin = {
 
 const ServerStatus = {
   async checkServerOnline() {
-    const response = await fetch(`${API_BASE}/api/ping`);
-    if (response.ok) {
-      return true;
-    } else {
+    try {
+      const response = await fetch(`${API_BASE}/api/ping`);
+      return response.ok;
+    } catch (error) {
+      console.error('Error checking server status:', error);
       return false;
     }
   }
