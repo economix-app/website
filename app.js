@@ -1353,9 +1353,9 @@ const initEventListeners = () => {
 const init = async () => {
   UI.initializeTheme();
 
-  if (!await ServerStatus.checkServerOnline()) {
-    window.location.href = 'unavailable.html';
-  }
+  // if (!await ServerStatus.checkServerOnline()) {
+  //   window.location.href = 'unavailable.html';
+  // }
 
   Admin.refreshStats();
 
