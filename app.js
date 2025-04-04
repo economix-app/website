@@ -801,7 +801,7 @@ const Company = {
     const now = Date.now() / 1000;
     const lastDist = company.last_distribution;
     const hoursSinceLastDist = (now - lastDist) / 3600;
-    const formattedHours = 24 - Math.round(hoursSinceLastDist); 
+    const formattedHours = 24 - Math.round(hoursSinceLastDist);
 
     container.innerHTML = `
           <h3>${company.name}</h3>
@@ -1235,6 +1235,18 @@ const Admin = {
   }
 };
 
+const ServerStatus = {
+  async checkServerOnline() {
+    try {
+      const response = await fetch(`${API_BASE}/api/ping`);
+      return response.ok;
+    } catch (error) {
+      console.error('Error checking server status:', error);
+      return false;
+    }
+  }
+};
+
 
 
 // Event Listeners
@@ -1338,8 +1350,13 @@ const initEventListeners = () => {
 
 
 // Initialization
-const init = () => {
+const init = async () => {
   UI.initializeTheme();
+
+  // if (!await ServerStatus.checkServerOnline()) {
+  //   window.location.href = 'unavailable.html';
+  // }
+
   Admin.refreshStats();
 
   setInterval(() => {
@@ -1356,4 +1373,4 @@ const init = () => {
   initEventListeners();
 };
 
-document.addEventListener('DOMContentLoaded', init);
+init();
