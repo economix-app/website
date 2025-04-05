@@ -755,7 +755,7 @@ const Casino = {
 // Pet Management
 const Pets = {
   async render() {
-    if (state.pets === state.oldPets) return;
+    if (JSON.stringify(state.pets) === JSON.stringify(state.oldPets)) return;
 
     const container = document.getElementById('petContainer');
     container.innerHTML = '';
