@@ -1710,8 +1710,6 @@ const initEventListeners = () => {
     e.preventDefault();
     emojiPicker.classList.toggle('show');
   });
-
-  document.getElementById('createAuction').addEventListener('click', () => Auction.createAuction());
 };
 
 
