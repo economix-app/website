@@ -1192,3 +1192,86 @@ a {
   border: none;
   font-size: 1.2rem;
 }
+
+.level-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.exp-progress {
+  flex-grow: 1;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.exp-progress-bar {
+  height: 100%;
+  background: var(--primary);
+  width: 0%;
+  transition: width 0.5s ease;
+  box-shadow: 0 2px 4px var(--shadow);
+}
+
+.notifications {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.notification {
+  background: var(--card-bg);
+  border: 2px solid var(--primary);
+  padding: 1rem;
+  border-radius: 0.75rem;
+  animation: slideIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Add to pet feed button */
+.pet-entry button {
+  transition: all 0.2s ease;
+}
+
+.pet-entry button:active {
+  transform: scale(0.95);
+}
+
+@keyframes heartBurst {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.heart-emoji {
+  position: absolute;
+  animation: heartBurst 1s ease-out;
+}

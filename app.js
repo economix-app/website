@@ -475,26 +475,44 @@ const Inventory = {
 
     const style = window.getComputedStyle(document.body);
     let itemDiv = document.createElement("DIV");
-    let rarity = item.level
-
-    let colors = ['#ffffff']
 
     let h2 = document.createElement("h2")
     h2.innerText += "New " + rarity + " item!";
 
-    let significantlevels = ["rare", "epic", "legendary", "godlike"];
-    if (significantlevels.includes(rarity.toLowerCase())) {
-      let color = style.getPropertyValue('--' + rarity.toLowerCase());
-      itemDiv.appendChild(h2)
-      colors.push(color)
+    // In Inventory.create
+    const rarity = item.level.toLowerCase();
+    if (["rare", "epic", "legendary", "godlike"].includes(rarity)) {
+      const colors = {
+        rare: ['#0000ff', '#00ffff'],
+        epic: ['#bd1fdd', '#ff00ff'],
+        legendary: ['#ffa500', '#ffff00'],
+        godlike: ['#ffff00', '#ffffff']
+      };
 
       confetti({
         particleCount: 200,
-        angle: -90,
-        spread: 180,
+        spread: rarity === 'godlike' ? 360 : 180,
+        colors: colors[rarity],
         origin: { x: 0.5, y: 0 },
-        colors: colors
+        shapes: ['circle', 'star']
       });
+
+      if (rarity === 'godlike') {
+        setTimeout(() => {
+          confetti({
+            particleCount: 100,
+            angle: 60,
+            spread: 120,
+            origin: { x: 0, y: 0.7 }
+          });
+          confetti({
+            particleCount: 100,
+            angle: 120,
+            spread: 120,
+            origin: { x: 1, y: 0.7 }
+          });
+        }, 250);
+      }
     }
 
     itemDiv.appendChild(h2)
@@ -726,56 +744,138 @@ const Casino = {
 
 // Pet Management
 const Pets = {
-  render(pets) {
-    const petsList = document.getElementById('pet-list');
-    petsList.innerHTML = '';
+  async render() {
+    const container = document.getElementById('petContainer');
+    container.innerHTML = '';
 
-    if (!pets.length || !pets[0].alive) {
-      const li = document.createElement('li');
-      li.className = 'pet-entry';
-      const price = pets.length && !pets[0].alive ? pets[0].base_price * 2 : 100;
-      li.innerHTML = `
-                <div class="pet-entry-content">
-                    <p>${pets.length ? 'Your pet has died!' : 'You have no pets.'}</p>
-                    <button class="btn btn-primary" onclick="Pets.buy()">Buy a pet (${price} tokens)</button>
-                </div>
-            `;
-      petsList.appendChild(li);
-      return;
-    }
-
-    pets.forEach(pet => {
-      const lastFed = new Date(pet.last_fed * 1000);
-      const daysAgo = Math.floor((Date.now() - lastFed) / (1000 * 60 * 60 * 24));
-      const li = document.createElement('li');
-      li.className = 'pet-entry';
-      li.innerHTML = `
-                <div class="pet-entry-content">
-                    <span class="pet-info">
-                        <strong>${pet.name}</strong> - Level ${pet.level} (Exp: ${pet.exp}/${expForLevel(pet.level + 1)})<br>
-                        Status: <span class="pet-status pet-status-${pet.health}">${pet.health.charAt(0).toUpperCase() + pet.health.slice(1)}</span><br>
-                        <span class="feeding-status">Last fed: ${daysAgo === 0 ? 'today' : `${daysAgo} days ago`}</span><br>
-                        <span class="pet-benefits">Bonus: +${pet.benefits.token_bonus} tokens per mine</span><br>
-                        <button class="btn btn-primary" onclick="Pets.feed('${pet.id}')">Feed (10 tokens)</button>
-                    </span>
-                </div>
-            `;
-      petsList.appendChild(li);
+    state.pets.forEach(pet => {
+      const petCard = document.createElement('div');
+      petCard.className = `pet-card ${pet.status} fade-in`;
+      petCard.innerHTML = `
+        <div class="pet-header">
+          <span class="pet-name">${pet.name}</span>
+          <span class="pet-type">${this.getTypeIcon(pet.name)}</span>
+        </div>
+        <div class="pet-status">
+          <div class="status-bar hunger">
+            <div class="status-fill" style="width: ${pet.hunger}%"></div>
+            <span class="status-text">${this.getHungerText(pet.hunger)}</span>
+          </div>
+          <div class="status-bar happiness">
+            <div class="status-fill" style="width: ${pet.happiness}%"></div>
+            <span class="status-text">${this.getHappinessText(pet.happiness)}</span>
+          </div>
+        </div>
+        <div class="pet-actions">
+          <button class="btn btn-feed" onclick="Pets.feed('${pet.id}')">
+            🍖 Feed (10 tokens)
+          </button>
+          <button class="btn btn-play" onclick="Pets.play('${pet.id}')">
+            🎾 Play (Free)
+          </button>
+        </div>
+        <div class="pet-level">
+          Level ${pet.level} • ${pet.xp}/${this.getXpNeeded(pet.level)}
+        </div>
+      `;
+      container.appendChild(petCard);
     });
+
+    if (!state.pets.length) {
+      container.innerHTML = `
+        <div class="no-pets">
+          <p>No pets yet! Adopt one below 🐾</p>
+        </div>
+      `;
+    }
   },
 
   async buy() {
+    if (!await Modal.confirm(`Adopt a pet for ${cost} tokens?`)) return;
+
     const data = await API.post('/api/buy_pet');
-    await Modal.alert(data.success ? `Pet bought: ${data.name}!` : `Failed to buy pet: ${data.error}`).then(() => {
-      if (data.success) Auth.refreshAccount();
-    });
+    if (data.success) {
+      this.showAnimation('✨', 'New pet added!');
+      Auth.refreshAccount();
+    } else {
+      Modal.alert(`Failed to adopt: ${data.error}`);
+    }
   },
 
   async feed(petId) {
-    const data = await API.post('/api/feed_pet', { pet_id: petId });
-    await Modal.alert(data.success ? 'Pet fed!' : `Failed to feed pet: ${data.error}`).then(() => {
-      if (data.success) Auth.refreshAccount();
-    });
+    const pet = state.pets.find(p => p.id === petId);
+
+    const data = await API.post('/api/feed_pet', { petId });
+    if (data.success) {
+      this.showAnimation('❤️', '+10 Happiness & +10 Hunger', petId);
+      this.render();
+      Auth.refreshAccount();
+    }
+  },
+
+  async play(petId) {
+    const data = await API.post('/api/play_with_pet', { petId });
+    if (data.success) {
+      this.showAnimation('⚡', '+5 XP & +5 Happiness', petId);
+      this.render();
+    }
+  },
+
+  // Helper functions
+  getTypeIcon(type) {
+    return {
+      Dragon: '🐉',
+      Pheonix: '🦅',
+      Raven: '🦅',
+      Eagle: '🦅',
+      Cheetah: '🐆',
+      Lion: '🦁',
+      Panther: '🐆',
+      Tiger: '🐅',
+      Wolf: '🐺',
+      Bear: '🐻',
+      Fox: '🦊',
+      Cat: '🐱',
+      Dog: '🐶',
+      Hound: '🐕',
+      Hawk: '🦅',
+    }[type] || '❓';
+  },
+
+  getXpNeeded(level) {
+    return 50 * Math.pow(1.5, level);
+  },
+
+  getHungerText(percent) {
+    if (percent > 75) return 'Stuffed!';
+    if (percent > 50) return 'Content';
+    if (percent > 25) return 'Peckish';
+    return 'Hungry!';
+  },
+
+  getHappinessText(percent) {
+    if (percent > 75) return 'Ecstatic!';
+    if (percent > 50) return 'Happy';
+    if (percent > 25) return 'Bored';
+    return 'Depressed';
+  },
+
+  showAnimation(emoji, text, petId) {
+    const animDiv = document.createElement('div');
+    animDiv.className = 'pet-animation';
+    animDiv.innerHTML = `
+      <span class="emoji">${emoji}</span>
+      <span class="text">${text}</span>
+    `;
+
+    if (petId) {
+      const petCard = document.querySelector(`[data-pet-id="${petId}"]`);
+      petCard.appendChild(animDiv);
+    } else {
+      document.body.appendChild(animDiv);
+    }
+
+    setTimeout(() => animDiv.remove(), 2000);
   }
 };
 
@@ -1149,7 +1249,11 @@ const Admin = {
       data.leaderboard.forEach(user => {
         const div = document.createElement('div');
         if (user.username === state.account.username) div.classList.add('highlight');
-        div.innerHTML = `<b>${user.place}:</b> ${user.username} (${user.tokens} tokens)`;
+        div.innerHTML = `
+  ${user.place <= 3 ? ['🥇', '🥈', '🥉'][user.place - 1] : '🏅'} 
+  ${user.place}: ${user.username} 
+  <span class="tokens-badge">${user.tokens} tokens</span>
+`;
         leaderboard.appendChild(div);
       });
     }
@@ -1157,13 +1261,28 @@ const Admin = {
 
   async refreshStats() {
     const data = await API.get('/api/stats');
+
+    function animateCounter(element, final) {
+      let current = parseInt(element.textContent) || 0;
+      const duration = 2000;
+      const step = (timestamp) => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        element.textContent = Math.floor(progress * (final - current) + current);
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      let start;
+      requestAnimationFrame(step);
+    }
+
     if (data.stats) {
       const totalTokens = document.getElementById('totalTokens');
       const totalAccounts = document.getElementById('totalAccounts');
       const totalItems = document.getElementById('totalItems');
-      totalTokens.innerText = data.stats.total_tokens;
-      totalAccounts.innerText = data.stats.total_accounts;
-      totalItems.innerText = data.stats.total_items;
+
+      animateCounter(totalTokens, data.stats.total_tokens);
+      animateCounter(totalAccounts, data.stats.total_accounts);
+      animateCounter(totalItems, data.stats.total_items);
     }
   },
 

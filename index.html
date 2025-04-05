@@ -157,7 +157,13 @@
               <p>Welcome, <strong id="usernameDisplay"></strong>!</p>
               <p id="roleDisplay"></p>
               <p>Tokens: <strong id="tokens">0</strong></p>
-              <p>Level: <strong id="level">1</strong> (<strong id="exp">0</strong> EXP)</p>
+              <div class="level-container">
+                <span>Level <strong id="level">1</strong></span>
+                <div class="exp-progress">
+                  <div class="exp-progress-bar" id="expProgress"></div>
+                </div>
+                <span id="expText">0/100 EXP</span>
+              </div>
             </div>
           </div>
         </div>
@@ -351,9 +357,22 @@
           <div class="tab-content" id="tab-pets">
             <div class="card">
               <div class="card-header">
-                <h2>My Pets</h2>
+                <h2>🐾 Pets</h2>
+                <div class="pet-controls">
+                  <button class="btn btn-sm btn-info" onclick="Pets.showHelp()">ℹ️ Help</button>
+                </div>
               </div>
-              <ul class="pet-list" id="pet-list"></ul>
+              <div class="pet-container" id="petContainer">
+                <!-- Pet cards will be dynamically inserted here -->
+              </div>
+              <div class="pet-shop">
+                <h3>🔮 Pet Adoption Center</h3>
+                <div class="pet-types">
+                  <div class="pet-option" onclick="Pets.buy()">
+                    🐾 Random Pet (100 tokens)
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -479,6 +498,8 @@
         </div>
       </div>
     </div>
+
+    <div id="notifications" class="notifications"></div>
 
     <div class="footer">
       <p>&copy; 2025 <a href="https://github.com/economix-app">Economix</a>. All rights reserved. Read the <a
