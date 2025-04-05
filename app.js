@@ -327,7 +327,6 @@ const Auth = {
       return;
     }
 
-    Sounds.success.play();
     this.updateAccountUI(data);
     state.items = data.items;
     state.oldPets = state.pets;
@@ -1472,8 +1471,13 @@ const initEventListeners = () => {
   document.getElementById('createItem').addEventListener('click', Inventory.create);
   document.getElementById('mineItem').addEventListener('click', async () => {
     const data = await API.post('/api/mine_tokens');
-    if (data.error) return Modal.alert(`Error mining tokens: ${data.error}`);
-    await Modal.alert(`Mined ${data.tokens} tokens!`).then(Auth.refreshAccount);
+    if (data.error) {
+      Sounds.error.play();
+      return Modal.alert(`Error mining tokens: ${data.error}`);
+    } else {
+      Sounds.success.play();
+      await Modal.alert(`Mined ${data.tokens} tokens!`).then(Auth.refreshAccount);
+    }
   });
   document.getElementById('takeItem').addEventListener('click', async () => {
     const secret = await Modal.prompt('Enter secret:');
