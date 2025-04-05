@@ -903,6 +903,8 @@ const Pets = {
 };
 
 const Company = {
+  lastRenderedCompany: null,
+
   async refresh() {
     const data = await API.get('/api/get_company');
     this.render(data.company);
@@ -918,6 +920,13 @@ const Company = {
     } else {
       createForm.style.display = 'none';
       dashboard.style.display = 'block';
+
+      // Check if the company data has changed
+      if (JSON.stringify(company) === JSON.stringify(this.lastRenderedCompany)) {
+        return;
+      }
+
+      this.lastRenderedCompany = company;
 
       document.getElementById('companyName').textContent = company.name;
       document.getElementById('companyType').textContent = company.type;
