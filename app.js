@@ -541,14 +541,13 @@ const Inventory = {
     }
     Sounds.itemCreate.play();
 
-    const style = window.getComputedStyle(document.body);
     let itemDiv = document.createElement("DIV");
 
     let h2 = document.createElement("h2")
+
+    const rarity = item.level.toLowerCase();
     h2.innerText += "New " + rarity + " item!";
 
-    // In Inventory.create
-    const rarity = item.level.toLowerCase();
     if (["rare", "epic", "legendary", "godlike"].includes(rarity)) {
       const colors = {
         rare: ['#0000ff', '#00ffff'],
