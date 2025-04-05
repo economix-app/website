@@ -340,7 +340,6 @@ const Auth = {
   updateAccountUI(data) {
     document.getElementById('tokens').textContent = data.tokens;
     document.getElementById('level').textContent = data.level;
-    document.getElementById('exp').textContent = data.exp;
     document.getElementById('usernameDisplay').textContent = data.username;
 
     const roleDisplay = document.getElementById('roleDisplay');
@@ -364,6 +363,15 @@ const Auth = {
       modTab.style.display = 'none';
       if (['adminDashboard', 'modDashboard'].includes(activeTab)) UI.switchTab('dashboard');
     }
+
+    // Update EXP progress bar and text
+    const expProgress = document.getElementById('expProgress');
+    const expText = document.getElementById('expText');
+    const expNeeded = expForLevel(data.level + 1);
+    const expPercentage = (data.exp / expNeeded) * 100;
+
+    expProgress.style.width = `${expPercentage}%`;
+    expText.textContent = `${data.exp}/${expNeeded} EXP`;
 
     this.updateCooldowns(data);
   },
