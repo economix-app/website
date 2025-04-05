@@ -763,6 +763,7 @@ const Pets = {
     state.pets.forEach(pet => {
       const petCard = document.createElement('div');
       petCard.className = `pet-card ${pet.status} fade-in`;
+      petCard.setAttribute('data-pet-id', pet.id);
       petCard.innerHTML = `
         <div class="pet-header">
           <span class="pet-name">${pet.name} ${pet.alive ? '' : '(Dead)'}</span>
