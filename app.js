@@ -1719,8 +1719,14 @@ function startGame() {
 function completeMinigame(score) {
   const modal = document.getElementById("minigameModal");
   modal.classList.remove("active");
-  alert(`Task completed! You earned ${score * 10} tokens.`);
-  API.post("/api/complete_task", { score }).then(() => Auth.refreshAccount());
+
+  if (score < 10) {
+    Modal.alert("You need at least 10 points to complete the task.");
+    return;
+  }
+
+  Modal.alert(`Task completed! You earned ${score * 10} tokens.`);
+  API.post("/api/complete_task", { minigame_result: true }).then(() => Auth.refreshAccount());
 }
 
 // Minigame 1: Click the Target
@@ -1873,7 +1879,7 @@ function startMemoryGame() {
             userSequence = [];
             generateSequence();
           } else {
-            alert("Game Over!");
+            Modal.alert("Game Over!");
             resetGame();
           }
         }
@@ -1956,9 +1962,10 @@ function startWordScramble() {
 function startGameTimer() {
   gameInterval = setInterval(() => {
     gameTimeLeft--;
+    document.getElementById("timeLeftDisplay").textContent = `Time Left: ${gameTimeLeft}s`;
     if (gameTimeLeft <= 0) {
       clearInterval(gameInterval);
-      alert(`Game Over! Your final score is: ${gameScore}`);
+      Modal.alert(`Game Over! Your final score is: ${gameScore}`);
       completeMinigame(gameScore);
     }
   }, 1000);
