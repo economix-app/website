@@ -1129,7 +1129,7 @@ a {
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.radio-group input[type="radio"]:checked + label {
+.radio-group input[type="radio"]:checked+label {
   background: var(--primary);
   color: #fff;
   border-color: var(--primary);
@@ -1813,4 +1813,23 @@ a {
     transform: translateX(0);
     opacity: 1;
   }
+}
+
+/* Daily Free Spin */
+.daily-free-spin {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.daily-free-spin button {
+  padding: 0.75rem 1.5rem;
+  background: var(--success);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.daily-free-spin button:hover {
+  background: var(--secondary);
 }

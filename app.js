@@ -812,8 +812,55 @@ const Casino = {
     // Animate and display result
     animateDiceRoll(data.result, data.won, betAmount, data.winnings);
     Auth.refreshAccount(); // Update user's token display
+  },
+
+  async claimDailyFreeSpin() {
+    const spinWheel = document.getElementById('spinWheel');
+    const spinResult = document.getElementById('spinResult');
+    spinWheel.style.animation = 'spin 3s ease-in-out';
+    spinResult.textContent = 'Spinning...';
+    spinResult.style.display = 'block';
+
+    const data = await fetch('/api/daily_free_spin', { method: 'POST' }).then(res => res.json());
+
+    setTimeout(() => {
+      spinWheel.style.animation = '';
+      if (data.success) {
+        spinResult.textContent = `You won ${data.reward} tokens!`;
+        Auth.refreshAccount();
+      } else {
+        spinResult.textContent = `Error: ${data.error}`;
+      }
+      setTimeout(() => spinResult.style.display = 'none', 3000);
+    }, 3000);
+  },
+
+  createSpinWheel() {
+    const spinWheelContainer = document.createElement('div');
+    spinWheelContainer.id = 'spinWheelContainer';
+    spinWheelContainer.innerHTML = `
+      <div id="spinWheel" class="spin-wheel"></div>
+      <div id="spinResult" class="spin-result"></div>
+    `;
+    document.body.appendChild(spinWheelContainer);
+
+    const spinWheel = document.getElementById('spinWheel');
+    spinWheel.style.width = '200px';
+    spinWheel.style.height = '200px';
+    spinWheel.style.border = '10px solid #ccc';
+    spinWheel.style.borderRadius = '50%';
+    spinWheel.style.position = 'relative';
+    spinWheel.style.margin = '20px auto';
+
+    const spinResult = document.getElementById('spinResult');
+    spinResult.style.textAlign = 'center';
+    spinResult.style.marginTop = '10px';
+    spinResult.style.fontSize = '18px';
+    spinResult.style.display = 'none';
   }
 };
+
+Casino.createSpinWheel();
 
 // Pet Management
 const Pets = {
