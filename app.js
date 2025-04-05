@@ -1496,9 +1496,11 @@ const Auction = {
     auctionList.innerHTML = '';
     auctions.forEach(auction => {
       const li = document.createElement('li');
+      const name = `${auction.itemName.adjective} ${auction.itemName.material} ${auction.itemName.noun} ${auction.itemName.suffix} #${auction.itemName.number}`;
       li.innerHTML = `
-        ${auction.itemName} - Current Bid: ${auction.currentBid} tokens
+        ${name} (${auction.itemRarity.rarity} ${auction.itemRarity.level}) - Current Bid: ${auction.currentBid} tokens
         <button class="btn btn-primary" onclick="Auction.placeBid('${auction.itemId}')">Bid</button>
+        ${(auction.owner === state.account.username) ? `<button class="btn btn-danger" onclick="Auction.closeAuction('${auction.itemId}')">Close</button>` : ''}
       `;
       auctionList.appendChild(li);
     });
@@ -1506,7 +1508,22 @@ const Auction = {
 
   async createAuction(itemId) {
     const startingBid = await Modal.prompt('Enter starting bid:');
-    await API.post('/api/create_auction', { itemId, startingBid });
+    const data = await API.post('/api/create_auction', { itemId, startingBid });
+    if (data.success) {
+      Notifications.show({
+        type: 'success',
+        message: 'Auction created successfully!',
+        duration: 5000
+      });
+      Sounds.success.play();
+    } else {
+      Notifications.show({
+        type: 'error',
+        message: data.error || 'Failed to create auction.',
+        duration: 5000
+      });
+      Sounds.error.play();
+    }
     this.fetchAuctions();
   },
 
@@ -1514,10 +1531,40 @@ const Auction = {
     const bidAmount = await Modal.prompt('Enter your bid amount:');
     const response = await API.post('/api/place_bid', { itemId, bidAmount });
     if (response.success) {
-      alert('Bid placed successfully!');
+      Notifications.show({
+        type: 'success',
+        message: 'Bid placed successfully!',
+        duration: 5000
+      });
+      Sounds.success.play();
       this.fetchAuctions();
     } else {
-      alert(response.error || 'Failed to place bid.');
+      Notifications.show({
+        type: 'error',
+        message: response.error || 'Failed to place bid.',
+        duration: 5000
+      });
+      Sounds.error.play();
+    }
+  },
+
+  async closeAuction(itemId) {
+    const response = await API.post('/api/close_auction', { itemId });
+    if (response.success) {
+      Notifications.show({
+        type: 'success',
+        message: 'Auction closed successfully!',
+        duration: 5000
+      });
+      Sounds.success.play();
+      this.fetchAuctions();
+    } else {
+      Notifications.show({
+        type: 'error',
+        message: response.error || 'Failed to close auction.',
+        duration: 5000
+      });
+      Sounds.error.play();
     }
   }
 };
