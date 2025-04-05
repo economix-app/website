@@ -790,6 +790,9 @@ const Pets = {
         <div class="pet-level">
           Level ${pet.level} • ${pet.exp}/${expForLevel(pet.level + 1)} until next level
         </div>
+        <div class="pet-benefits">
+          +${pet.benefits.token_bonus} tokens per mine <br>
+        </div>
       `;
       container.appendChild(petCard);
     });

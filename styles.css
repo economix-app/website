@@ -1354,6 +1354,13 @@ a {
   opacity: 0.8;
 }
 
+.pet-benefits {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
 .pet-animation {
   position: absolute;
   animation: floatUp 1.5s ease-out forwards;
