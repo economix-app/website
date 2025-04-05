@@ -5,14 +5,6 @@ const ITEMS_PER_PAGE = 5;
 const API_BASE = 'https://api.economix.lol';
 const CASINO_ANIMATION_DURATION = 2000;
 
-// Fetch emoji list from emojis.json
-fetch('/emojis.json')
-  .then(response => response.json())
-  .then(data => {
-    EMOJIS = data;
-  })
-  .catch(error => console.error('Error loading emojis:', error));
-
 // Utils
 function expForLevel(level) {
   return Math.floor(25 * Math.pow(1.2, level - 1));
@@ -1700,15 +1692,22 @@ const initEventListeners = () => {
   document.getElementById('rollDice').addEventListener('click', Casino.rollDice);
 
   const emojiPicker = document.getElementById('emojiPicker');
-  EMOJIS.forEach(emoji => {
-    const span = document.createElement('span');
-    span.textContent = emoji;
-    span.onclick = () => {
-      document.getElementById('messageInput').value += emoji;
-      document.getElementById('messageInput').focus();
-    };
-    emojiPicker.appendChild(span);
-  });
+
+  // Fetch emoji list from emojis.json
+  fetch('/emojis.json')
+    .then(response => response.json())
+    .then(data => {
+      data.forEach(emoji => {
+        const span = document.createElement('span');
+        span.textContent = emoji;
+        span.onclick = () => {
+          document.getElementById('messageInput').value += emoji;
+          document.getElementById('messageInput').focus();
+        };
+        emojiPicker.appendChild(span);
+      });
+    })
+    .catch(error => console.error('Error loading emojis:', error));
 
   document.getElementById('emojiToggle').addEventListener('click', function (e) {
     e.preventDefault();
