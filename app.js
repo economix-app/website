@@ -1006,10 +1006,14 @@ const Company = {
       taskList.innerHTML = '';
       company.tasks.forEach(task => {
         const taskItem = document.createElement('li');
-        taskItem.textContent = `${task.name} - ${task.status}`;
+        taskItem.innerHTML = `
+          <span class="task-name">${task.name}</span>
+          <span class="task-progress">${task.progress}%</span>
+        `;
         if (task.status === 'in_progress') {
           const completeButton = document.createElement('button');
           completeButton.textContent = 'Complete';
+          completeButton.className = 'btn btn-success';
           completeButton.onclick = () => this.startMinigameForTask(company.id, task.id);
           taskItem.appendChild(completeButton);
         }
@@ -1054,6 +1058,7 @@ const Company = {
     modal.classList.add('active');
     resetGame();
 
+    document.getElementById('startGameButton').onclick = () => startGame();
     document.getElementById('finishGameButton').onclick = async () => {
       clearInterval(gameInterval);
       const data = await API.post('/api/complete_task', { company_id: companyId, task_id: taskId, score: gameScore });
@@ -1598,22 +1603,26 @@ const initEventListeners = () => {
     const data = await API.post('/api/mine_tokens');
     if (data.error) {
       Sounds.error.play();
-      return Modal.alert(`Error mining tokens: ${data.error}`);
+      Notifications.show({ type: 'error', message: `Error mining tokens: ${data.error}` });
     } else {
       Sounds.success.play();
-      await Modal.alert(`Mined ${data.tokens} tokens!`).then(Auth.refreshAccount);
+      Notifications.show({ type: 'success', message: `Mined ${data.tokens} tokens!` });
+      Auth.refreshAccount();
     }
   });
+
   document.getElementById('takeItem').addEventListener('click', async () => {
     const secret = await Modal.prompt('Enter secret:');
     if (!secret) return;
     const data = await API.post('/api/take_item', { item_secret: secret });
-    await Modal.alert(data.success ? 'Item taken!' : 'Error taking item.').then(() => {
-      if (data.success) {
-        Auth.refreshAccount();
-        Market.refresh();
-      }
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Item taken!' : 'Error taking item.'
     });
+    if (data.success) {
+      Auth.refreshAccount();
+      Market.refresh();
+    }
   });
 
   // User Actions
@@ -1842,32 +1851,22 @@ function startGame() {
     case "wordScramble":
       startWordScramble();
       break;
+    default:
+      Modal.alert('Invalid game selected.');
   }
 }
 
-function completeMinigame(score) {
-  const modal = document.getElementById("minigameModal");
-  modal.classList.remove("active");
-
-  if (score < 10) {
-    Modal.alert("You need at least 10 points to complete the task.");
-    return;
-  }
-
-  Modal.alert(`Task completed! You earned ${score * 10} tokens.`);
-  API.post("/api/complete_task", { minigame_result: true }).then(() => Auth.refreshAccount());
-}
-
-// Minigame 1: Click the Target
+// Fix startClickTheTarget to properly initialize the game
 function startClickTheTarget() {
-  const gameArea = document.getElementById("gameArea");
-  const target = document.createElement("div");
-  target.className = "target";
+  const gameArea = document.getElementById('gameArea');
+  gameArea.innerHTML = ''; // Clear previous game elements
+  const target = document.createElement('div');
+  target.className = 'target';
   gameArea.appendChild(target);
 
   target.onclick = () => {
     gameScore++;
-    document.getElementById("scoreDisplay").textContent = `Score: ${gameScore}`;
+    document.getElementById('scoreDisplay').textContent = `Score: ${gameScore}`;
     moveTargetRandomly(target, gameArea);
   };
 
@@ -1875,95 +1874,43 @@ function startClickTheTarget() {
   startGameTimer();
 }
 
-function moveTargetRandomly(target, gameArea) {
-  const maxX = gameArea.offsetWidth - target.offsetWidth;
-  const maxY = gameArea.offsetHeight - target.offsetHeight;
-  target.style.left = `${Math.random() * maxX}px`;
-  target.style.top = `${Math.random() * maxY}px`;
-}
-
-// Minigame 2: Math Quiz
+// Fix startMathQuiz to generate and validate questions
 function startMathQuiz() {
-  const gameArea = document.getElementById("gameArea");
-  const question = document.createElement("p");
-  const input = document.createElement("input");
-  const submit = document.createElement("button");
+  const gameArea = document.getElementById('gameArea');
+  gameArea.innerHTML = ''; // Clear previous game elements
+  const question = document.createElement('p');
+  const input = document.createElement('input');
+  const submit = document.createElement('button');
 
-  input.type = "number";
-  submit.textContent = "Submit";
+  input.type = 'number';
+  submit.textContent = 'Submit';
 
   gameArea.appendChild(question);
   gameArea.appendChild(input);
   gameArea.appendChild(submit);
 
-  generateMathQuestion(question, input, submit);
-  startGameTimer();
-}
-
-function generateMathQuestion(question, input, submit) {
-  const questionTypes = [
-    {
-      generate: () => {
-        const num1 = Math.floor(Math.random() * 10) + 1;
-        const num2 = Math.floor(Math.random() * 10) + 1;
-        return {
-          text: `What is ${num1} + ${num2}?`,
-          answer: num1 + num2,
-        };
-      },
-    },
-    {
-      generate: () => {
-        const num1 = Math.floor(Math.random() * 10) + 1;
-        const num2 = Math.floor(Math.random() * 10) + 1;
-        return {
-          text: `What is ${num1} - ${num2}?`,
-          answer: num1 - num2,
-        };
-      },
-    },
-    {
-      generate: () => {
-        const num1 = Math.floor(Math.random() * 10) + 1;
-        const num2 = Math.floor(Math.random() * 10) + 1;
-        return {
-          text: `What is ${num1} × ${num2}?`,
-          answer: num1 * num2,
-        };
-      },
-    },
-    {
-      generate: () => {
-        const num1 = Math.floor(Math.random() * 10) + 1;
-        const num2 = Math.floor(Math.random() * 10) + 1;
-        return {
-          text: `What is ${num1 * num2} ÷ ${num1}?`,
-          answer: num2,
-        };
-      },
-    },
-  ];
+  let currentAnswer;
 
   function generateQuestion() {
-    const randomType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
-    return randomType.generate();
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    question.textContent = `What is ${num1} + ${num2}?`;
+    currentAnswer = num1 + num2;
   }
 
-  function askQuestion() {
-    const { text, answer } = generateQuestion();
-    question.textContent = text;
-    input.value = "";
+  submit.onclick = () => {
+    if (parseInt(input.value) === currentAnswer) {
+      gameScore++;
+      document.getElementById('scoreDisplay').textContent = `Score: ${gameScore}`;
+      input.value = '';
+      generateQuestion();
+    } else {
+      Modal.alert('Incorrect answer. Try again!');
+    }
+  };
 
-    submit.onclick = () => {
-      if (parseInt(input.value) === answer) {
-        gameScore++;
-        document.getElementById("scoreDisplay").textContent = `Score: ${gameScore}`;
-        askQuestion();
-      }
-    };
-  }
-
-  askQuestion();
+  generateQuestion();
+  startGameTimer();
 }
 
 // Minigame 3: Memory Game
