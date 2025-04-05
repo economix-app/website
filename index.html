@@ -28,6 +28,7 @@
       content="Economix is a game where you can buy, sell, and trade your way to the top. It's super fun and you should play it.">
 
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
     <title>Economix v2.0</title>
   </head>
@@ -231,8 +232,8 @@
                 <button class="btn btn-primary" id="removeAdminAdmin">🚫 Remove Admin</button>
                 <button class="btn btn-primary" id="addModAdmin">🤝 Add Mod</button>
                 <button class="btn btn-primary" id="removeModAdmin">🚫 Remove Mod</button>
-                <button class="btn btn-primary" id="addMediaAdmin">📷 Add Media</button><button class="btn btn-primary"
-                  id="removeMediaAdmin">🚫 Remove Media</button>
+                <button class="btn btn-primary" id="addMediaAdmin">📷 Add Media</button>
+                <button class="btn btn-primary" id="removeMediaAdmin">🚫 Remove Media</button>
                 <button class="btn btn-primary" id="banUserAdmin">⛓️ Ban User</button>
                 <button class="btn btn-primary" id="unbanUserAdmin">⚖️ Unban User</button>
                 <button class="btn btn-primary" id="muteUserAdmin">🔇 Mute User</button>
@@ -337,7 +338,6 @@
                 <div class="casino-actions">
                   <p>Bet on the outcome of a dice roll (1-6). Win 5x your bet if correct!</p>
                   <div>
-                    <label>Choose a number:</label>
                     <div class="radio-group">
                       <label><input type="radio" name="dice-number" value="1"> 1</label>
                       <label><input type="radio" name="dice-number" value="2"> 2</label>
@@ -347,7 +347,8 @@
                       <label><input type="radio" name="dice-number" value="6"> 6</label>
                     </div>
                   </div>
-                  <input type="number" id="diceBetAmount" placeholder="Bet amount" min="1">
+                  <input type="number" id="diceBetAmount" placeholder="Bet amount" min="1"> min="1">
+                  <button class="btn btn-primary" id="rollDice">Roll Dice</button>
                   <button class="btn btn-primary" id="rollDice">Roll Dice</button>
                   <p id="diceResult" style="margin-top: 1rem;"></p>
                 </div>
@@ -380,11 +381,31 @@
 
           <!-- Company Tab -->
           <div class="tab-content" id="tab-company">
-            <div class="card">
-              <div class="card-header">
-                <h2>My Company</h2>
-              </div>
-              <div class="company-details" id="companyDetails"></div>
+            <div id="createCompanyForm" style="display: none;">
+              <h2>Create a Company</h2>
+              <form id="createCompany">
+                <input type="text" id="companyNameInput" placeholder="Company Name" required />
+                <select id="companyTypeSelect">
+                  <option value="Tech Startup">Tech Startup</option>
+                  <option value="Manufacturing Plant">Manufacturing Plant</option>
+                  <option value="Accounting Firm">Accounting Firm</option>
+                </select>
+                <button type="submit">Create</button>
+              </form>
+            </div>
+
+            <div id="companyDashboard" style="display: none;">
+              <h2>Company Dashboard</h2>
+              <p>Name: <span id="companyName"></span></p>
+              <p>Type: <span id="companyType"></span></p>
+              <p>Workers: <span id="workerCount"></span></p>
+              <button id="hireWorkerButton" class="btn btn-primary animated-btn">Hire Worker</button>
+              <h3>Tasks</h3>
+              <ul id="taskList" class="animated-list"></ul>
+              <form id="assignTaskForm">
+                <input type="text" id="taskNameInput" placeholder="Task Name" required />
+                <button type="submit" class="btn btn-success animated-btn">Assign Task</button>
+              </form>
             </div>
           </div>
 
@@ -395,7 +416,7 @@
                 <div class="card-header">
                   <h2>Chat</h2>
                   <div class="chat-tabs">
-                    <button class="btn btn-primary active" id="globalChatTab">Global Chat</button>
+                    <button class="btn btn-primary active animated-btn" id="globalChatTab">Global Chat</button>
                   </div>
                 </div>
               </div>
@@ -404,11 +425,11 @@
                 <div id="typingIndicator" style="display: none; font-style: italic; color: gray; margin: 5px 0;"></div>
                 <div class="message-input">
                   <div class="emoji-picker-container">
-                    <button class="btn btn-emoji" id="emojiToggle">😀</button>
+                    <button class="btn btn-emoji animated-btn" id="emojiToggle">😀</button>
                     <div class="emoji-picker" id="emojiPicker"></div>
                   </div>
                   <input type="text" id="messageInput" autocomplete="off" placeholder="Type your message..." />
-                  <button id="sendMessage">Send</button>
+                  <button id="sendMessage" class="btn btn-primary animated-btn">Send</button>
                 </div>
               </div>
             </div>
@@ -420,7 +441,7 @@
               <div class="card-header">
                 <h2>Leaderboard</h2>
               </div>
-              <ul class="item-list" id="leaderboard"></ul>
+              <ul class="item-list animated-list" id="leaderboard"></ul>
             </div>
           </div>
 

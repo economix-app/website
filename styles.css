@@ -184,7 +184,6 @@
   --own-message: rgba(187, 154, 247, 0.1);
 }
 
-
 [data-theme="pastel"] {
   --primary: #a2bffe;
   --secondary: #f4b8e4;
@@ -272,6 +271,24 @@ body {
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-area .message-container {
+  animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 /* Cards and Forms */
@@ -1413,4 +1430,70 @@ a {
 .pet-option:hover {
   background: var(--primary);
   color: white;
+}
+
+#companyDashboard,
+#createCompanyForm {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px var(--shadow);
+  margin-bottom: 1rem;
+}
+
+#taskList {
+  list-style: none;
+  padding: 0;
+}
+
+#taskList li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#taskList button {
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+#taskList button:hover {
+  background: var(--secondary);
+}
+
+.animated-btn {
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.animated-btn:hover {
+  transform: scale(1.1);
+  background-color: var(--secondary);
+}
+
+.animated-list li {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-list li:hover {
+  background-color: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

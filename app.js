@@ -909,96 +909,78 @@ const Company = {
   },
 
   render(company) {
-    const container = document.getElementById('companyDetails');
-    container.innerHTML = '';
+    const createForm = document.getElementById('createCompanyForm');
+    const dashboard = document.getElementById('companyDashboard');
 
     if (!company) {
-      container.innerHTML = `
-              <p>You are not part of a company.</p>
-              <button class="btn btn-primary" onclick="Company.create()">Create Company (500 tokens)</button>
-          `;
-      return;
-    }
-
-    const isOwner = company.owner === state.account.username;
-    const workerCost = 50;
-    const maxWorkers = 2 * company.members.length;
-    const tokensPerHour = company.workers * 5;
-
-    const now = Date.now() / 1000;
-    const lastDist = company.last_distribution;
-    const hoursSinceLastDist = (now - lastDist) / 3600;
-    const formattedHours = 24 - Math.round(hoursSinceLastDist);
-
-    container.innerHTML = `
-          <h3>${company.name}</h3>
-          <p><strong>Owner:</strong> ${company.owner}</p>
-          <p><strong>Members (${company.members.length}/10):</strong> ${company.members.join(', ')}</p>
-          <p><strong>Workers (${company.workers}/${maxWorkers}):</strong> Generating ${tokensPerHour} tokens/hr</p>
-          <p><strong>Company Tokens:</strong> ${company.tokens} (Distributed in ${formattedHours} hours)</p>
-          <p><strong>Last Distribution:</strong> ${new Date(company.last_distribution * 1000).toLocaleString()}</p>
-      `;
-
-    const actions = document.createElement('div');
-    actions.className = 'actions';
-    if (isOwner) {
-      actions.innerHTML += `
-              <button class="btn btn-primary" onclick="Company.invite('${company.id}')">Invite Member</button>
-              <button class="btn btn-primary" ${company.workers >= maxWorkers ? 'disabled' : ''} onclick="Company.buyWorker('${company.id}')">Buy Worker (${workerCost} tokens)</button>
-          `;
+      createForm.style.display = 'block';
+      dashboard.style.display = 'none';
     } else {
-      actions.innerHTML += `
-      <button class="btn btn-primary" onclick="Company.leaveCompany()">Leave Company</button>
-      `
+      createForm.style.display = 'none';
+      dashboard.style.display = 'block';
+
+      document.getElementById('companyName').textContent = company.name;
+      document.getElementById('companyType').textContent = company.type;
+      document.getElementById('workerCount').textContent = company.workers;
+
+      const taskList = document.getElementById('taskList');
+      taskList.innerHTML = '';
+      company.tasks.forEach(task => {
+        const taskItem = document.createElement('li');
+        taskItem.textContent = `${task.name} - ${task.status}`;
+        if (task.status === 'in_progress') {
+          const completeButton = document.createElement('button');
+          completeButton.textContent = 'Complete';
+          completeButton.onclick = () => this.completeTask(company.id, task.id).then(() => this.refresh());
+          taskItem.appendChild(completeButton);
+        }
+        taskList.appendChild(taskItem);
+      });
     }
-    container.appendChild(actions);
   },
 
   async create() {
-    const name = await Modal.prompt('Enter company name:');
-    if (!name) return;
-    const data = await API.post('/api/create_company', { name });
+    const name = document.getElementById('companyNameInput').value;
+    const type = document.getElementById('companyTypeSelect').value;
+    const data = await API.post('/api/create_company', { name, type });
     if (data.success) {
       await Modal.alert('Company created!');
-      Auth.refreshAccount();
       this.refresh();
     } else {
       await Modal.alert(`Error: ${data.error}`);
     }
   },
 
-  async invite(companyId) {
-    const username = await Modal.prompt('Enter username to invite:');
-    if (!username) return;
-    const data = await API.post('/api/invite_to_company', { company_id: companyId, username });
+  async hireWorker(companyId) {
+    const data = await API.post('/api/hire_worker', { company_id: companyId });
     if (data.success) {
-      await Modal.alert('User invited!');
+      await Modal.alert('Worker hired!');
       this.refresh();
     } else {
       await Modal.alert(`Error: ${data.error}`);
     }
   },
 
-  async buyWorker(companyId) {
-    const data = await API.post('/api/buy_worker', { company_id: companyId });
+  async assignTask(companyId) {
+    const taskName = document.getElementById('taskNameInput').value;
+    const data = await API.post('/api/assign_task', { company_id: companyId, task_name: taskName });
     if (data.success) {
-      await Modal.alert('Worker purchased!');
-      Auth.refreshAccount();
+      await Modal.alert('Task assigned!');
       this.refresh();
     } else {
       await Modal.alert(`Error: ${data.error}`);
     }
   },
 
-  async leaveCompany() {
-    if (!await Modal.confirm('Are you sure you want to leave your company?')) return;
-    const data = await API.post('/api/leave_company');
+  async completeTask(companyId, taskId) {
+    const data = await API.post('/api/complete_task', { company_id: companyId, task_id: taskId });
     if (data.success) {
-      await Modal.alert('Left company!');
+      await Modal.alert('Task completed!');
+      this.refresh();
     } else {
-      await Modal.alert('Failed to leave company.');
+      await Modal.alert(`Error: ${data.error}`);
     }
-  }
+  },
 };
 
 // Chat Management
@@ -1575,6 +1557,28 @@ const initEventListeners = () => {
     e.preventDefault();
     emojiPicker.classList.toggle('show');
   });
+
+  // Event Listeners for Company Management
+  document.getElementById('createCompany').onsubmit = async (e) => {
+    e.preventDefault();
+    await Company.create();
+  };
+
+  document.getElementById('hireWorkerButton').onclick = async () => {
+    const company = await API.get('/api/get_company');
+    await Company.hireWorker(company.company.id);
+  };
+
+  document.getElementById('assignTaskForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const company = await API.get('/api/get_company');
+    await Company.assignTask(company.company.id);
+  };
+
+  // Initialize Company Tab
+  UI.showCompanyManagement = () => {
+    Company.refresh();
+  };
 };
 
 
@@ -1603,3 +1607,48 @@ const init = async () => {
 };
 
 init();
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Animate main content fade-in
+  anime({
+    targets: "#mainContent",
+    opacity: [0, 1],
+    duration: 1000,
+    easing: "easeInOutQuad",
+    begin: () => {
+      document.getElementById("mainContent").style.display = "block";
+    },
+  });
+
+  // Button click animation
+  document.querySelectorAll(".animated-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      anime({
+        targets: btn,
+        scale: [1, 1.2, 1],
+        duration: 300,
+        easing: "easeInOutQuad",
+      });
+    });
+  });
+
+  // Animate new list items
+  const taskList = document.getElementById("taskList");
+  document.getElementById("assignTaskForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const taskName = document.getElementById("taskNameInput").value;
+    const newTask = document.createElement("li");
+    newTask.textContent = taskName;
+    taskList.appendChild(newTask);
+
+    anime({
+      targets: newTask,
+      opacity: [0, 1],
+      translateY: [-10, 0],
+      duration: 500,
+      easing: "easeOutQuad",
+    });
+
+    document.getElementById("taskNameInput").value = "";
+  });
+});
