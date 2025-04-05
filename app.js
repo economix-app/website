@@ -488,6 +488,7 @@ const Inventory = {
       const actions = document.createElement('div');
       actions.className = 'item-actions';
       actions.appendChild(this.createButton(item.for_sale ? '🚫 Cancel' : '💰 Sell', item.for_sale ? 'btn-warning' : 'btn-secondary', () => item.for_sale ? this.cancelSale(item.id) : this.sell(item.id)));
+      actions.appendChild(this.createButton('👨‍⚖️ Auction', 'btn-secondary', () => Auction.createAuction(item.id)));
       actions.appendChild(this.createButton('🕵️ Secret', 'btn-danger', () => this.viewSecret(item.id)));
       actions.appendChild(this.createButton('♻️ Recycle (+5 tokens)', 'btn-primary', () => this.recycle(item.id)));
 
