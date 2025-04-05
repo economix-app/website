@@ -20,6 +20,7 @@ class AppState {
     this.token = localStorage.getItem('token') || null;
     this.items = [];
     this.pets = [];
+    this.oldPets = [];
     this.globalMessages = [];
     this.account = {};
     this.marketItems = [];
@@ -329,6 +330,7 @@ const Auth = {
 
     this.updateAccountUI(data);
     state.items = data.items;
+    state.oldPets = state.pets;
     state.pets = data.pets;
     state.account = data;
 
@@ -753,6 +755,8 @@ const Casino = {
 // Pet Management
 const Pets = {
   async render() {
+    if (state.pets === state.oldPets) return;
+
     const container = document.getElementById('petContainer');
     container.innerHTML = '';
 
@@ -783,7 +787,7 @@ const Pets = {
           </button>
         </div>
         <div class="pet-level">
-          Level ${pet.level} • ${pet.xp}/${this.getXpNeeded(pet.level)}
+          Level ${pet.level} • ${pet.exp}/${expForLevel(pet.level + 1)} until next level
         </div>
       `;
       container.appendChild(petCard);
@@ -799,7 +803,7 @@ const Pets = {
   },
 
   async buy() {
-    if (!await Modal.confirm(`Adopt a pet for ${cost} tokens?`)) return;
+    if (!await Modal.confirm(`Adopt a pet for 100 tokens?`)) return;
 
     const data = await API.post('/api/buy_pet');
     if (data.success) {
@@ -811,9 +815,7 @@ const Pets = {
   },
 
   async feed(petId) {
-    const pet = state.pets.find(p => p.id === petId);
-
-    const data = await API.post('/api/feed_pet', { petId });
+    const data = await API.post('/api/feed_pet', { pet_id: petId });
     if (data.success) {
       this.showAnimation('❤️', '+10 Happiness & +10 Hunger', petId);
       this.render();
@@ -822,7 +824,7 @@ const Pets = {
   },
 
   async play(petId) {
-    const data = await API.post('/api/play_with_pet', { petId });
+    const data = await API.post('/api/play_with_pet', { pet_id: petId });
     if (data.success) {
       this.showAnimation('⚡', '+5 XP & +5 Happiness', petId);
       this.render();
@@ -848,10 +850,6 @@ const Pets = {
       Hound: '🐕',
       Hawk: '🦅',
     }[type] || '❓';
-  },
-
-  getXpNeeded(level) {
-    return 50 * Math.pow(1.5, level);
   },
 
   getHungerText(percent) {
@@ -884,6 +882,17 @@ const Pets = {
     }
 
     setTimeout(() => animDiv.remove(), 2000);
+  },
+
+  async showHelp() {
+    const helpText = `
+      <h3>Pet Care Guide</h3>
+      <p>Pets require food and playtime to stay happy and healthy.</p>
+      <p>Feed your pet to increase its hunger and happiness.</p>
+      <p>Play with your pet to increase its happiness and experience points.</p>
+      <p>Leveling up your pet increases its stats and unlocks new abilities!</p>
+    `;
+    await Modal.alert(helpText);
   }
 };
 
