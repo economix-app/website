@@ -817,6 +817,8 @@ const Casino = {
   async claimDailyFreeSpin() {
     const spinWheel = document.getElementById('spinWheel');
     const spinResult = document.getElementById('spinResult');
+    spinWheel.style.display = 'block';
+    spinResult.style.display = 'block';
     spinWheel.style.animation = 'spin 3s ease-in-out';
     spinResult.textContent = 'Spinning...';
     spinResult.style.display = 'block';
@@ -836,14 +838,6 @@ const Casino = {
   },
 
   createSpinWheel() {
-    const spinWheelContainer = document.createElement('div');
-    spinWheelContainer.id = 'spinWheelContainer';
-    spinWheelContainer.innerHTML = `
-      <div id="spinWheel" class="spin-wheel"></div>
-      <div id="spinResult" class="spin-result"></div>
-    `;
-    document.body.appendChild(spinWheelContainer);
-
     const spinWheel = document.getElementById('spinWheel');
     spinWheel.style.width = '200px';
     spinWheel.style.height = '200px';
@@ -856,7 +850,6 @@ const Casino = {
     spinResult.style.textAlign = 'center';
     spinResult.style.marginTop = '10px';
     spinResult.style.fontSize = '18px';
-    spinResult.style.display = 'none';
   }
 };
 
