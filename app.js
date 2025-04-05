@@ -735,6 +735,26 @@ const Market = {
 // Casino
 const Casino = {
   async bet(choice) {
+    function animateCoinFlip(result, won, betAmount, winnings) {
+      const resultEl = document.getElementById('casinoResult');
+      resultEl.textContent = 'Flipping coin...';
+      resultEl.classList.add('flipping');
+
+      setTimeout(() => {
+        resultEl.classList.remove('flipping');
+        resultEl.textContent = `Result: ${result.toUpperCase()}! You ${won ? 'won' : 'lost'}! ${won ? `Winnings: ${winnings} tokens` : `Lost: ${betAmount} tokens`}`;
+        resultEl.classList.add(won ? 'won' : 'lost');
+        if (won) {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+        }
+        setTimeout(() => resultEl.classList.remove(won ? 'won' : 'lost'), 3000);
+      }, CASINO_ANIMATION_DURATION);
+    }
+
     const betAmount = parseFloat(document.getElementById('betAmount').value);
     if (!betAmount || betAmount <= 0) {
       await Modal.alert('Please enter a valid bet amount.');
@@ -747,47 +767,27 @@ const Casino = {
       return;
     }
 
-    this.animateCoinFlip(data.result, data.won, betAmount, data.winnings);
+    animateCoinFlip(data.result, data.won, betAmount, data.winnings);
     Auth.refreshAccount();
   },
 
-  animateCoinFlip(result, won, betAmount, winnings) {
-    const resultEl = document.getElementById('casinoResult');
-    resultEl.textContent = 'Flipping coin...';
-    resultEl.classList.add('flipping');
-
-    setTimeout(() => {
-      resultEl.classList.remove('flipping');
-      resultEl.textContent = `Result: ${result.toUpperCase()}! You ${won ? 'won' : 'lost'}! ${won ? `Winnings: ${winnings} tokens` : `Lost: ${betAmount} tokens`}`;
-      resultEl.classList.add(won ? 'won' : 'lost');
-      if (won) {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
-      }
-      setTimeout(() => resultEl.classList.remove(won ? 'won' : 'lost'), 3000);
-    }, CASINO_ANIMATION_DURATION);
-  },
-
-  animateDiceRoll(result, won, betAmount, winnings) {
-    const resultEl = document.getElementById('diceResult');
-    resultEl.textContent = 'Rolling dice...';
-
-    setTimeout(() => {
-      resultEl.textContent = `Result: ${result}! You ${won ? 'won' : 'lost'}! ${won ? `Winnings: ${winnings} tokens` : `Lost: ${betAmount} tokens`}`;
-      if (won) {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
-      }
-    }, CASINO_ANIMATION_DURATION);
-  },
-
   async rollDice() {
+    function animateDiceRoll(result, won, betAmount, winnings) {
+      const resultEl = document.getElementById('diceResult');
+      resultEl.textContent = 'Rolling dice...';
+
+      setTimeout(() => {
+        resultEl.textContent = `Result: ${result}! You ${won ? 'won' : 'lost'}! ${won ? `Winnings: ${winnings} tokens` : `Lost: ${betAmount} tokens`}`;
+        if (won) {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+        }
+      }, CASINO_ANIMATION_DURATION);
+    }
+
     const betAmount = parseFloat(document.getElementById('diceBetAmount').value);
     const selectedNumber = document.querySelector('input[name="dice-number"]:checked');
 
@@ -810,7 +810,7 @@ const Casino = {
     }
 
     // Animate and display result
-    this.animateDiceRoll(data.result, data.won, betAmount, data.winnings);
+    animateDiceRoll(data.result, data.won, betAmount, data.winnings);
     Auth.refreshAccount(); // Update user's token display
   }
 };
