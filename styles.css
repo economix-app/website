@@ -1116,10 +1116,6 @@ a {
   align-items: center;
 }
 
-.radio-group input[type="radio"] {
-  display: none;
-}
-
 .radio-group label {
   display: inline-flex;
   align-items: center;
