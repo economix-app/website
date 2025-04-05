@@ -1490,6 +1490,44 @@ const TypingIndicator = {
   },
 };
 
+// Auction System
+const Auction = {
+  async fetchAuctions() {
+    const data = await API.get('/api/auctions');
+    this.render(data.auctions);
+  },
+
+  render(auctions) {
+    const auctionList = document.getElementById('auctionList');
+    auctionList.innerHTML = '';
+    auctions.forEach(auction => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        ${auction.itemName} - Current Bid: ${auction.currentBid} tokens
+        <button class="btn btn-primary" onclick="Auction.placeBid('${auction.itemId}')">Bid</button>
+      `;
+      auctionList.appendChild(li);
+    });
+  },
+
+  async createAuction(itemId) {
+    const startingBid = await Modal.prompt('Enter starting bid:');
+    await API.post('/api/create_auction', { itemId, startingBid });
+    this.fetchAuctions();
+  },
+
+  async placeBid(itemId) {
+    const bidAmount = await Modal.prompt('Enter your bid amount:');
+    const response = await API.post('/api/place_bid', { itemId, bidAmount });
+    if (response.success) {
+      alert('Bid placed successfully!');
+      this.fetchAuctions();
+    } else {
+      alert(response.error || 'Failed to place bid.');
+    }
+  }
+};
+
 // Event Listeners
 const initEventListeners = () => {
   // Tabs
@@ -1631,6 +1669,8 @@ const initEventListeners = () => {
     e.preventDefault();
     emojiPicker.classList.toggle('show');
   });
+
+  document.getElementById('createAuction').addEventListener('click', () => Auction.createAuction());
 };
 
 
@@ -1652,6 +1692,7 @@ const init = async () => {
     Chat.refresh();
     Admin.refreshLeaderboard();
     Market.refresh();
+    Auction.fetchAuctions();
   }, 1000);
 
   initEventListeners();
