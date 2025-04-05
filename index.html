@@ -224,8 +224,8 @@
                 <button class="btn btn-primary" id="removeAdminAdmin">🚫 Remove Admin</button>
                 <button class="btn btn-primary" id="addModAdmin">🤝 Add Mod</button>
                 <button class="btn btn-primary" id="removeModAdmin">🚫 Remove Mod</button>
-                <button class="btn btn-primary" id="addMediaAdmin">📷 Add Media</button
-                ><button class="btn btn-primary" id="removeMediaAdmin">🚫 Remove Media</button>
+                <button class="btn btn-primary" id="addMediaAdmin">📷 Add Media</button><button class="btn btn-primary"
+                  id="removeMediaAdmin">🚫 Remove Media</button>
                 <button class="btn btn-primary" id="banUserAdmin">⛓️ Ban User</button>
                 <button class="btn btn-primary" id="unbanUserAdmin">⚖️ Unban User</button>
                 <button class="btn btn-primary" id="muteUserAdmin">🔇 Mute User</button>
@@ -381,6 +381,10 @@
               <div class="chat-area">
                 <div class="message-container" id="globalMessages"></div>
                 <div class="message-input">
+                  <div class="emoji-picker-container">
+                    <button class="btn btn-emoji" id="emojiToggle">😀</button>
+                    <div class="emoji-picker" id="emojiPicker"></div>
+                  </div>
                   <input type="text" id="messageInput" autocomplete="off" placeholder="Type your message..." />
                   <button id="sendMessage">Send</button>
                 </div>

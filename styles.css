@@ -1150,3 +1150,45 @@ a {
     font-size: 0.9rem;
   }
 }
+
+.emoji-picker-container {
+  position: relative;
+}
+
+.emoji-picker {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: none;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0.25rem;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.emoji-picker.show {
+  display: grid;
+}
+
+.emoji-picker span {
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 1.2rem;
+}
+
+.emoji-picker span:hover {
+  background: var(--background);
+}
+
+.btn-emoji {
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+}
