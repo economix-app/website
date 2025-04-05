@@ -139,23 +139,40 @@ const Notifications = {
       <div class="progress-bar"></div>
     `;
 
+    anime({
+      targets: notification,
+      translateX: [300, 0],
+      opacity: [0, 1],
+      duration: 500,
+      easing: "easeOutExpo",
+    });
+
     const closeBtn = notification.querySelector('.close-btn');
     const progressBar = notification.querySelector('.progress-bar');
 
     // Auto-close logic
-    const timeout = setTimeout(() => notification.remove(), duration);
-    let startTime = Date.now();
-    const interval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      progressBar.style.width = `${100 - (elapsed / duration) * 100}%`;
-      if (elapsed >= duration) clearInterval(interval);
-    }, 50);
+    const timeout = setTimeout(() => {
+      anime({
+        targets: notification,
+        translateX: [0, 300],
+        opacity: [1, 0],
+        duration: 500,
+        easing: "easeInExpo",
+        complete: () => notification.remove(),
+      });
+    }, duration);
 
     // Close button logic
     closeBtn.onclick = () => {
       clearTimeout(timeout);
-      clearInterval(interval);
-      notification.remove();
+      anime({
+        targets: notification,
+        translateX: [0, 300],
+        opacity: [1, 0],
+        duration: 500,
+        easing: "easeInExpo",
+        complete: () => notification.remove(),
+      });
     };
 
     this.container.appendChild(notification);
@@ -173,10 +190,25 @@ const UI = {
     }
 
     document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => {
+      anime({
+        targets: content,
+        opacity: [1, 0],
+        duration: 300,
+        easing: "easeInOutQuad",
+        complete: () => content.classList.remove('active'),
+      });
+    });
 
     document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
-    document.getElementById(`tab-${tabName}`).classList.add('active');
+    const activeTab = document.getElementById(`tab-${tabName}`);
+    activeTab.classList.add('active');
+    anime({
+      targets: activeTab,
+      opacity: [0, 1],
+      duration: 300,
+      easing: "easeInOutQuad",
+    });
   },
 
   toggleVisibility(elementId, display = 'block') {
@@ -1635,263 +1667,4 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
-
-  // Animate new list items
-  const taskList = document.getElementById("taskList");
-  document.getElementById("assignTaskForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const taskName = document.getElementById("taskNameInput").value;
-    const newTask = document.createElement("li");
-    newTask.textContent = taskName;
-    taskList.appendChild(newTask);
-
-    anime({
-      targets: newTask,
-      opacity: [0, 1],
-      translateY: [-10, 0],
-      duration: 500,
-      easing: "easeOutQuad",
-    });
-
-    document.getElementById("taskNameInput").value = "";
-  });
 });
-
-let gameInterval;
-let gameScore = 0;
-let gameTimeLeft = 30;
-
-function startMinigame() {
-  const modal = document.getElementById("minigameModal");
-  modal.classList.add("active");
-  resetGame();
-}
-
-function resetGame() {
-  gameScore = 0;
-  gameTimeLeft = 30;
-  document.getElementById("scoreDisplay").textContent = `Score: ${gameScore}`;
-  document.getElementById("startGameButton").style.display = "block";
-  document.getElementById("finishGameButton").style.display = "none";
-  document.getElementById("gameArea").innerHTML = "";
-  clearInterval(gameInterval);
-}
-
-function startGame() {
-  const selectedGame = document.getElementById("gameSelector").value;
-  document.getElementById("startGameButton").style.display = "none";
-  document.getElementById("finishGameButton").style.display = "block";
-
-  switch (selectedGame) {
-    case "clickTheTarget":
-      startClickTheTarget();
-      break;
-    case "mathQuiz":
-      startMathQuiz();
-      break;
-    case "memoryGame":
-      startMemoryGame();
-      break;
-    case "reactionTime":
-      startReactionTime();
-      break;
-    case "wordScramble":
-      startWordScramble();
-      break;
-    default:
-      Modal.alert('Invalid game selected.');
-  }
-}
-
-// Fix startClickTheTarget to properly initialize the game
-function startClickTheTarget() {
-  const gameArea = document.getElementById('gameArea');
-  gameArea.innerHTML = ''; // Clear previous game elements
-  const target = document.createElement('div');
-  target.className = 'target';
-  gameArea.appendChild(target);
-
-  target.onclick = () => {
-    gameScore++;
-    document.getElementById('scoreDisplay').textContent = `Score: ${gameScore}`;
-    moveTargetRandomly(target, gameArea);
-  };
-
-  moveTargetRandomly(target, gameArea);
-  startGameTimer();
-}
-
-// Fix startMathQuiz to generate and validate questions
-function startMathQuiz() {
-  const gameArea = document.getElementById('gameArea');
-  gameArea.innerHTML = ''; // Clear previous game elements
-  const question = document.createElement('p');
-  const input = document.createElement('input');
-  const submit = document.createElement('button');
-
-  input.type = 'number';
-  submit.textContent = 'Submit';
-
-  gameArea.appendChild(question);
-  gameArea.appendChild(input);
-  gameArea.appendChild(submit);
-
-  let currentAnswer;
-
-  function generateQuestion() {
-    const num1 = Math.floor(Math.random() * 10) + 1;
-    const num2 = Math.floor(Math.random() * 10) + 1;
-    question.textContent = `What is ${num1} + ${num2}?`;
-    currentAnswer = num1 + num2;
-  }
-
-  submit.onclick = () => {
-    if (parseInt(input.value) === currentAnswer) {
-      gameScore++;
-      document.getElementById('scoreDisplay').textContent = `Score: ${gameScore}`;
-      input.value = '';
-      generateQuestion();
-    } else {
-      Modal.alert('Incorrect answer. Try again!');
-    }
-  };
-
-  generateQuestion();
-  startGameTimer();
-}
-
-// Minigame 3: Memory Game
-function startMemoryGame() {
-  const gameArea = document.getElementById("gameArea");
-  const sequence = [];
-  let userSequence = [];
-
-  function generateSequence() {
-    sequence.push(Math.floor(Math.random() * 4));
-    displaySequence();
-  }
-
-  function displaySequence() {
-    gameArea.innerHTML = "";
-    sequence.forEach((num, index) => {
-      setTimeout(() => {
-        const box = document.createElement("div");
-        box.className = `memory-box box-${num}`;
-        gameArea.appendChild(box);
-        setTimeout(() => (box.style.backgroundColor = ""), 500);
-      }, index * 1000);
-    });
-
-    setTimeout(() => {
-      gameArea.innerHTML = "";
-      createMemoryBoxes();
-    }, sequence.length * 1000);
-  }
-
-  function createMemoryBoxes() {
-    for (let i = 0; i < 4; i++) {
-      const box = document.createElement("div");
-      box.className = `memory-box box-${i}`;
-      box.onclick = () => {
-        userSequence.push(i);
-        if (userSequence.length === sequence.length) {
-          if (JSON.stringify(userSequence) === JSON.stringify(sequence)) {
-            gameScore++;
-            document.getElementById("scoreDisplay").textContent = `Score: ${gameScore}`;
-            userSequence = [];
-            generateSequence();
-          } else {
-            Modal.alert("Game Over!");
-            resetGame();
-          }
-        }
-      };
-      gameArea.appendChild(box);
-    }
-  }
-
-  generateSequence();
-  startGameTimer();
-}
-
-// Minigame 4: Reaction Time
-function startReactionTime() {
-  const gameArea = document.getElementById("gameArea");
-  const message = document.createElement("p");
-  const button = document.createElement("button");
-
-  message.textContent = "Wait for the signal...";
-  button.textContent = "Click Me!";
-  button.disabled = true;
-
-  gameArea.appendChild(message);
-  gameArea.appendChild(button);
-
-  const delay = Math.random() * 3000 + 2000;
-  setTimeout(() => {
-    message.textContent = "Click now!";
-    button.disabled = false;
-    const startTime = Date.now();
-
-    button.onclick = () => {
-      const reactionTime = Date.now() - startTime;
-      gameScore += Math.max(0, 1000 - reactionTime) / 100;
-      document.getElementById("scoreDisplay").textContent = `Score: ${gameScore.toFixed(2)}`;
-      startReactionTime();
-    };
-  }, delay);
-}
-
-// Minigame 5: Word Scramble
-function startWordScramble() {
-  const gameArea = document.getElementById("gameArea");
-  const wordDisplay = document.createElement("p");
-  const input = document.createElement("input");
-  const submit = document.createElement("button");
-
-  input.type = "text";
-  submit.textContent = "Submit";
-
-  gameArea.appendChild(wordDisplay);
-  gameArea.appendChild(input);
-  gameArea.appendChild(submit);
-
-  const words = ["economy", "market", "trade", "tokens", "profit"];
-  let currentWord = "";
-
-  function scrambleWord(word) {
-    return word.split("").sort(() => Math.random() - 0.5).join("");
-  }
-
-  function generateWord() {
-    currentWord = words[Math.floor(Math.random() * words.length)];
-    wordDisplay.textContent = scrambleWord(currentWord);
-    input.value = "";
-  }
-
-  submit.onclick = () => {
-    if (input.value === currentWord) {
-      gameScore++;
-      document.getElementById("scoreDisplay").textContent = `Score: ${gameScore}`;
-      generateWord();
-    }
-  };
-
-  generateWord();
-  startGameTimer();
-}
-
-function startGameTimer() {
-  gameInterval = setInterval(() => {
-    gameTimeLeft--;
-    document.getElementById("timeLeftDisplay").textContent = `Time Left: ${gameTimeLeft}s`;
-    if (gameTimeLeft <= 0) {
-      clearInterval(gameInterval);
-      Modal.alert(`Game Over! Your final score is: ${gameScore}`);
-      completeMinigame(gameScore);
-    }
-  }, 1000);
-}
-
-// Event listener for starting the game
-document.getElementById("startGameButton").addEventListener("click", startGame);
