@@ -931,7 +931,7 @@ const Company = {
         if (task.status === 'in_progress') {
           const completeButton = document.createElement('button');
           completeButton.textContent = 'Complete';
-          completeButton.onclick = () => this.completeTask(company.id, task.id).then(() => this.refresh());
+          completeButton.onclick = () => this.startMinigameForTask(company.id, task.id);
           taskItem.appendChild(completeButton);
         }
         taskList.appendChild(taskItem);
@@ -972,14 +972,22 @@ const Company = {
     }
   },
 
-  async completeTask(companyId, taskId) {
-    const data = await API.post('/api/complete_task', { company_id: companyId, task_id: taskId });
-    if (data.success) {
-      await Modal.alert('Task completed!');
-      this.refresh();
-    } else {
-      await Modal.alert(`Error: ${data.error}`);
-    }
+  async startMinigameForTask(companyId, taskId) {
+    const modal = document.getElementById('minigameModal');
+    modal.classList.add('active');
+    resetGame();
+
+    document.getElementById('finishGameButton').onclick = async () => {
+      clearInterval(gameInterval);
+      const data = await API.post('/api/complete_task', { company_id: companyId, task_id: taskId, score: gameScore });
+      modal.classList.remove('active');
+      if (data.success) {
+        await Modal.alert('Task completed successfully!');
+        this.refresh();
+      } else {
+        await Modal.alert(`Error completing task: ${data.error}`);
+      }
+    };
   },
 };
 
