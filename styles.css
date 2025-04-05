@@ -1275,3 +1275,135 @@ a {
   position: absolute;
   animation: heartBurst 1s ease-out;
 }
+
+/* Pet CSS */
+.pet-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.pet-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1rem;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.pet-card:hover {
+  transform: translateY(-3px);
+}
+
+.pet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.pet-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.status-bar {
+  height: 20px;
+  background: var(--border);
+  border-radius: 10px;
+  margin: 0.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.5s ease;
+}
+
+.status-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.pet-actions {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn-feed {
+  background: var(--success);
+}
+
+.btn-play {
+  background: var(--secondary);
+}
+
+.pet-level {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+.pet-animation {
+  position: absolute;
+  animation: floatUp 1.5s ease-out forwards;
+  text-align: center;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pet-shop {
+  margin-top: 2rem;
+  border-top: 2px solid var(--border);
+  padding-top: 1rem;
+}
+
+.pet-option {
+  padding: 1rem;
+  margin: 0.5rem 0;
+  background: var(--card-bg);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pet-option:hover {
+  background: var(--primary);
+  color: white;
+}
