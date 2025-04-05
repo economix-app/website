@@ -863,7 +863,7 @@ const Pets = {
     if (percent > 75) return 'Ecstatic!';
     if (percent > 50) return 'Happy';
     if (percent > 25) return 'Bored';
-    return 'Depressed';
+    return 'Depressed!';
   },
 
   showAnimation(emoji, text, petId) {
@@ -1372,6 +1372,15 @@ const Admin = {
     await Modal.alert(data.success ? 'Company edited!' : 'Error editing company.').then(() => {
       if (data.success) Auth.refreshAccount();
     });
+  },
+
+  async restorePet() {
+    const petId = await Modal.prompt('Enter pet ID:');
+    if (!petId) return;
+    const data = await API.post('/api/restore_pet', { pet_id: petId });
+    await Modal.alert(data.success ? 'Pet restored!' : 'Error restoring pet.').then(() => {
+      if (data.success) Auth.refreshAccount();
+    });
   }
 };
 
@@ -1458,7 +1467,8 @@ const initEventListeners = () => {
     muteUserAdmin: Admin.muteUser,
     unmuteUserAdmin: Admin.unmuteUser,
     fineUserAdmin: Admin.fineUser,
-    deleteUserAdmin: Admin.deleteUser
+    deleteUserAdmin: Admin.deleteUser,
+    restorePetAdmin: Admin.restorePet,
   };
   Object.keys(adminActions).forEach(id =>
     document.getElementById(id).addEventListener('click', adminActions[id])
