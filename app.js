@@ -765,7 +765,7 @@ const Pets = {
       petCard.className = `pet-card ${pet.status} fade-in`;
       petCard.innerHTML = `
         <div class="pet-header">
-          <span class="pet-name">${pet.name}</span>
+          <span class="pet-name">${pet.name} ${pet.alive ? '' : '(Dead)'}</span>
           <span class="pet-type">${this.getTypeIcon(pet.name)}</span>
         </div>
         <div class="pet-status">
