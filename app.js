@@ -5,7 +5,13 @@ const ITEMS_PER_PAGE = 5;
 const API_BASE = 'https://api.economix.lol';
 const CASINO_ANIMATION_DURATION = 2000;
 
-const EMOJIS = ["😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃", "🫠", "😉", "😊", "😇", "🥰", "😍", "🤩", "😘", "😗", "☺", "😚", "😙", "🥲", "😋", "😛", "😜", "🤪", "😝", "🤑", "🤗", "🤭", "🫢", "🫣", "🤫", "🤔", "🫡", "🤐", "🤨", "😐", "😑", "😶", "🫥", "😶‍🌫️", "😏", "😒", "🙄", "😬", "😮‍💨", "🤥", "🫨", "🙂‍↔️", "🙂‍↕️", "😌", "😔", "😪", "🤤", "😴", "🫩", "😷", "🤒", "🤕", "🤢", "🤮", "🤧", "🥵", "🥶", "🥴", "😵", "😵‍💫", "🤯", "🤠", "🥳", "🥸", "😎", "🤓", "🧐", "😕", "🫤", "😟", "🙁", "☹", "😮", "😯", "😲", "😳", "🥺", "🥹", "😦", "😧", "😨", "😰", "😥", "😢", "😭", "😱", "😖", "😣", "😞", "😓", "😩", "😫", "🥱", "😤", "😡", "😠", "🤬", "😈", "👿", "💀", "☠", "💩", "🤡", "👹", "👺", "👻", "👽", "👾", "🤖", "😺", "😸", "😹", "😻", "😼", "😽", "🙀", "😿", "😾", "🙈", "🙉", "🙊", "💌", "💘", "💝", "💖", "💗", "💓", "💞", "💕", "💟", "❣", "💔", "❤️‍🔥", "❤️‍🩹", "❤", "🩷", "🧡", "💛", "💚", "💙", "🩵", "💜", "🤎", "🖤", "🩶", "🤍", "💋", "💯", "💢", "💥", "💫", "💦", "💨", "🕳", "💬", "👁️‍🗨️", "🗨", "🗯", "💭", "💤", "👋", "🤚", "🖐", "✋", "🖖", "🫱", "🫲", "🫳", "🫴", "🫷", "🫸", "👌", "🤌", "🤏", "✌", "🤞", "🫰", "🤟", "🤘", "🤙", "👈", "👉", "👆", "🖕", "👇", "☝", "🫵", "👍", "👎", "✊", "👊", "🤛", "🤜", "👏", "🙌", "🫶", "👐", "🤲", "🤝", "🙏", "✍", "💅", "🤳", "💪", "🦾", "🦿", "🦵", "🦶", "👂", "🦻", "👃", "🧠", "🫀", "🫁", "🦷", "🦴", "👀", "👁", "👅", "👄", "🫦", "👶", "🧒", "👦", "👧", "🧑", "👱", "👨", "🧔", "🧔‍♂️", "🧔‍♀️", "👨‍🦰", "👨‍🦱", "👨‍🦳", "👨‍🦲", "👩", "👩‍🦰", "🧑‍🦰", "👩‍🦱", "🧑‍🦱", "👩‍🦳", "🧑‍🦳", "👩‍🦲", "🧑‍🦲", "👱‍♀️", "👱‍♂️", "🧓", "👴", "👵", "🙍", "🙍‍♂️", "🙍‍♀️", "🙎", "🙎‍♂️", "🙎‍♀️", "🙅", "🙅‍♂️", "🙅‍♀️", "🙆", "🙆‍♂️", "🙆‍♀️", "💁", "💁‍♂️", "💁‍♀️", "🙋", "🙋‍♂️", "🙋‍♀️", "🧏", "🧏‍♂️", "🧏‍♀️", "🙇", "🙇‍♂️", "🙇‍♀️", "🤦", "🤦‍♂️", "🤦‍♀️", "🤷", "🤷‍♂️", "🤷‍♀️", "🧑‍⚕️", "👨‍⚕️", "👩‍⚕️", "🧑‍🎓", "👨‍🎓", "👩‍🎓", "🧑‍🏫", "👨‍🏫", "👩‍🏫", "🧑‍⚖️", "👨‍⚖️", "👩‍⚖️", "🧑‍🌾", "👨‍🌾", "👩‍🌾", "🧑‍🍳", "👨‍🍳", "👩‍🍳", "🧑‍🔧", "👨‍🔧", "👩‍🔧", "🧑‍🏭", "👨‍🏭", "👩‍🏭", "🧑‍💼", "👨‍💼", "👩‍💼", "🧑‍🔬", "👨‍🔬", "👩‍🔬", "🧑‍💻", "👨‍💻", "👩‍💻", "🧑‍🎤", "👨‍🎤", "👩‍🎤", "🧑‍🎨", "👨‍🎨", "👩‍🎨", "🧑‍✈️", "👨‍✈️", "👩‍✈️", "🧑‍🚀", "👨‍🚀", "👩‍🚀", "🧑‍🚒", "👨‍🚒", "👩‍🚒", "👮", "👮‍♂️", "👮‍♀️", "🕵", "🕵️‍♂️", "🕵️‍♀️", "💂", "💂‍♂️", "💂‍♀️", "🥷", "👷", "👷‍♂️", "👷‍♀️", "🫅", "🤴", "👸", "👳", "👳‍♂️", "👳‍♀️", "👲", "🧕", "🤵", "🤵‍♂️", "🤵‍♀️", "👰", "👰‍♂️", "👰‍♀️", "🤰", "🫃", "🫄", "🤱", "👩‍🍼", "👨‍🍼", "🧑‍🍼", "👼", "🎅", "🤶", "🧑‍🎄", "🦸", "🦸‍♂️", "🦸‍♀️", "🦹", "🦹‍♂️", "🦹‍♀️", "🧙", "🧙‍♂️", "🧙‍♀️", "🧚", "🧚‍♂️", "🧚‍♀️", "🧛", "🧛‍♂️", "🧛‍♀️", "🧜", "🧜‍♂️", "🧜‍♀️", "🧝", "🧝‍♂️", "🧝‍♀️", "🧞", "🧞‍♂️", "🧞‍♀️", "🧟", "🧟‍♂️", "🧟‍♀️", "🧌", "💆", "💆‍♂️", "💆‍♀️", "💇", "💇‍♂️", "💇‍♀️", "🚶", "🚶‍♂️", "🚶‍♀️", "🚶‍➡️", "🚶‍♀️‍➡️", "🚶‍♂️‍➡️", "🧍", "🧍‍♂️", "🧍‍♀️", "🧎", "🧎‍♂️", "🧎‍♀️", "🧎‍➡️", "🧎‍♀️‍➡️", "🧎‍♂️‍➡️", "🧑‍🦯", "🧑‍🦯‍➡️", "👨‍🦯", "👨‍🦯‍➡️", "👩‍🦯", "👩‍🦯‍➡️", "🧑‍🦼", "🧑‍🦼‍➡️", "👨‍🦼", "👨‍🦼‍➡️", "👩‍🦼", "👩‍🦼‍➡️", "🧑‍🦽", "🧑‍🦽‍➡️", "👨‍🦽", "👨‍🦽‍➡️", "👩‍🦽", "👩‍🦽‍➡️", "🏃", "🏃‍♂️", "🏃‍♀️", "🏃‍➡️", "🏃‍♀️‍➡️", "🏃‍♂️‍➡️", "💃", "🕺", "🕴", "👯", "👯‍♂️", "👯‍♀️", "🧖", "🧖‍♂️", "🧖‍♀️", "🧗", "🧗‍♂️", "🧗‍♀️", "🤺", "🏇", "⛷", "🏂", "🏌", "🏌️‍♂️", "🏌️‍♀️", "🏄", "🏄‍♂️", "🏄‍♀️", "🚣", "🚣‍♂️", "🚣‍♀️", "🏊", "🏊‍♂️", "🏊‍♀️", "⛹", "⛹️‍♂️", "⛹️‍♀️", "🏋", "🏋️‍♂️", "🏋️‍♀️", "🚴", "🚴‍♂️", "🚴‍♀️", "🚵", "🚵‍♂️", "🚵‍♀️", "🤸", "🤸‍♂️", "🤸‍♀️", "🤼", "🤼‍♂️", "🤼‍♀️", "🤽", "🤽‍♂️", "🤽‍♀️", "🤾", "🤾‍♂️", "🤾‍♀️", "🤹", "🤹‍♂️", "🤹‍♀️", "🧘", "🧘‍♂️", "🧘‍♀️", "🛀", "🛌", "🧑‍🤝‍🧑", "👭", "👫", "👬", "💏", "👩‍❤️‍💋‍👨", "👨‍❤️‍💋‍👨", "👩‍❤️‍💋‍👩", "💑", "👩‍❤️‍👨", "👨‍❤️‍👨", "👩‍❤️‍👩", "👨‍👩‍👦", "👨‍👩‍👧", "👨‍👩‍👧‍👦", "👨‍👩‍👦‍👦", "👨‍👩‍👧‍👧", "👨‍👨‍👦", "👨‍👨‍👧", "👨‍👨‍👧‍👦", "👨‍👨‍👦‍👦", "👨‍👨‍👧‍👧", "👩‍👩‍👦", "👩‍👩‍👧", "👩‍👩‍👧‍👦", "👩‍👩‍👦‍👦", "👩‍👩‍👧‍👧", "👨‍👦", "👨‍👦‍👦", "👨‍👧", "👨‍👧‍👦", "👨‍👧‍👧", "👩‍👦", "👩‍👦‍👦", "👩‍👧", "👩‍👧‍👦", "👩‍👧‍👧", "🗣", "👤", "👥", "🫂", "👪", "🧑‍🧑‍🧒", "🧑‍🧑‍🧒‍🧒", "🧑‍🧒", "🧑‍🧒‍🧒", "👣", "🫆", "🦰", "🦱", "🦳", "🦲", "🐵", "🐒", "🦍", "🦧", "🐶", "🐕", "🦮", "🐕‍🦺", "🐩", "🐺", "🦊", "🦝", "🐱", "🐈", "🐈‍⬛", "🦁", "🐯", "🐅", "🐆", "🐴", "🫎", "🫏", "🐎", "🦄", "🦓", "🦌", "🦬", "🐮", "🐂", "🐃", "🐄", "🐷", "🐖", "🐗", "🐽", "🐏", "🐑", "🐐", "🐪", "🐫", "🦙", "🦒", "🐘", "🦣", "🦏", "🦛", "🐭", "🐁", "🐀", "🐹", "🐰", "🐇", "🐿", "🦫", "🦔", "🦇", "🐻", "🐻‍❄️", "🐨", "🐼", "🦥", "🦦", "🦨", "🦘", "🦡", "🐾", "🦃", "🐔", "🐓", "🐣", "🐤", "🐥", "🐦", "🐧", "🕊", "🦅", "🦆", "🦢", "🦉", "🦤", "🪶", "🦩", "🦚", "🦜", "🪽", "🐦‍⬛", "🪿", "🐦‍🔥", "🐸", "🐊", "🐢", "🦎", "🐍", "🐲", "🐉", "🦕", "🦖", "🐳", "🐋", "🐬", "🦭", "🐟", "🐠", "🐡", "🦈", "🐙", "🐚", "🪸", "🪼", "🦀", "🦞", "🦐", "🦑", "🦪", "🐌", "🦋", "🐛", "🐜", "🐝", "🪲", "🐞", "🦗", "🪳", "🕷", "🕸", "🦂", "🦟", "🪰", "🪱", "🦠", "💐", "🌸", "💮", "🪷", "🏵", "🌹", "🥀", "🌺", "🌻", "🌼", "🌷", "🪻", "🌱", "🪴", "🌲", "🌳", "🌴", "🌵", "🌾", "🌿", "☘", "🍀", "🍁", "🍂", "🍃", "🪹", "🪺", "🍄", "🪾", "🍇", "🍈", "🍉", "🍊", "🍋", "🍋‍🟩", "🍌", "🍍", "🥭", "🍎", "🍏", "🍐", "🍑", "🍒", "🍓", "🫐", "🥝", "🍅", "🫒", "🥥", "🥑", "🍆", "🥔", "🥕", "🌽", "🌶", "🫑", "🥒", "🥬", "🥦", "🧄", "🧅", "🥜", "🫘", "🌰", "🫚", "🫛", "🍄‍🟫", "🫜", "🍞", "🥐", "🥖", "🫓", "🥨", "🥯", "🥞", "🧇", "🧀", "🍖", "🍗", "🥩", "🥓", "🍔", "🍟", "🍕", "🌭", "🥪", "🌮", "🌯", "🫔", "🥙", "🧆", "🥚", "🍳", "🥘", "🍲", "🫕", "🥣", "🥗", "🍿", "🧈", "🧂", "🥫", "🍱", "🍘", "🍙", "🍚", "🍛", "🍜", "🍝", "🍠", "🍢", "🍣", "🍤", "🍥", "🥮", "🍡", "🥟", "🥠", "🥡", "🍦", "🍧", "🍨", "🍩", "🍪", "🎂", "🍰", "🧁", "🥧", "🍫", "🍬", "🍭", "🍮", "🍯", "🍼", "🥛", "☕", "🫖", "🍵", "🍶", "🍾", "🍷", "🍸", "🍹", "🍺", "🍻", "🥂", "🥃", "🫗", "🥤", "🧋", "🧃", "🧉", "🧊", "🥢", "🍽", "🍴", "🥄", "🔪", "🫙", "🏺", "🌍", "🌎", "🌏", "🌐", "🗺", "🗾", "🧭", "🏔", "⛰", "🌋", "🗻", "🏕", "🏖", "🏜", "🏝", "🏞", "🏟", "🏛", "🏗", "🧱", "🪨", "🪵", "🛖", "🏘", "🏚", "🏠", "🏡", "🏢", "🏣", "🏤", "🏥", "🏦", "🏨", "🏩", "🏪", "🏫", "🏬", "🏭", "🏯", "🏰", "💒", "🗼", "🗽", "⛪", "🕌", "🛕", "🕍", "⛩", "🕋", "⛲", "⛺", "🌁", "🌃", "🏙", "🌄", "🌅", "🌆", "🌇", "🌉", "♨", "🎠", "🛝", "🎡", "🎢", "💈", "🎪", "🚂", "🚃", "🚄", "🚅", "🚆", "🚇", "🚈", "🚉", "🚊", "🚝", "🚞", "🚋", "🚌", "🚍", "🚎", "🚐", "🚑", "🚒", "🚓", "🚔", "🚕", "🚖", "🚗", "🚘", "🚙", "🛻", "🚚", "🚛", "🚜", "🏎", "🏍", "🛵", "🦽", "🦼", "🛺", "🚲", "🛴", "🛹", "🛼", "🚏", "🛣", "🛤", "🛢", "⛽", "🛞", "🚨", "🚥", "🚦", "🛑", "🚧", "⚓", "🛟", "⛵", "🛶", "🚤", "🛳", "⛴", "🛥", "🚢", "✈", "🛩", "🛫", "🛬", "🪂", "💺", "🚁", "🚟", "🚠", "🚡", "🛰", "🚀", "🛸", "🛎", "🧳", "⌛", "⏳", "⌚", "⏰", "⏱", "⏲", "🕰", "🕛", "🕧", "🕐", "🕜", "🕑", "🕝", "🕒", "🕞", "🕓", "🕟", "🕔", "🕠", "🕕", "🕡", "🕖", "🕢", "🕗", "🕣", "🕘", "🕤", "🕙", "🕥", "🕚", "🕦", "🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘", "🌙", "🌚", "🌛", "🌜", "🌡", "☀", "🌝", "🌞", "🪐", "⭐", "🌟", "🌠", "🌌", "☁", "⛅", "⛈", "🌤", "🌥", "🌦", "🌧", "🌨", "🌩", "🌪", "🌫", "🌬", "🌀", "🌈", "🌂", "☂", "☔", "⛱", "⚡", "❄", "☃", "⛄", "☄", "🔥", "💧", "🌊", "🎃", "🎄", "🎆", "🎇", "🧨", "✨", "🎈", "🎉", "🎊", "🎋", "🎍", "🎎", "🎏", "🎐", "🎑", "🧧", "🎀", "🎁", "🎗", "🎟", "🎫", "🎖", "🏆", "🏅", "🥇", "🥈", "🥉", "⚽", "⚾", "🥎", "🏀", "🏐", "🏈", "🏉", "🎾", "🥏", "🎳", "🏏", "🏑", "🏒", "🥍", "🏓", "🏸", "🥊", "🥋", "🥅", "⛳", "⛸", "🎣", "🤿", "🎽", "🎿", "🛷", "🥌", "🎯", "🪀", "🪁", "🔫", "🎱", "🔮", "🪄", "🎮", "🕹", "🎰", "🎲", "🧩", "🧸", "🪅", "🪩", "🪆", "♠", "♥", "♦", "♣", "♟", "🃏", "🀄", "🎴", "🎭", "🖼", "🎨", "🧵", "🪡", "🧶", "🪢", "👓", "🕶", "🥽", "🥼", "🦺", "👔", "👕", "👖", "🧣", "🧤", "🧥", "🧦", "👗", "👘", "🥻", "🩱", "🩲", "🩳", "👙", "👚", "🪭", "👛", "👜", "👝", "🛍", "🎒", "🩴", "👞", "👟", "🥾", "🥿", "👠", "👡", "🩰", "👢", "🪮", "👑", "👒", "🎩", "🎓", "🧢", "🪖", "⛑", "📿", "💄", "💍", "💎", "🔇", "🔈", "🔉", "🔊", "📢", "📣", "📯", "🔔", "🔕", "🎼", "🎵", "🎶", "🎙", "🎚", "🎛", "🎤", "🎧", "📻", "🎷", "🪗", "🎸", "🎹", "🎺", "🎻", "🪕", "🥁", "🪘", "🪇", "🪈", "🪉", "📱", "📲", "☎", "📞", "📟", "📠", "🔋", "🪫", "🔌", "💻", "🖥", "🖨", "⌨", "🖱", "🖲", "💽", "💾", "💿", "📀", "🧮", "🎥", "🎞", "📽", "🎬", "📺", "📷", "📸", "📹", "📼", "🔍", "🔎", "🕯", "💡", "🔦", "🏮", "🪔", "📔", "📕", "📖", "📗", "📘", "📙", "📚", "📓", "📒", "📃", "📜", "📄", "📰", "🗞", "📑", "🔖", "🏷", "💰", "🪙", "💴", "💵", "💶", "💷", "💸", "💳", "🧾", "💹", "✉", "📧", "📨", "📩", "📤", "📥", "📦", "📫", "📪", "📬", "📭", "📮", "🗳", "✏", "✒", "🖋", "🖊", "🖌", "🖍", "📝", "💼", "📁", "📂", "🗂", "📅", "📆", "🗒", "🗓", "📇", "📈", "📉", "📊", "📋", "📌", "📍", "📎", "🖇", "📏", "📐", "✂", "🗃", "🗄", "🗑", "🔒", "🔓", "🔏", "🔐", "🔑", "🗝", "🔨", "🪓", "⛏", "⚒", "🛠", "🗡", "⚔", "💣", "🪃", "🏹", "🛡", "🪚", "🔧", "🪛", "🔩", "⚙", "🗜", "⚖", "🦯", "🔗", "⛓️‍💥", "⛓", "🪝", "🧰", "🧲", "🪜", "🪏", "⚗", "🧪", "🧫", "🧬", "🔬", "🔭", "📡", "💉", "🩸", "💊", "🩹", "🩼", "🩺", "🩻", "🚪", "🛗", "🪞", "🪟", "🛏", "🛋", "🪑", "🚽", "🪠", "🚿", "🛁", "🪤", "🪒", "🧴", "🧷", "🧹", "🧺", "🧻", "🪣", "🧼", "🫧", "🪥", "🧽", "🧯", "🛒", "🚬", "⚰", "🪦", "⚱", "🧿", "🪬", "🗿", "🪧", "🪪", "🏧", "🚮", "🚰", "♿", "🚹", "🚺", "🚻", "🚼", "🚾", "🛂", "🛃", "🛄", "🛅", "⚠", "🚸", "⛔", "🚫", "🚳", "🚭", "🚯", "🚱", "🚷", "📵", "🔞", "☢", "☣", "⬆", "↗", "➡", "↘", "⬇", "↙", "⬅", "↖", "↕", "↔", "↩", "↪", "⤴", "⤵", "🔃", "🔄", "🔙", "🔚", "🔛", "🔜", "🔝", "🛐", "⚛", "🕉", "✡", "☸", "☯", "✝", "☦", "☪", "☮", "🕎", "🔯", "🪯", "♈", "♉", "♊", "♋", "♌", "♍", "♎", "♏", "♐", "♑", "♒", "♓", "⛎", "🔀", "🔁", "🔂", "▶", "⏩", "⏭", "⏯", "◀", "⏪", "⏮", "🔼", "⏫", "🔽", "⏬", "⏸", "⏹", "⏺", "⏏", "🎦", "🔅", "🔆", "📶", "🛜", "📳", "📴", "♀", "♂", "⚧", "✖", "➕", "➖", "➗", "🟰", "♾", "‼", "⁉", "❓", "❔", "❕", "❗", "〰", "💱", "💲", "⚕", "♻", "⚜", "🔱", "📛", "🔰", "⭕", "✅", "☑", "✔", "❌", "❎", "➰", "➿", "〽", "✳", "✴", "❇", "©", "®", "™", "🫟", "#️⃣", "*️⃣", "0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟", "🔠", "🔡", "🔢", "🔣", "🔤", "🅰", "🆎", "🅱", "🆑", "🆒", "🆓", "ℹ", "🆔", "Ⓜ", "🆕", "🆖", "🅾", "🆗", "🅿", "🆘", "🆙", "🆚", "🈁", "🈂", "🈷", "🈶", "🈯", "🉐", "🈹", "🈚", "🈲", "🉑", "🈸", "🈴", "🈳", "㊗", "㊙", "🈺", "🈵", "🔴", "🟠", "🟡", "🟢", "🔵", "🟣", "🟤", "⚫", "⚪", "🟥", "🟧", "🟨", "🟩", "🟦", "🟪", "🟫", "⬛", "⬜", "◼", "◻", "◾", "◽", "▪", "▫", "🔶", "🔷", "🔸", "🔹", "🔺", "🔻", "💠", "🔘", "🔳", "🔲", "🏁", "🚩", "🎌", "🏴", "🏳", "🏳️‍🌈", "🏳️‍⚧️", "🏴‍☠️", "🇦🇨", "🇦🇩", "🇦🇪", "🇦🇫", "🇦🇬", "🇦🇮", "🇦🇱", "🇦🇲", "🇦🇴", "🇦🇶", "🇦🇷", "🇦🇸", "🇦🇹", "🇦🇺", "🇦🇼", "🇦🇽", "🇦🇿", "🇧🇦", "🇧🇧", "🇧🇩", "🇧🇪", "🇧🇫", "🇧🇬", "🇧🇭", "🇧🇮", "🇧🇯", "🇧🇱", "🇧🇲", "🇧🇳", "🇧🇴", "🇧🇶", "🇧🇷", "🇧🇸", "🇧🇹", "🇧🇻", "🇧🇼", "🇧🇾", "🇧🇿", "🇨🇦", "🇨🇨", "🇨🇩", "🇨🇫", "🇨🇬", "🇨🇭", "🇨🇮", "🇨🇰", "🇨🇱", "🇨🇲", "🇨🇳", "🇨🇴", "🇨🇵", "🇨🇶", "🇨🇷", "🇨🇺", "🇨🇻", "🇨🇼", "🇨🇽", "🇨🇾", "🇨🇿", "🇩🇪", "🇩🇬", "🇩🇯", "🇩🇰", "🇩🇲", "🇩🇴", "🇩🇿", "🇪🇦", "🇪🇨", "🇪🇪", "🇪🇬", "🇪🇭", "🇪🇷", "🇪🇸", "🇪🇹", "🇪🇺", "🇫🇮", "🇫🇯", "🇫🇰", "🇫🇲", "🇫🇴", "🇫🇷", "🇬🇦", "🇬🇧", "🇬🇩", "🇬🇪", "🇬🇫", "🇬🇬", "🇬🇭", "🇬🇮", "🇬🇱", "🇬🇲", "🇬🇳", "🇬🇵", "🇬🇶", "🇬🇷", "🇬🇸", "🇬🇹", "🇬🇺", "🇬🇼", "🇬🇾", "🇭🇰", "🇭🇲", "🇭🇳", "🇭🇷", "🇭🇹", "🇭🇺", "🇮🇨", "🇮🇩", "🇮🇪", "🇮🇱", "🇮🇲", "🇮🇳", "🇮🇴", "🇮🇶", "🇮🇷", "🇮🇸", "🇮🇹", "🇯🇪", "🇯🇲", "🇯🇴", "🇯🇵", "🇰🇪", "🇰🇬", "🇰🇭", "🇰🇮", "🇰🇲", "🇰🇳", "🇰🇵", "🇰🇷", "🇰🇼", "🇰🇾", "🇰🇿", "🇱🇦", "🇱🇧", "🇱🇨", "🇱🇮", "🇱🇰", "🇱🇷", "🇱🇸", "🇱🇹", "🇱🇺", "🇱🇻", "🇱🇾", "🇲🇦", "🇲🇨", "🇲🇩", "🇲🇪", "🇲🇫", "🇲🇬", "🇲🇭", "🇲🇰", "🇲🇱", "🇲🇲", "🇲🇳", "🇲🇴", "🇲🇵", "🇲🇶", "🇲🇷", "🇲🇸", "🇲🇹", "🇲🇺", "🇲🇻", "🇲🇼", "🇲🇽", "🇲🇾", "🇲🇿", "🇳🇦", "🇳🇨", "🇳🇪", "🇳🇫", "🇳🇬", "🇳🇮", "🇳🇱", "🇳🇴", "🇳🇵", "🇳🇷", "🇳🇺", "🇳🇿", "🇴🇲", "🇵🇦", "🇵🇪", "🇵🇫", "🇵🇬", "🇵🇭", "🇵🇰", "🇵🇱", "🇵🇲", "🇵🇳", "🇵🇷", "🇵🇸", "🇵🇹", "🇵🇼", "🇵🇾", "🇶🇦", "🇷🇪", "🇷🇴", "🇷🇸", "🇷🇺", "🇷🇼", "🇸🇦", "🇸🇧", "🇸🇨", "🇸🇩", "🇸🇪", "🇸🇬", "🇸🇭", "🇸🇮", "🇸🇯", "🇸🇰", "🇸🇱", "🇸🇲", "🇸🇳", "🇸🇴", "🇸🇷", "🇸🇸", "🇸🇹", "🇸🇻", "🇸🇽", "🇸🇾", "🇸🇿", "🇹🇦", "🇹🇨", "🇹🇩", "🇹🇫", "🇹🇬", "🇹🇭", "🇹🇯", "🇹🇰", "🇹🇱", "🇹🇲", "🇹🇳", "🇹🇴", "🇹🇷", "🇹🇹", "🇹🇻", "🇹🇼", "🇹🇿", "🇺🇦", "🇺🇬", "🇺🇲", "🇺🇳", "🇺🇸", "🇺🇾", "🇺🇿", "🇻🇦", "🇻🇨", "🇻🇪", "🇻🇬", "🇻🇮", "🇻🇳", "🇻🇺", "🇼🇫", "🇼🇸", "🇽🇰", "🇾🇪", "🇾🇹", "🇿🇦", "🇿🇲", "🇿🇼", "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "🏴󠁧󠁢󠁷󠁬󠁿"];
+// Fetch emoji list from emojis.json
+fetch('/emojis.json')
+  .then(response => response.json())
+  .then(data => {
+    EMOJIS = data;
+  })
+  .catch(error => console.error('Error loading emojis:', error));
 
 // Utils
 function expForLevel(level) {
@@ -128,6 +134,42 @@ const Modal = {
   }
 };
 
+// Notification System
+const Notifications = {
+  container: document.getElementById('notifications'),
+
+  show({ type = 'normal', message, duration = 5000 }) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+      <span>${message}</span>
+      <button class="close-btn">✖</button>
+      <div class="progress-bar"></div>
+    `;
+
+    const closeBtn = notification.querySelector('.close-btn');
+    const progressBar = notification.querySelector('.progress-bar');
+
+    // Auto-close logic
+    const timeout = setTimeout(() => notification.remove(), duration);
+    let startTime = Date.now();
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      progressBar.style.width = `${100 - (elapsed / duration) * 100}%`;
+      if (elapsed >= duration) clearInterval(interval);
+    }, 50);
+
+    // Close button logic
+    closeBtn.onclick = () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+      notification.remove();
+    };
+
+    this.container.appendChild(notification);
+  },
+};
+
 // UI Utilities
 const UI = {
   switchTab(tabName) {
@@ -240,7 +282,7 @@ const Auth = {
         await this.refreshAccount();
       }
     } catch (error) {
-      await Modal.alert(`Login failed: ${error.message}. Report at GitHub/Discord if persistent.`);
+      Notifications.show({ type: 'error', message: `Login failed: ${error.message}. Report at GitHub/Discord if persistent.` });
     }
   },
 
@@ -249,12 +291,15 @@ const Auth = {
     const password = document.getElementById('registerPassword').value;
 
     const data = await API.post('/api/register', { username, password });
-    await Modal.alert(data.success ? 'Registration successful! Please login.' : `Registration failed: ${data.error || 'Unknown error'}`);
+    Notifications.show({ type: data.success ? 'success' : 'error', message: data.success ? 'Registration successful! Please login.' : `Registration failed: ${data.error || 'Unknown error'}` });
   },
 
   async setup2FA() {
     const data = await API.post('/api/setup_2fa');
-    if (!data.success) return await Modal.alert(`Error setting up 2FA: ${data.error}`);
+    if (!data.success) {
+      Notifications.show({ type: 'error', message: `Error setting up 2FA: ${data.error}` });
+      return;
+    }
 
     const blob = await (await fetch(`${API_BASE}/api/2fa_qrcode`, { headers: { 'Authorization': `Bearer ${state.token}` } })).blob();
     document.getElementById('2faQrCode').src = URL.createObjectURL(blob);
@@ -266,14 +311,22 @@ const Auth = {
   async enable2FA() {
     const code = document.getElementById('2faCode').value;
     const data = await API.post('/api/verify_2fa', { token: code });
-    if (data.success) await Modal.alert(`2FA enabled! Backup code: ${backupCode}`).then(() => location.reload());
-    else await Modal.alert('Failed to enable 2FA.');
+    if (data.success) {
+      Notifications.show({ type: 'success', message: `2FA enabled! Backup code: ${backupCode}` });
+      location.reload();
+    } else {
+      Notifications.show({ type: 'error', message: 'Failed to enable 2FA.' });
+    }
   },
 
   async disable2FA() {
     const data = await API.post('/api/disable_2fa');
-    if (data.success) await Modal.alert('2FA disabled!').then(() => location.reload());
-    else await Modal.alert('Failed to disable 2FA.');
+    if (data.success) {
+      Notifications.show({ type: 'success', message: '2FA disabled!' });
+      location.reload();
+    } else {
+      Notifications.show({ type: 'error', message: 'Failed to disable 2FA.' });
+    }
   },
 
   async deleteAccount() {
@@ -283,15 +336,23 @@ const Auth = {
     const data = await API.post('/api/delete_account');
     if (data.success) {
       localStorage.removeItem('token');
+      Notifications.show({ type: 'success', message: 'Account deleted successfully!' });
       location.reload();
-    } else await Modal.alert('Failed to delete account.');
+    } else {
+      Notifications.show({ type: 'error', message: 'Failed to delete account.' });
+    }
   },
 
   async redeemCreatorCode() {
     const code = await Modal.prompt('Enter code:');
     if (!code) return;
     const data = await API.post('/api/redeem_creator_code', { code });
-    await Modal.alert(data.success ? `Creator code redeemed! Extra tokens: ${data.extra_tokens} | Extra pets: ${data.extra_pets}` : 'Error redeeming creator code.');
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success
+        ? `Creator code redeemed! Extra tokens: ${data.extra_tokens} | Extra pets: ${data.extra_pets}`
+        : 'Error redeeming creator code.'
+    });
   },
 
   async sendTokens() {
@@ -300,7 +361,10 @@ const Auth = {
     const amount = await Modal.prompt('Enter amount:');
     if (!amount) return;
     const data = await API.post('/api/send_tokens', { recipient, amount });
-    await Modal.alert(data.success ? `Sent tokens!` : `Error sending tokens.`);
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Tokens sent successfully!' : 'Error sending tokens.'
+    });
   },
 
   async refreshAccount() {
@@ -567,9 +631,11 @@ const Inventory = {
     if (!await Modal.confirm('Are you sure you want to recycle this item?')) return;
 
     const data = await API.post('/api/recycle_item', { item_id: itemId });
-    await Modal.alert(data.success ? 'Recycled item!' : 'Failed to recycle item.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Item recycled successfully!' : 'Failed to recycle item.'
     });
+    if (data.success) Auth.refreshAccount();
   }
 };
 
@@ -664,10 +730,14 @@ const Market = {
     if (!await Modal.confirm('Are you sure you want to purchase this item?')) return;
 
     const data = await API.post('/api/buy_item', { item_id: itemId });
-    if (data.success) await Modal.alert('Item purchased!').then(() => {
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Item purchased successfully!' : 'Error purchasing item.'
+    });
+    if (data.success) {
       Auth.refreshAccount();
       this.refresh();
-    });
+    }
   }
 };
 
@@ -962,23 +1032,21 @@ const Company = {
 
   async hireWorker(companyId) {
     const data = await API.post('/api/hire_worker', { company_id: companyId });
-    if (data.success) {
-      await Modal.alert('Worker hired!');
-      this.refresh();
-    } else {
-      await Modal.alert(`Error: ${data.error}`);
-    }
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Worker hired successfully!' : `Error hiring worker: ${data.error}`
+    });
+    if (data.success) this.refresh();
   },
 
   async assignTask(companyId) {
     const taskName = document.getElementById('taskNameInput').value;
     const data = await API.post('/api/assign_task', { company_id: companyId, task_name: taskName });
-    if (data.success) {
-      await Modal.alert('Task assigned!');
-      this.refresh();
-    } else {
-      await Modal.alert(`Error: ${data.error}`);
-    }
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Task assigned successfully!' : `Error assigning task: ${data.error}`
+    });
+    if (data.success) this.refresh();
   },
 
   async startMinigameForTask(companyId, taskId) {
@@ -1036,6 +1104,11 @@ const Chat = {
       state.unreadMessages++;
       Sounds.notification.play();
       document.querySelector('[data-tab="chat"]').classList.add('new-messages');
+      Notifications.show({
+        type: 'normal',
+        message: `${message.username}: ${message.message}`,
+        duration: 5000,
+      });
     }
 
     if (message.type === 'system') {
@@ -1078,36 +1151,44 @@ const Chat = {
 const Admin = {
   async resetCooldown() {
     const data = await API.post('/api/reset_cooldowns');
-    await Modal.alert(data.success ? 'Cooldown reset!' : 'Error resetting cooldown.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Cooldown reset!' : 'Error resetting cooldown.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async editTokens(username = null) {
     const tokens = await Modal.prompt('Enter tokens:');
     if (!tokens) return;
     const data = await API.post('/api/edit_tokens', username ? { username, tokens: parseFloat(tokens) } : { tokens: parseFloat(tokens) });
-    await Modal.alert(data.success ? 'Tokens edited!' : 'Error editing tokens.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Tokens edited!' : 'Error editing tokens.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async editExp(username = null) {
     const exp = await Modal.prompt('Enter exp:');
     if (!exp) return;
     const data = await API.post('/api/edit_exp', username ? { username, exp: parseFloat(exp) } : { exp: parseFloat(exp) });
-    await Modal.alert(data.success ? 'Exp edited!' : 'Error editing exp.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Exp edited!' : 'Error editing exp.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async editLevel(username = null) {
     const level = await Modal.prompt('Enter level:');
     if (!level) return;
     const data = await API.post('/api/edit_level', username ? { username, level: parseFloat(level) } : { level: parseFloat(level) });
-    await Modal.alert(data.success ? 'Level edited!' : 'Error editing level.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Level edited!' : 'Error editing level.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async editItem(itemId) {
@@ -1115,71 +1196,87 @@ const Admin = {
     const newIcon = await Modal.prompt('Enter new icon (blank for no change):');
     const newRarity = await Modal.prompt('Enter new rarity (blank for no change):');
     const data = await API.post('/api/edit_item', { item_id: itemId, new_name: newName, new_icon: newIcon, new_rarity: newRarity });
-    await Modal.alert(data.success ? 'Item edited!' : 'Error editing item.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Item edited!' : 'Error editing item.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async deleteItem(itemId) {
     if (!await Modal.confirm('Are you sure you want to delete this item?')) return;
     const data = await API.post('/api/delete_item', { item_id: itemId });
-    await Modal.alert(data.success ? 'Item deleted!' : 'Error deleting item.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Item deleted!' : 'Error deleting item.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async addAdmin() {
     const username = await Modal.prompt('Enter username:');
     if (!username) return;
     const data = await API.post('/api/add_admin', { username });
-    await Modal.alert(data.success ? 'Admin added!' : 'Error adding admin.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Admin added!' : 'Error adding admin.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async removeAdmin() {
     const username = await Modal.prompt('Enter username:');
     if (!username) return;
     const data = await API.post('/api/remove_admin', { username });
-    await Modal.alert(data.success ? 'Admin removed!' : 'Error removing admin.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Admin removed!' : 'Error removing admin.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async addMod() {
     const username = await Modal.prompt('Enter username:');
     if (!username) return;
     const data = await API.post('/api/add_mod', { username });
-    await Modal.alert(data.success ? 'Mod added!' : 'Error adding mod.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Mod added!' : 'Error adding mod.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async removeMod() {
     const username = await Modal.prompt('Enter username:');
     if (!username) return;
     const data = await API.post('/api/remove_mod', { username });
-    await Modal.alert(data.success ? 'Mod removed!' : 'Error removing mod.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Mod removed!' : 'Error removing mod.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async addMedia() {
     const username = await Modal.prompt('Enter username:');
     if (!username) return;
     const data = await API.post('/api/add_media', { username });
-    await Modal.alert(data.success ? 'Media added!' : 'Error adding media.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Media added!' : 'Error adding media.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async removeMedia() {
     const username = await Modal.prompt('Enter username:');
     if (!username) return;
     const data = await API.post('/api/remove_media', { username });
-    await Modal.alert(data.success ? 'Media removed!' : 'Error removing media.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Media removed!' : 'Error removing media.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async banUser() {
@@ -1190,18 +1287,22 @@ const Admin = {
     const length = await Modal.prompt('Enter ban length (e.g., 1h, 1d, perma):');
     if (!length) return;
     const data = await API.post('/api/ban_user', { username, reason, length });
-    await Modal.alert(data.success ? 'User banned!' : 'Error banning user.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'User banned!' : 'Error banning user.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async unbanUser() {
     const username = await Modal.prompt('Enter username to unban:');
     if (!username) return;
     const data = await API.post('/api/unban_user', { username });
-    await Modal.alert(data.success ? 'User unbanned!' : 'Error unbanning user.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'User unbanned!' : 'Error unbanning user.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async muteUser() {
@@ -1210,18 +1311,22 @@ const Admin = {
     const length = await Modal.prompt('Enter mute length (e.g., 1h, 1d, perma):');
     if (!length) return;
     const data = await API.post('/api/mute_user', { username, length });
-    await Modal.alert(data.success ? 'User muted!' : 'Error muting user.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'User muted!' : 'Error muting user.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async unmuteUser() {
     const username = await Modal.prompt('Enter username to unmute:');
     if (!username) return;
     const data = await API.post('/api/unmute_user', { username });
-    await Modal.alert(data.success ? 'User unmuted!' : 'Error unmuting user.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'User unmuted!' : 'Error unmuting user.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async fineUser() {
@@ -1230,18 +1335,22 @@ const Admin = {
     const amount = await Modal.prompt('Enter fine amount:');
     if (!amount) return;
     const data = await API.post('/api/fine_user', { username, amount: parseFloat(amount) });
-    await Modal.alert(data.success ? 'User fined!' : 'Error fining user.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'User fined!' : 'Error fining user.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async setBanner() {
     const banner = await Modal.prompt('Enter banner:');
     if (!banner) return;
     const data = await API.post('/api/set_banner', { banner });
-    await Modal.alert(data.success ? 'Banner set!' : 'Error setting banner.').then(() => {
-      if (data.success) this.refreshBanner();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Banner set!' : 'Error setting banner.'
     });
+    if (data.success) this.refreshBanner();
   },
 
   async listUsers() {
@@ -1253,7 +1362,11 @@ const Admin = {
         p.innerText = username;
         container.appendChild(p);
       });
-      await Modal.alert(container.innerHTML);
+      Notifications.show({
+        type: 'normal',
+        message: container.innerHTML,
+        duration: 10000
+      });
     }
   },
 
@@ -1320,7 +1433,11 @@ const Admin = {
         p.innerText = username;
         container.appendChild(p);
       });
-      await Modal.alert(container.innerHTML);
+      Notifications.show({
+        type: 'normal',
+        message: container.innerHTML,
+        duration: 10000
+      });
     }
   },
 
@@ -1328,9 +1445,11 @@ const Admin = {
     const username = await Modal.prompt('Enter username to delete:');
     if (!username) return;
     const data = await API.post('/api/delete_user', { username });
-    await Modal.alert(data.success ? 'User deleted!' : 'Error deleting user.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'User deleted!' : 'Error deleting user.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async createCreatorCode() {
@@ -1343,9 +1462,11 @@ const Admin = {
 
     const data = await API.post('/api/create_creator_code', { code, tokens: extraTokens, pets: extraPets });
 
-    await Modal.alert(data.success ? 'Creator code created!' : 'Error creating creator code.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Creator code created!' : 'Error creating creator code.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async deleteCreatorCode() {
@@ -1353,9 +1474,11 @@ const Admin = {
     if (!code) return;
     if (!await Modal.confirm(`Are you sure you want to delete the creator code: ${code}?`)) return;
     const data = await API.post('/api/delete_creator_code', { code });
-    await Modal.alert(data.success ? 'Creator code deleted!' : 'Error deleting creator code.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Creator code deleted!' : 'Error deleting creator code.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async getCreatorCodes() {
@@ -1367,7 +1490,11 @@ const Admin = {
         p.innerText = `${code.code} (${code.tokens} tokens, ${code.pets} pets)`;
         container.appendChild(p);
       });
-      await Modal.alert(container.innerHTML);
+      Notifications.show({
+        type: 'normal',
+        message: container.innerHTML,
+        duration: 10000
+      });
     }
   },
 
@@ -1377,18 +1504,22 @@ const Admin = {
     const tokens = await Modal.prompt('Enter tokens:');
     if (!tokens) return;
     const data = await API.post('/api/set_company_tokens', { company, tokens });
-    await Modal.alert(data.success ? 'Company edited!' : 'Error editing company.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Company edited!' : 'Error editing company.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async restorePet() {
     const petId = await Modal.prompt('Enter pet ID:');
     if (!petId) return;
     const data = await API.post('/api/restore_pet', { pet_id: petId });
-    await Modal.alert(data.success ? 'Pet restored!' : 'Error restoring pet.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Pet restored!' : 'Error restoring pet.'
     });
+    if (data.success) Auth.refreshAccount();
   },
 
   async deleteCompany() {
@@ -1396,9 +1527,11 @@ const Admin = {
     if (!company) return;
     if (!await Modal.confirm(`Are you sure you want to delete the company?`)) return;
     const data = await API.post('/api/delete_company', { company_id: company });
-    await Modal.alert(data.success ? 'Company deleted!' : 'Error deleting company.').then(() => {
-      if (data.success) Auth.refreshAccount();
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Company deleted!' : 'Error deleting company.'
     });
+    if (data.success) Auth.refreshAccount();
   }
 };
 
