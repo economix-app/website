@@ -68,7 +68,7 @@
   --text: #657b83;
   --border: #93a1a1;
   --modal-bg: #eee8d5;
-  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow: rgba(0, 0, 0, .1);
   --system-message: #b58900;
   --admin-message: #cb4b16;
   --mod-message: #d33682;
@@ -1496,4 +1496,223 @@ a {
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#companyDashboard {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px var(--shadow);
+}
+
+#companyDashboard h2 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+#taskList {
+  list-style: none;
+  padding: 0;
+}
+
+#taskList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}
+
+#taskList button {
+  background-color: var(--success);
+  color: var(--text);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+#taskList button:hover {
+  background-color: var(--secondary);
+}
+
+.company-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px var(--shadow);
+}
+
+.company-dashboard h2 {
+  color: var(--primary);
+  text-align: center;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.task-item {
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-item .task-name {
+  font-weight: bold;
+  color: var(--text);
+}
+
+.task-item .task-actions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.task-item .task-actions .btn-complete {
+  background: var(--success);
+  color: #fff;
+}
+
+.task-item .task-actions .btn-complete:hover {
+  background: var(--secondary);
+}
+
+.task-item .task-actions .btn-sell {
+  background: var(--primary);
+  color: #fff;
+}
+
+.task-item .task-actions .btn-sell:hover {
+  background: var(--secondary);
+}
+
+/* Minigame Modal */
+.minigame-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.minigame-modal.active {
+  display: flex;
+}
+
+.minigame-content {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 6px var(--shadow);
+}
+
+.minigame-content h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.minigame-content button {
+  padding: 0.75rem 1.5rem;
+  background: var(--success);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.minigame-content button:hover {
+  background: var(--secondary);
+}
+
+.game-area {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 1rem auto;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.target {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+#scoreDisplay {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+#startGameButton,
+#finishGameButton {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--success);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#startGameButton:hover,
+#finishGameButton:hover {
+  background: var(--secondary);
+}
+
+.memory-box {
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+  display: inline-block;
+  background-color: lightgray;
+  border: 2px solid gray;
+  cursor: pointer;
+}
+
+.memory-box.box-0 {
+  background-color: red;
+}
+
+.memory-box.box-1 {
+  background-color: blue;
+}
+
+.memory-box.box-2 {
+  background-color: green;
+}
+
+.memory-box.box-3 {
+  background-color: yellow;
 }

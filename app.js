@@ -1652,3 +1652,298 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("taskNameInput").value = "";
   });
 });
+
+let gameInterval;
+let gameScore = 0;
+let gameTimeLeft = 30;
+
+function startMinigame() {
+  const modal = document.getElementById("minigameModal");
+  modal.classList.add("active");
+  resetGame();
+}
+
+function resetGame() {
+  gameScore = 0;
+  gameTimeLeft = 30;
+  document.getElementById("scoreDisplay").textContent = `Score: ${gameScore}`;
+  document.getElementById("startGameButton").style.display = "block";
+  document.getElementById("finishGameButton").style.display = "none";
+  document.getElementById("gameArea").innerHTML = "";
+  clearInterval(gameInterval);
+}
+
+function startGame() {
+  const selectedGame = document.getElementById("gameSelector").value;
+  document.getElementById("startGameButton").style.display = "none";
+  document.getElementById("finishGameButton").style.display = "block";
+
+  switch (selectedGame) {
+    case "clickTheTarget":
+      startClickTheTarget();
+      break;
+    case "mathQuiz":
+      startMathQuiz();
+      break;
+    case "memoryGame":
+      startMemoryGame();
+      break;
+    case "reactionTime":
+      startReactionTime();
+      break;
+    case "wordScramble":
+      startWordScramble();
+      break;
+  }
+}
+
+function completeMinigame(score) {
+  const modal = document.getElementById("minigameModal");
+  modal.classList.remove("active");
+  alert(`Task completed! You earned ${score * 10} tokens.`);
+  API.post("/api/complete_task", { score }).then(() => Auth.refreshAccount());
+}
+
+// Minigame 1: Click the Target
+function startClickTheTarget() {
+  const gameArea = document.getElementById("gameArea");
+  const target = document.createElement("div");
+  target.className = "target";
+  gameArea.appendChild(target);
+
+  target.onclick = () => {
+    gameScore++;
+    document.getElementById("scoreDisplay").textContent = `Score: ${gameScore}`;
+    moveTargetRandomly(target, gameArea);
+  };
+
+  moveTargetRandomly(target, gameArea);
+  startGameTimer();
+}
+
+function moveTargetRandomly(target, gameArea) {
+  const maxX = gameArea.offsetWidth - target.offsetWidth;
+  const maxY = gameArea.offsetHeight - target.offsetHeight;
+  target.style.left = `${Math.random() * maxX}px`;
+  target.style.top = `${Math.random() * maxY}px`;
+}
+
+// Minigame 2: Math Quiz
+function startMathQuiz() {
+  const gameArea = document.getElementById("gameArea");
+  const question = document.createElement("p");
+  const input = document.createElement("input");
+  const submit = document.createElement("button");
+
+  input.type = "number";
+  submit.textContent = "Submit";
+
+  gameArea.appendChild(question);
+  gameArea.appendChild(input);
+  gameArea.appendChild(submit);
+
+  generateMathQuestion(question, input, submit);
+  startGameTimer();
+}
+
+function generateMathQuestion(question, input, submit) {
+  const questionTypes = [
+    {
+      generate: () => {
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+        return {
+          text: `What is ${num1} + ${num2}?`,
+          answer: num1 + num2,
+        };
+      },
+    },
+    {
+      generate: () => {
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+        return {
+          text: `What is ${num1} - ${num2}?`,
+          answer: num1 - num2,
+        };
+      },
+    },
+    {
+      generate: () => {
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+        return {
+          text: `What is ${num1} × ${num2}?`,
+          answer: num1 * num2,
+        };
+      },
+    },
+    {
+      generate: () => {
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+        return {
+          text: `What is ${num1 * num2} ÷ ${num1}?`,
+          answer: num2,
+        };
+      },
+    },
+  ];
+
+  function generateQuestion() {
+    const randomType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+    return randomType.generate();
+  }
+
+  function askQuestion() {
+    const { text, answer } = generateQuestion();
+    question.textContent = text;
+    input.value = "";
+
+    submit.onclick = () => {
+      if (parseInt(input.value) === answer) {
+        gameScore++;
+        document.getElementById("scoreDisplay").textContent = `Score: ${gameScore}`;
+        askQuestion();
+      }
+    };
+  }
+
+  askQuestion();
+}
+
+// Minigame 3: Memory Game
+function startMemoryGame() {
+  const gameArea = document.getElementById("gameArea");
+  const sequence = [];
+  let userSequence = [];
+  let level = 1;
+
+  function generateSequence() {
+    sequence.push(Math.floor(Math.random() * 4));
+    displaySequence();
+  }
+
+  function displaySequence() {
+    gameArea.innerHTML = "";
+    sequence.forEach((num, index) => {
+      setTimeout(() => {
+        const box = document.createElement("div");
+        box.className = `memory-box box-${num}`;
+        gameArea.appendChild(box);
+        setTimeout(() => (box.style.backgroundColor = ""), 500);
+      }, index * 1000);
+    });
+
+    setTimeout(() => {
+      gameArea.innerHTML = "";
+      createMemoryBoxes();
+    }, sequence.length * 1000);
+  }
+
+  function createMemoryBoxes() {
+    for (let i = 0; i < 4; i++) {
+      const box = document.createElement("div");
+      box.className = `memory-box box-${i}`;
+      box.onclick = () => {
+        userSequence.push(i);
+        if (userSequence.length === sequence.length) {
+          if (JSON.stringify(userSequence) === JSON.stringify(sequence)) {
+            gameScore++;
+            document.getElementById("scoreDisplay").textContent = `Score: ${gameScore}`;
+            userSequence = [];
+            generateSequence();
+          } else {
+            alert("Game Over!");
+            resetGame();
+          }
+        }
+      };
+      gameArea.appendChild(box);
+    }
+  }
+
+  generateSequence();
+  startGameTimer();
+}
+
+// Minigame 4: Reaction Time
+function startReactionTime() {
+  const gameArea = document.getElementById("gameArea");
+  const message = document.createElement("p");
+  const button = document.createElement("button");
+
+  message.textContent = "Wait for the signal...";
+  button.textContent = "Click Me!";
+  button.disabled = true;
+
+  gameArea.appendChild(message);
+  gameArea.appendChild(button);
+
+  const delay = Math.random() * 3000 + 2000;
+  setTimeout(() => {
+    message.textContent = "Click now!";
+    button.disabled = false;
+    const startTime = Date.now();
+
+    button.onclick = () => {
+      const reactionTime = Date.now() - startTime;
+      gameScore += Math.max(0, 1000 - reactionTime) / 100;
+      document.getElementById("scoreDisplay").textContent = `Score: ${gameScore.toFixed(2)}`;
+      startReactionTime();
+    };
+  }, delay);
+}
+
+// Minigame 5: Word Scramble
+function startWordScramble() {
+  const gameArea = document.getElementById("gameArea");
+  const wordDisplay = document.createElement("p");
+  const input = document.createElement("input");
+  const submit = document.createElement("button");
+
+  input.type = "text";
+  submit.textContent = "Submit";
+
+  gameArea.appendChild(wordDisplay);
+  gameArea.appendChild(input);
+  gameArea.appendChild(submit);
+
+  const words = ["economy", "market", "trade", "tokens", "profit"];
+  let currentWord = "";
+
+  function scrambleWord(word) {
+    return word.split("").sort(() => Math.random() - 0.5).join("");
+  }
+
+  function generateWord() {
+    currentWord = words[Math.floor(Math.random() * words.length)];
+    wordDisplay.textContent = scrambleWord(currentWord);
+    input.value = "";
+  }
+
+  submit.onclick = () => {
+    if (input.value === currentWord) {
+      gameScore++;
+      document.getElementById("scoreDisplay").textContent = `Score: ${gameScore}`;
+      generateWord();
+    }
+  };
+
+  generateWord();
+  startGameTimer();
+}
+
+function startGameTimer() {
+  gameInterval = setInterval(() => {
+    gameTimeLeft--;
+    if (gameTimeLeft <= 0) {
+      clearInterval(gameInterval);
+      alert(`Game Over! Your final score is: ${gameScore}`);
+      completeMinigame(gameScore);
+    }
+  }, 1000);
+}
+
+// Event listener for starting the game
+document.getElementById("startGameButton").addEventListener("click", startGame);
