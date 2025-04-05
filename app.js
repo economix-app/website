@@ -963,10 +963,6 @@ const Pets = {
   }
 };
 
-// Remove company-related UI elements and logic
-document.querySelectorAll('[data-tab="company"]').forEach(tab => tab.remove());
-document.querySelectorAll('#tab-company').forEach(content => content.remove());
-
 // Chat Management
 const Chat = {
   async send() {
@@ -1384,19 +1380,6 @@ const Admin = {
     }
   },
 
-  async setCompanyTokens() {
-    const company = await Modal.prompt('Enter company name:');
-    if (!company) return;
-    const tokens = await Modal.prompt('Enter tokens:');
-    if (!tokens) return;
-    const data = await API.post('/api/set_company_tokens', { company, tokens });
-    Notifications.show({
-      type: data.success ? 'success' : 'error',
-      message: data.success ? 'Company edited!' : 'Error editing company.'
-    });
-    if (data.success) Auth.refreshAccount();
-  },
-
   async restorePet() {
     const petId = await Modal.prompt('Enter pet ID:');
     if (!petId) return;
@@ -1404,18 +1387,6 @@ const Admin = {
     Notifications.show({
       type: data.success ? 'success' : 'error',
       message: data.success ? 'Pet restored!' : 'Error restoring pet.'
-    });
-    if (data.success) Auth.refreshAccount();
-  },
-
-  async deleteCompany() {
-    const company = await Modal.prompt('Enter company ID:');
-    if (!company) return;
-    if (!await Modal.confirm(`Are you sure you want to delete the company?`)) return;
-    const data = await API.post('/api/delete_company', { company_id: company });
-    Notifications.show({
-      type: data.success ? 'success' : 'error',
-      message: data.success ? 'Company deleted!' : 'Error deleting company.'
     });
     if (data.success) Auth.refreshAccount();
   }
@@ -1548,7 +1519,6 @@ const initEventListeners = () => {
     getCreatorCodesAdmin: Admin.getCreatorCodes,
     setBannerAdmin: Admin.setBanner,
     editTokensAdmin: Admin.editTokens,
-    editCompanyTokensAdmin: Admin.setCompanyTokens,
     editExpAdmin: Admin.editExp,
     editLevelAdmin: Admin.editLevel,
     addAdminAdmin: Admin.addAdmin,
@@ -1564,7 +1534,6 @@ const initEventListeners = () => {
     fineUserAdmin: Admin.fineUser,
     deleteUserAdmin: Admin.deleteUser,
     restorePetAdmin: Admin.restorePet,
-    deleteCompanyAdmin: Admin.deleteCompany,
   };
   Object.keys(adminActions).forEach(id =>
     document.getElementById(id).addEventListener('click', adminActions[id])
@@ -1615,28 +1584,6 @@ const initEventListeners = () => {
     e.preventDefault();
     emojiPicker.classList.toggle('show');
   });
-
-  // Event Listeners for Company Management
-  document.getElementById('createCompany').onsubmit = async (e) => {
-    e.preventDefault();
-    await Company.create();
-  };
-
-  document.getElementById('hireWorkerButton').onclick = async () => {
-    const company = await API.get('/api/get_company');
-    await Company.hireWorker(company.company.id);
-  };
-
-  document.getElementById('assignTaskForm').onsubmit = async (e) => {
-    e.preventDefault();
-    const company = await API.get('/api/get_company');
-    await Company.assignTask(company.company.id);
-  };
-
-  // Initialize Company Tab
-  UI.showCompanyManagement = () => {
-    Company.refresh();
-  };
 };
 
 
@@ -1658,7 +1605,6 @@ const init = async () => {
     Chat.refresh();
     Admin.refreshLeaderboard();
     Market.refresh();
-    Company.refresh();
   }, 1000);
 
   initEventListeners();
@@ -1819,7 +1765,6 @@ function startMemoryGame() {
   const gameArea = document.getElementById("gameArea");
   const sequence = [];
   let userSequence = [];
-  let level = 1;
 
   function generateSequence() {
     sequence.push(Math.floor(Math.random() * 4));
