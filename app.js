@@ -824,7 +824,7 @@ const Casino = {
     spinResult.textContent = 'Spinning...';
     spinResult.style.display = 'block';
 
-    const data = await fetch('/api/daily_free_spin', { method: 'POST' }).then(res => res.json());
+    const data = await API.post('/api/daily_free_spin');
 
     setTimeout(() => {
       spinWheel.style.animation = '';
