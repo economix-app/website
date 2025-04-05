@@ -1110,9 +1110,33 @@ a {
 
 .radio-group {
   display: flex;
-  justify-content: center;
   gap: 1rem;
-  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.radio-group label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--card-bg);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.radio-group input[type="radio"]:checked + label {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.radio-group label:hover {
+  background: var(--secondary);
+  color: #fff;
+  border-color: var(--secondary);
 }
 
 #diceBetAmount {
