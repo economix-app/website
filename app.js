@@ -131,7 +131,6 @@ const Modal = {
 // UI Utilities
 const UI = {
   switchTab(tabName) {
-    Sounds.tabSwitch.play();
     const chatTab = document.querySelector('[data-tab="chat"]');
     state.isChatFocused = tabName === 'chat';
     if (state.isChatFocused) {
@@ -1012,7 +1011,6 @@ const Chat = {
 
     const data = await API.post('/api/send_message', { message });
     if (data.success) {
-      Sounds.messageSend.play();
       this.refresh();
     } else {
       Sounds.error.play();
@@ -1409,9 +1407,7 @@ const ServerStatus = {
 
 // Sound Effects
 const Sounds = {
-  tabSwitch: new Audio('sounds/tab-switch.mp3'),
   itemCreate: new Audio('sounds/item-create.mp3'),
-  messageSend: new Audio('sounds/message-send.mp3'),
   error: new Audio('sounds/error.mp3'),
   success: new Audio('sounds/success.mp3'),
   notification: new Audio('sounds/notification.mp3'),
