@@ -180,8 +180,6 @@
           <button class="tab" data-tab="inventory">📦 Inventory</button>
           <button class="tab" data-tab="market">🛒 Market</button>
           <button class="tab" data-tab="casino">🎰 Casino</button>
-          <button class="tab" data-tab="pets">🐾 Pets</button>
-          <button class="tab" data-tab="company">🏢 Company</button>
           <button class="tab chat-tab-button" data-tab="chat">💬 Chat</button>
           <button class="tab" data-tab="leaderboard">🏆 Leaderboard</button>
           <button class="tab" data-tab="settings">⚙️ Settings</button>
@@ -376,56 +374,6 @@
                     🐾 Random Pet (100 tokens)
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Company Tab -->
-          <div class="tab-content" id="tab-company">
-            <div id="createCompanyForm" style="display: none;">
-              <h2>Create a Company</h2>
-              <form id="createCompany">
-                <input type="text" id="companyNameInput" placeholder="Company Name" required />
-                <select id="companyTypeSelect">
-                  <option value="Tech Startup">Tech Startup</option>
-                  <option value="Manufacturing Plant">Manufacturing Plant</option>
-                  <option value="Accounting Firm">Accounting Firm</option>
-                </select>
-                <button type="submit">Create</button>
-              </form>
-            </div>
-
-            <div id="companyDashboard" style="display: none;">
-              <h2>Company Dashboard</h2>
-              <p>Name: <span id="companyName"></span></p>
-              <p>Type: <span id="companyType"></span></p>
-              <p>Workers: <span id="workerCount"></span></p>
-              <button id="hireWorkerButton" class="btn btn-primary animated-btn">Hire Worker</button>
-              <h3>Tasks</h3>
-              <ul id="taskList" class="animated-list">
-                <!-- Task items will be dynamically inserted here -->
-              </ul>
-              <form id="assignTaskForm">
-                <input type="text" id="taskNameInput" placeholder="Task Name" required />
-                <button type="submit" class="btn btn-success animated-btn">Assign Task</button>
-              </form>
-            </div>
-
-            <div class="minigame-modal" id="minigameModal">
-              <div class="minigame-content">
-                <h3>Complete the Task!</h3>
-                <p>Select a game and complete the challenge to earn rewards!</p>
-                <select id="gameSelector">
-                  <option value="clickTheTarget">Click the Target</option>
-                  <option value="mathQuiz">Math Quiz</option>
-                  <option value="memoryGame">Memory Game</option>
-                  <option value="reactionTime">Reaction Time</option>
-                  <option value="wordScramble">Word Scramble</option>
-                </select>
-                <div id="gameArea" class="game-area"></div>
-                <p id="scoreDisplay">Score: 0</p>
-                <p id="timeLeftDisplay"></p>
-                <button id="startGameButton">Start Game</button>
               </div>
             </div>
           </div>
