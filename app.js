@@ -26,7 +26,6 @@ class AppState {
     this.marketItems = [];
     this.unreadMessages = 0;
     this.isChatFocused = true;
-    this.soundEnabled = true;
     this.typingUsers = [];
     this.onlineUsers = [];
 
@@ -45,8 +44,6 @@ class AppState {
       priceMax: '',
       seller: ''
     };
-
-    this.messageSound = new Audio('notification.mp3');
   }
 }
 
@@ -1041,7 +1038,7 @@ const Chat = {
 
     if (!state.isChatFocused) {
       state.unreadMessages++;
-      if (state.soundEnabled) state.messageSound.play();
+      Sounds.notification.play();
       document.querySelector('[data-tab="chat"]').classList.add('new-messages');
     }
 
@@ -1418,6 +1415,7 @@ const Sounds = {
   messageSend: new Audio('sounds/message-send.mp3'),
   error: new Audio('sounds/error.mp3'),
   success: new Audio('sounds/success.mp3'),
+  notification: new Audio('sounds/notification.mp3'),
 };
 
 const TypingIndicator = {
