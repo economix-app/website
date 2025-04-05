@@ -771,11 +771,11 @@ const Pets = {
         <div class="pet-status">
           <div class="status-bar hunger">
             <div class="status-fill" style="width: ${pet.hunger}%"></div>
-            <span class="status-text">${this.getHungerText(pet.hunger)}</span>
+            <span class="status-text">Hunger Level: ${this.getHungerText(pet.hunger)}</span>
           </div>
           <div class="status-bar happiness">
             <div class="status-fill" style="width: ${pet.happiness}%"></div>
-            <span class="status-text">${this.getHappinessText(pet.happiness)}</span>
+            <span class="status-text">Happiness Level: ${this.getHappinessText(pet.happiness)}</span>
           </div>
         </div>
         <div class="pet-actions">
