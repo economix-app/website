@@ -1372,6 +1372,16 @@ const Admin = {
     await Modal.alert(data.success ? 'Pet restored!' : 'Error restoring pet.').then(() => {
       if (data.success) Auth.refreshAccount();
     });
+  },
+
+  async deleteCompany() {
+    const company = await Modal.prompt('Enter company ID:');
+    if (!company) return;
+    if (!await Modal.confirm(`Are you sure you want to delete the company?`)) return;
+    const data = await API.post('/api/delete_company', { company_id: company });
+    await Modal.alert(data.success ? 'Company deleted!' : 'Error deleting company.').then(() => {
+      if (data.success) Auth.refreshAccount();
+    });
   }
 };
 
@@ -1514,6 +1524,7 @@ const initEventListeners = () => {
     fineUserAdmin: Admin.fineUser,
     deleteUserAdmin: Admin.deleteUser,
     restorePetAdmin: Admin.restorePet,
+    deleteCompanyAdmin: Admin.deleteCompany,
   };
   Object.keys(adminActions).forEach(id =>
     document.getElementById(id).addEventListener('click', adminActions[id])
