@@ -1104,11 +1104,6 @@ const Chat = {
       state.unreadMessages++;
       Sounds.notification.play();
       document.querySelector('[data-tab="chat"]').classList.add('new-messages');
-      Notifications.show({
-        type: 'normal',
-        message: `${message.username}: ${message.message}`,
-        duration: 5000,
-      });
     }
 
     if (message.type === 'system') {
@@ -1362,11 +1357,7 @@ const Admin = {
         p.innerText = username;
         container.appendChild(p);
       });
-      Notifications.show({
-        type: 'normal',
-        message: container.innerHTML,
-        duration: 10000
-      });
+      Modal.alert(container.innerHTML);
     }
   },
 
@@ -1433,11 +1424,7 @@ const Admin = {
         p.innerText = username;
         container.appendChild(p);
       });
-      Notifications.show({
-        type: 'normal',
-        message: container.innerHTML,
-        duration: 10000
-      });
+      Modal.alert(container.innerHTML);
     }
   },
 
