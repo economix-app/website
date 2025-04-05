@@ -1500,7 +1500,7 @@ const Auction = {
       li.innerHTML = `
         ${name} (${auction.itemRarity.rarity} ${auction.itemRarity.level}) - Current Bid: ${auction.currentBid} tokens
         <button class="btn btn-primary" onclick="Auction.placeBid('${auction.itemId}')">Bid</button>
-        ${(auction.owner === state.account.username) ? `<button class="btn btn-danger" onclick="Auction.closeAuction('${auction.itemId}')">Close</button>` : ''}
+        ${(state.account.username === auction.owner) ? `<button class="btn btn-danger" onclick="Auction.stopAuction('${auction.itemId}')">Stop Auction</button>` : ''}
       `;
       auctionList.appendChild(li);
     });
@@ -1548,12 +1548,12 @@ const Auction = {
     }
   },
 
-  async closeAuction(itemId) {
-    const response = await API.post('/api/close_auction', { itemId });
+  async stopAuction(itemId) {
+    const response = await API.post('/api/stop_auction', { itemId });
     if (response.success) {
       Notifications.show({
         type: 'success',
-        message: 'Auction closed successfully!',
+        message: 'Auction stopped successfully!',
         duration: 5000
       });
       Sounds.success.play();
@@ -1561,7 +1561,7 @@ const Auction = {
     } else {
       Notifications.show({
         type: 'error',
-        message: response.error || 'Failed to close auction.',
+        message: response.error || 'Failed to stop auction.',
         duration: 5000
       });
       Sounds.error.play();
