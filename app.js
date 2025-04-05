@@ -771,6 +771,22 @@ const Casino = {
     }, CASINO_ANIMATION_DURATION);
   },
 
+  animateDiceRoll(result, won, betAmount, winnings) {
+    const resultEl = document.getElementById('diceResult');
+    resultEl.textContent = 'Rolling dice...';
+
+    setTimeout(() => {
+      resultEl.textContent = `Result: ${result}! You ${won ? 'won' : 'lost'}! ${won ? `Winnings: ${winnings} tokens` : `Lost: ${betAmount} tokens`}`;
+      if (won) {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    }, CASINO_ANIMATION_DURATION);
+  },
+
   async rollDice() {
     const betAmount = parseFloat(document.getElementById('diceBetAmount').value);
     const selectedNumber = document.querySelector('input[name="dice-number"]:checked');
@@ -796,22 +812,6 @@ const Casino = {
     // Animate and display result
     this.animateDiceRoll(data.result, data.won, betAmount, data.winnings);
     Auth.refreshAccount(); // Update user's token display
-  },
-
-  animateDiceRoll(result, won, betAmount, winnings) {
-    const resultEl = document.getElementById('diceResult');
-    resultEl.textContent = 'Rolling dice...';
-
-    setTimeout(() => {
-      resultEl.textContent = `Result: ${result}! You ${won ? 'won' : 'lost'}! ${won ? `Winnings: ${winnings} tokens` : `Lost: ${betAmount} tokens`}`;
-      if (won) {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
-      }
-    }, CASINO_ANIMATION_DURATION);
   }
 };
 
