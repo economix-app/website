@@ -398,6 +398,10 @@ const Auth = {
     document.getElementById('level').textContent = data.level;
     document.getElementById('usernameDisplay').textContent = data.username;
 
+    if (data.plan == "pro" || data.plan == "proplus") {
+      document.getElementById('usernameDisplay').classList.add('gold-text');
+    }
+
     const roleDisplay = document.getElementById('roleDisplay');
     const adminTab = document.getElementById('adminDashboardTabButton');
     const modTab = document.getElementById('modDashboardTabButton');
@@ -1042,25 +1046,13 @@ const Chat = {
       document.querySelector('[data-tab="chat"]').classList.add('new-messages');
     }
 
-    if (message.type === 'system') {
-      messagePrefix = '⚙️';
-    } else if (message.type === 'admin') {
-      messagePrefix = '🛠️';
-    } else if (message.type === 'mod') {
-      messagePrefix = '🛡️';
-    } else if (message.type === 'media') {
-      messagePrefix = '🎥';
-    } else if (message.type === 'msg') {
-      messagePrefix = '💬';
-    } else {
-      messagePrefix = '';
-    }
+    const messagePrefix = message.badges ? message.badges.join(' ') : '';
 
     const messageEl = document.createElement('div');
     messageEl.className = `message ${type} ${isOwn ? 'own-message' : ''}`;
     messageEl.innerHTML = `
             <div class="message-header">
-                <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
+                <span class="message-sender ${type} ${(message.username_colour === "gold") ? "gold-text" : ""}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
                     ${messagePrefix} ${message.username}
                 </span>
                 <span class="message-time">${UI.formatTime(message.timestamp)}</span>

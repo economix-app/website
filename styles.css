@@ -1842,3 +1842,11 @@ a {
   border: 1px solid var(--border);
   box-shadow: 0 2px 4px var(--shadow);
 }
+
+.gold-text {
+  background: linear-gradient(to bottom, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #fff;
+}
