@@ -1033,22 +1033,23 @@ const Chat = {
   },
 
   switchRoom(roomName) {
-    const userPlan = state.account.plan || 'free';
-    const userType = state.account.type;
+    const { plan = 'free', type } = state.account;
 
-    if (roomName === 'exclusive' && !['pro', 'proplus'].includes(userPlan) && userType !== 'admin') {
-      Modal.alert('Access denied: Exclusive chat is only for PRO, PRO+, and Admins.');
-      return;
+    const accessDeniedMessages = {
+      exclusive: 'Access denied: Exclusive chat is only for PRO, PRO+, and Admins.',
+      staff: 'Access denied: Staff chat is only for Mods and Admins.',
+    };
+
+    if (roomName === 'exclusive' && !['pro', 'proplus'].includes(plan) && type !== 'admin') {
+      return Modal.alert(accessDeniedMessages.exclusive);
     }
 
-    if (roomName === 'staff' && !['mod', 'admin'].includes(userType)) {
-      Modal.alert('Access denied: Staff chat is only for Mods and Admins.');
-      return;
+    if (roomName === 'staff' && !['mod', 'admin'].includes(type)) {
+      return Modal.alert(accessDeniedMessages.staff);
     }
 
-    if (roomName !== 'global') {
-      Modal.alert('Invalid room name. Please choose a valid room.');
-      return;
+    if (!['global', 'exclusive', 'staff'].includes(roomName)) {
+      return Modal.alert('Invalid room name. Please choose a valid room.');
     }
 
     state.currentRoom = roomName;
