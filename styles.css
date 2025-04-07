@@ -591,6 +591,7 @@ a {
 /* Highlighted Elements */
 .highlight {
   border: 1px solid var(--primary);
+  border-radius: 3px;
 }
 
 /* Chat Tabs */
