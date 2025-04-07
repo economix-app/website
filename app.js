@@ -228,12 +228,7 @@ const API = {
       };
       const response = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
 
-      if (!response.ok) {
-        return { error: await response.json().error || `API error: ${response.status} - ${response.statusText}`, success: false };
-      }
-
-      let json = await response.json();
-      return { ...json, success: true };
+      return { ...json, success: response.ok };
     } catch (err) {
       return { error: err.message, success: false };
     }
