@@ -1479,7 +1479,7 @@ const Admin = {
     const response = await API.post('/api/handle_report', { reportId, action, duration, reason });
     if (response.success) {
       Notifications.show({ type: 'success', message: 'Action completed successfully!' });
-      fetchReports();
+      this.fetchReports();
     } else {
       Notifications.show({ type: 'error', message: response.error || 'Failed to complete action.' });
     }
