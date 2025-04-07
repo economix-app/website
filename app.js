@@ -1443,12 +1443,10 @@ const Admin = {
 
   async fetchReports() {
     const reports = await API.get('/api/reports');
-    console.log('Fetched reports:', reports);
-    console.log('Typeof reports:', typeof reports);
     const container = document.getElementById('reportsContainer');
     container.innerHTML = '';
 
-    if (!reports.length) {
+    if (!reports || !Array.isArray(reports) || reports.length === 0) {
       container.innerHTML = '<p>No reports available.</p>';
       return;
     }
