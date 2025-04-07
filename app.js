@@ -396,7 +396,7 @@ const Auth = {
   updateAccountUI(data) {
     document.getElementById('tokens').textContent = data.tokens;
     document.getElementById('level').textContent = data.level;
-    document.getElementById('usernameDisplay').innerHTML = `${data.plan === "proplus" ? "🌟" : (data.plan === "pro" ? "⭐️": "")} <span id="usernameDisplayText">${data.username}</span>`;
+    document.getElementById('usernameDisplay').innerHTML = `${data.plan === "proplus" ? "🌟" : (data.plan === "pro" ? "⭐️" : "")} <span id="usernameDisplayText">${data.username}</span>`;
 
     if (data.plan == "pro" || data.plan == "proplus") {
       document.getElementById('usernameDisplayText').classList.add('gold-text');
@@ -675,6 +675,10 @@ const Market = {
     pagedItems.forEach(item => {
       const li = document.createElement('li');
       li.className = 'market-item';
+      const ownerPlan = item.ownerPlan || 'free'; // Assume 'free' if no plan info
+      const ownerDisplay = ownerPlan === 'proplus' ? `🌟 <span class="gold-text">${item.owner}</span>` :
+        ownerPlan === 'pro' ? `⭐️ <span class="gold-text">${item.owner}</span>` :
+          item.owner;
       li.innerHTML = `
                 <div class="item-header">
                     <span class="item-icon">${item.name.icon}</span>
@@ -683,7 +687,7 @@ const Market = {
                 <div class="item-details">
                     <span class="item-level">⚔️ ${item.rarity} ${item.level}</span>
                     <span class="item-price">💰 ${item.price} tokens</span>
-                    <span class="item-seller">👤 ${item.owner}</span>
+                    <span class="item-seller">👤 ${ownerDisplay}</span>
                 </div>
             `;
 
@@ -1297,9 +1301,13 @@ const Admin = {
       data.leaderboard.forEach(user => {
         const div = document.createElement('div');
         if (user.username === state.account.username) div.classList.add('highlight');
+        const userPlan = user.plan || 'free'; // Assume 'free' if no plan info
+        const userDisplay = userPlan === 'proplus' ? `🌟 <span class="gold-text">${user.username}</span>` :
+          userPlan === 'pro' ? `⭐️ <span class="gold-text">${user.username}</span>` :
+            user.username;
         div.innerHTML = `
   ${user.place <= 3 ? ['🥇', '🥈', '🥉'][user.place - 1] : '🏅'} 
-  ${user.place}: ${user.username} 
+  ${user.place}: ${userDisplay} 
   <span class="tokens-badge">${user.tokens} tokens</span>
 `;
         leaderboard.appendChild(div);
