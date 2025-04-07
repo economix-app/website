@@ -396,6 +396,7 @@ const Auth = {
   updateAccountUI(data) {
     document.getElementById('tokens').textContent = data.tokens;
     document.getElementById('level').textContent = data.level;
+    document.getElementById('expText').textContent = `${data.exp}/${expForLevel(data.level + 1)} EXP`;
     document.getElementById('usernameDisplay').innerHTML = `${data.plan === "proplus" ? "🌟" : (data.plan === "pro" ? "⭐️" : "")} <span id="usernameDisplayText">${data.username}</span>`;
 
     if (data.plan == "pro" || data.plan == "proplus") {
