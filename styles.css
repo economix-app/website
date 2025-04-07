@@ -1853,22 +1853,3 @@ button>a {
   text-decoration: none;
   color: #fff;
 }
-
-#chatControls {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-#chatControls button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 0.25rem;
-  background-color: var(--primary);
-  color: #fff;
-  cursor: pointer;
-}
-
-#chatControls button:hover {
-  background-color: var(--primary-dark);
-}
