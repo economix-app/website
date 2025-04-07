@@ -1022,13 +1022,35 @@ const Chat = {
   },
 
   async refresh() {
-    const data = await API.get('/api/get_messages?room=global');
+    const data = await API.get('/api/get_messages?room=' + state.currentRoom || 'global');
     if (!data.messages || data.messages.length === state.globalMessages.length) return;
 
     const container = document.getElementById('globalMessages');
     container.innerHTML = '';
     data.messages.forEach(msg => this.append(msg));
     state.globalMessages = data.messages;
+  },
+
+  switchRoom(roomName) {
+    const userPlan = state.account.plan || 'free';
+    const userType = state.account.type;
+    if (roomName === 'exclusive' && !['pro', 'proplus'].includes(userPlan) && userType !== 'admin') {
+      Modal.alert('Access denied: Exclusive chat is only for PRO, PRO+, and Admins.');
+      return;
+    }
+
+    if (roomName === 'staff' && !['mod', 'admin'].includes(userType)) {
+      Modal.alert('Access denied: Staff chat is only for Mods and Admins.');
+      return;
+    }
+
+    else if (roomName !== 'global') {
+      Modal.alert('Invalid room name. Please choose a valid room.');
+    }
+
+    state.currentRoom = roomName;
+    this.refresh();
+    Notifications.show({ type: 'success', message: `Switched to ${roomName} chat.` });
   },
 
   append(message) {
@@ -1801,6 +1823,10 @@ const initEventListeners = () => {
       Notifications.show({ type: 'error', message: response.error || 'Failed to submit report.' });
     }
   });
+
+  document.getElementById('switchToGlobal').addEventListener('click', () => Chat.switchRoom('global'));
+  document.getElementById('switchToExclusive').addEventListener('click', () => Chat.switchRoom('exclusive'));
+  document.getElementById('switchToStaff').addEventListener('click', () => Chat.switchRoom('staff'));
 };
 
 
