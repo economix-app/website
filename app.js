@@ -1454,24 +1454,13 @@ const Admin = {
         <p><strong>Reported User:</strong> ${report.username}</p>
         <p><strong>Comment:</strong> ${report.comment}</p>
         <p><strong>Submitted By:</strong> ${report.reportedBy}</p>
-        <button class="btn-ban" data-id="${report.id}">Ban</button>
-        <button class="btn-mute" data-id="${report.id}">Mute</button>
-        <button class="btn-cancel" data-id="${report.id}">Cancel</button>
+        <button class="btn btn-danger" onclick="Admin.handleReportAction(${report.id}, 'ban')">Ban</button>
+        <button class="btn btn-danger" onclick="Admin.handleReportAction(${report.id}, 'mute')">Mute</button>
+        <button class="btn btn-secondary" onclick="Admin.handleReportAction(${report.id}, 'cancel')">Cancel</button>
       `;
 
       container.appendChild(reportDiv);
     });
-
-    // Add event listeners for actions
-    document.querySelectorAll('.btn-ban').forEach((btn) =>
-      btn.addEventListener('click', () => this.handleReportAction(btn.dataset.id, 'ban'))
-    );
-    document.querySelectorAll('.btn-mute').forEach((btn) =>
-      btn.addEventListener('click', () => this.handleReportAction(btn.dataset.id, 'mute'))
-    );
-    document.querySelectorAll('.btn-cancel').forEach((btn) =>
-      btn.addEventListener('click', () => this.handleReportAction(btn.dataset.id, 'cancel'))
-    );
   },
 
   async handleReportAction(reportId, action) {
