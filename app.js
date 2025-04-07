@@ -1443,6 +1443,7 @@ const Admin = {
 
   async fetchReports() {
     const reports = await API.get('/api/reports');
+    console.log('Fetched reports:', reports);
     const container = document.getElementById('reportsContainer');
     container.innerHTML = '';
 
