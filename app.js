@@ -1052,8 +1052,8 @@ const Chat = {
     messageEl.className = `message ${type} ${isOwn ? 'own-message' : ''}`;
     messageEl.innerHTML = `
             <div class="message-header">
-                <span class="message-sender ${type} ${(message.username_colour === "gold") ? "gold-text" : ""}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
-                    ${messagePrefix} ${message.username}
+                <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
+                    ${messagePrefix} <span class="${(message.username_colour === "gold") ? "gold-text" : ""}"${message.username}</span>
                 </span>
                 <span class="message-time">${UI.formatTime(message.timestamp)}</span>
             </div>
