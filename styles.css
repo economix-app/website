@@ -590,20 +590,7 @@ a {
 
 /* Highlighted Elements */
 .highlight {
-  position: relative;
-  padding-right: 1.5rem;
-}
-
-.highlight::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0.75rem;
-  height: 0.75rem;
-  background: var(--primary);
-  border-radius: 50%;
+  border: 1px solid var(--primary);
 }
 
 /* Chat Tabs */
