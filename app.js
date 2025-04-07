@@ -1439,6 +1439,65 @@ const Admin = {
       message: data.success ? 'Auction deleted!' : 'Error deleting auction.'
     });
     if (data.success) Auth.refreshAccount();
+  },
+
+  async fetchReports() {
+    const reports = await API.get('/api/reports');
+    const container = document.getElementById('reportsContainer');
+    container.innerHTML = '';
+
+    if (!reports.length) {
+      container.innerHTML = '<p>No reports available.</p>';
+      return;
+    }
+
+    reports.forEach((report) => {
+      const reportDiv = document.createElement('div');
+      reportDiv.className = 'report';
+      reportDiv.innerHTML = `
+        <p><strong>Reported User:</strong> ${report.username}</p>
+        <p><strong>Comment:</strong> ${report.comment}</p>
+        <p><strong>Submitted By:</strong> ${report.reportedBy}</p>
+        <button class="btn-ban" data-id="${report.id}">Ban</button>
+        <button class="btn-mute" data-id="${report.id}">Mute</button>
+        <button class="btn-cancel" data-id="${report.id}">Cancel</button>
+      `;
+
+      container.appendChild(reportDiv);
+    });
+
+    // Add event listeners for actions
+    document.querySelectorAll('.btn-ban').forEach((btn) =>
+      btn.addEventListener('click', () => this.handleReportAction(btn.dataset.id, 'ban'))
+    );
+    document.querySelectorAll('.btn-mute').forEach((btn) =>
+      btn.addEventListener('click', () => this.handleReportAction(btn.dataset.id, 'mute'))
+    );
+    document.querySelectorAll('.btn-cancel').forEach((btn) =>
+      btn.addEventListener('click', () => this.handleReportAction(btn.dataset.id, 'cancel'))
+    );
+  },
+
+  async handleReportAction(reportId, action) {
+    let duration = null;
+    let reason = null;
+
+    if (action === 'ban' || action === 'mute') {
+      duration = await Modal.prompt('Enter duration (e.g., 1h, 1d):');
+      if (!duration) return;
+    }
+    if (action === 'ban') {
+      reason = await Modal.prompt('Enter reason for ban:');
+      if (!reason) return;
+    }
+
+    const response = await API.post('/api/handle_report', { reportId, action, duration, reason });
+    if (response.success) {
+      Notifications.show({ type: 'success', message: 'Action completed successfully!' });
+      fetchReports();
+    } else {
+      Notifications.show({ type: 'error', message: response.error || 'Failed to complete action.' });
+    }
   }
 };
 
@@ -1720,6 +1779,23 @@ const initEventListeners = () => {
     e.preventDefault();
     emojiPicker.classList.toggle('show');
   });
+
+  // Report User Form Submission
+  document.getElementById('reportUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('reportUsername').value.trim();
+    const comment = document.getElementById('reportComment').value.trim();
+
+    if (!username || !comment) return;
+
+    const response = await API.post('/api/report_user', { username, comment });
+    if (response.success) {
+      Notifications.show({ type: 'success', message: 'Report submitted successfully!' });
+      document.getElementById('reportUserForm').reset();
+    } else {
+      Notifications.show({ type: 'error', message: response.error || 'Failed to submit report.' });
+    }
+  });
 };
 
 
@@ -1742,6 +1818,7 @@ const init = async () => {
     Admin.refreshLeaderboard();
     Market.refresh();
     Auction.fetchAuctions();
+    if (state.account.type === 'admin') Admin.fetchReports();
   }, 1000);
 
   initEventListeners();

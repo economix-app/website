@@ -227,6 +227,8 @@
                 <button class="btn btn-primary" id="deleteUserAdmin">🗑️ Delete User</button>
                 <button class="btn btn-primary" id="restorePetAdmin">🐾 Restore Pet</button>
               </div>
+              <h3>User Reports</h3>
+              <div id="reportsContainer"></div>
             </div>
           </div>
 
@@ -444,6 +446,15 @@
                   <option value="tokyonight">Tokyo Night</option>
                 </select>
               </div>
+              <h3>Report a User</h3>
+              <p>By reporting a user, you confirm your report was submitted sincerely. You may be punished for false reports.</p>
+              <form id="reportUserForm">
+                <label for="reportUsername">Username:</label>
+                <input type="text" id="reportUsername" required />
+                <label for="reportComment">Comment:</label>
+                <textarea id="reportComment" required></textarea>
+                <button type="submit">Submit Report</button>
+              </form>
             </div>
           </div>
         </div>

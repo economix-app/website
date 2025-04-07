@@ -1833,3 +1833,13 @@ a {
 .daily-free-spin button:hover {
   background: var(--secondary);
 }
+
+/* Report Styling */
+.report {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 4px var(--shadow);
+}
