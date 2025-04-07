@@ -1446,11 +1446,6 @@ const Admin = {
     const container = document.getElementById('reportsContainer');
     container.innerHTML = '';
 
-    if (!reports || !Array.isArray(reports) || reports.length === 0) {
-      container.innerHTML = '<p>No reports available.</p>';
-      return;
-    }
-
     reports.forEach((report) => {
       const reportDiv = document.createElement('div');
       reportDiv.className = 'report';
