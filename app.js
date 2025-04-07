@@ -1013,7 +1013,7 @@ const Chat = {
 
     document.getElementById('messageInput').value = '';
 
-    const data = await API.post('/api/send_message', { message });
+    const data = await API.post('/api/send_message', { room: state.currentRoom, message });
     if (data.success) {
       this.refresh();
     } else {
