@@ -1442,11 +1442,12 @@ const Admin = {
   },
 
   async fetchReports() {
-    const reports = await API.get('/api/reports').reports;
+    const data = await API.get('/api/reports');
+    const reports = data.reports || [];
     const container = document.getElementById('reportsContainer');
     container.innerHTML = '';
 
-    reports.forEach((report) => {
+    reports.forEach(report => {
       const reportDiv = document.createElement('div');
       reportDiv.className = 'report';
       reportDiv.innerHTML = `
