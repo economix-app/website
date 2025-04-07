@@ -1848,3 +1848,8 @@ a {
   -webkit-text-fill-color: transparent;
   color: #fff;
 }
+
+button > a {
+  text-decoration: none;
+  color: #fff;
+}
