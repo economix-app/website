@@ -26,7 +26,7 @@ class AppState {
     this.isChatFocused = true;
     this.typingUsers = [];
     this.onlineUsers = [];
-    this.currentRoom = 'general';
+    this.currentRoom = 'global';
 
     // Inventory Filters
     this.inventoryFilters = {
