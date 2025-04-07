@@ -1035,6 +1035,7 @@ const Chat = {
   switchRoom(roomName) {
     const userPlan = state.account.plan || 'free';
     const userType = state.account.type;
+
     if (roomName === 'exclusive' && !['pro', 'proplus'].includes(userPlan) && userType !== 'admin') {
       Modal.alert('Access denied: Exclusive chat is only for PRO, PRO+, and Admins.');
       return;
@@ -1045,8 +1046,9 @@ const Chat = {
       return;
     }
 
-    else if (roomName !== 'global') {
+    if (roomName !== 'global') {
       Modal.alert('Invalid room name. Please choose a valid room.');
+      return;
     }
 
     state.currentRoom = roomName;
