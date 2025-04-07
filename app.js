@@ -1454,9 +1454,9 @@ const Admin = {
         <p><strong>Reported User:</strong> ${report.username}</p>
         <p><strong>Comment:</strong> ${report.comment}</p>
         <p><strong>Submitted By:</strong> ${report.reportedBy}</p>
-        <button class="btn btn-danger" onclick="Admin.handleReportAction(${report.id}, 'ban')">Ban</button>
-        <button class="btn btn-danger" onclick="Admin.handleReportAction(${report.id}, 'mute')">Mute</button>
-        <button class="btn btn-secondary" onclick="Admin.handleReportAction(${report.id}, 'cancel')">Cancel</button>
+        <button class="btn btn-danger" onclick="Admin.handleReportAction('${report.id}', 'ban')">Ban</button>
+        <button class="btn btn-danger" onclick="Admin.handleReportAction('${report.id}', 'mute')">Mute</button>
+        <button class="btn btn-secondary" onclick="Admin.handleReportAction('${report.id}', 'cancel')">Cancel</button>
       `;
 
       container.appendChild(reportDiv);
