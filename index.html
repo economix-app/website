@@ -201,31 +201,47 @@
                 <h2>Admin Dashboard</h2>
               </div>
               <div class="actions">
+                <!-- User Management -->
+                <h3>User Management</h3>
                 <button class="btn btn-primary" id="listUsersAdmin">👥 List Users</button>
                 <button class="btn btn-primary" id="getBannedUsersAdmin">🚫 Get Banned Users</button>
-                <button class="btn btn-primary" id="createCreatorCodeAdmin">🔑 Create Creator Code</button>
-                <button class="btn btn-primary" id="deleteCreatorCodeAdmin">🗑️ Delete Creator Code</button>
-                <button class="btn btn-primary" id="getCreatorCodesAdmin">🔑 Get Creator Codes</button>
-                <button class="btn btn-primary" id="setBannerAdmin">🎉 Set Banner</button>
-                <button class="btn btn-primary" id="editTokensAdmin">💸 Edit Tokens</button>
-                <button class="btn btn-primary" id="editTokensForUserAdmin">💸 Edit Tokens For User</button>
-                <button class="btn btn-primary" id="editLevelAdmin">📈 Edit Level</button>
-                <button class="btn btn-primary" id="editLevelForUserAdmin">📈 Edit Level For User</button>
-                <button class="btn btn-primary" id="editExpAdmin">✨ Edit EXP</button>
-                <button class="btn btn-primary" id="editExpForUserAdmin">✨ Edit EXP For User</button>
-                <button class="btn btn-primary" id="addAdminAdmin">🤝 Add Admin</button>
-                <button class="btn btn-primary" id="removeAdminAdmin">🚫 Remove Admin</button>
-                <button class="btn btn-primary" id="addModAdmin">🤝 Add Mod</button>
-                <button class="btn btn-primary" id="removeModAdmin">🚫 Remove Mod</button>
-                <button class="btn btn-primary" id="addMediaAdmin">📷 Add Media</button>
-                <button class="btn btn-primary" id="removeMediaAdmin">🚫 Remove Media</button>
                 <button class="btn btn-primary" id="banUserAdmin">⛓️ Ban User</button>
                 <button class="btn btn-primary" id="unbanUserAdmin">⚖️ Unban User</button>
                 <button class="btn btn-primary" id="muteUserAdmin">🔇 Mute User</button>
                 <button class="btn btn-primary" id="unmuteUserAdmin">🔊 Unmute User</button>
                 <button class="btn btn-primary" id="fineUserAdmin">💰 Fine User</button>
                 <button class="btn btn-primary" id="deleteUserAdmin">🗑️ Delete User</button>
+
+                <!-- Creator Code Management -->
+                <h3>Creator Code Management</h3>
+                <button class="btn btn-primary" id="createCreatorCodeAdmin">🔑 Create Creator Code</button>
+                <button class="btn btn-primary" id="deleteCreatorCodeAdmin">🗑️ Delete Creator Code</button>
+                <button class="btn btn-primary" id="getCreatorCodesAdmin">🔑 Get Creator Codes</button>
+
+                <!-- Token and Level Management -->
+                <h3>Token and Level Management</h3>
+                <button class="btn btn-primary" id="editTokensAdmin">💸 Edit Tokens</button>
+                <button class="btn btn-primary" id="editTokensForUserAdmin">💸 Edit Tokens For User</button>
+                <button class="btn btn-primary" id="editLevelAdmin">📈 Edit Level</button>
+                <button class="btn btn-primary" id="editLevelForUserAdmin">📈 Edit Level For User</button>
+                <button class="btn btn-primary" id="editExpAdmin">✨ Edit EXP</button>
+                <button class="btn btn-primary" id="editExpForUserAdmin">✨ Edit EXP For User</button>
+
+                <!-- Role Management -->
+                <h3>Role Management</h3>
+                <button class="btn btn-primary" id="addAdminAdmin">🛠️ Add Admin</button>
+                <button class="btn btn-primary" id="removeAdminAdmin">🚫 Remove Admin</button>
+                <button class="btn btn-primary" id="addModAdmin">🛡️ Add Mod</button>
+                <button class="btn btn-primary" id="removeModAdmin">🚫 Remove Mod</button>
+                <button class="btn btn-primary" id="addMediaAdmin">📷 Add Media</button>
+                <button class="btn btn-primary" id="removeMediaAdmin">🚫 Remove Media</button>
+
+                <!-- Miscellaneous -->
+                <h3>Miscellaneous</h3>
                 <button class="btn btn-primary" id="restorePetAdmin">🐾 Restore Pet</button>
+                <button class="btn btn-primary" id="setBannerAdmin">🎉 Set Banner</button>
+                <button class="btn btn-primary" id="givePlanAdmin">💲 Give Plan</button>
+                <button class="btn btn-primary" id="removePlanAdmin">🚫 Remove Plan</button>
               </div>
               <h3>User Reports</h3>
               <div id="reportsContainer"></div>
@@ -448,14 +464,15 @@
               </div>
               <br>
               <h2>Report a User</h3>
-              <p>By reporting a user, you confirm your report was submitted sincerely. You may be punished for false reports.</p>
-              <form id="reportUserForm">
-                <label for="reportUsername">Username:</label>
-                <input type="text" id="reportUsername" required />
-                <label for="reportComment">Comment:</label>
-                <textarea id="reportComment" required></textarea>
-                <button type="submit">Submit Report</button>
-              </form>
+                <p>By reporting a user, you confirm your report was submitted sincerely. You may be punished for false
+                  reports.</p>
+                <form id="reportUserForm">
+                  <label for="reportUsername">Username:</label>
+                  <input type="text" id="reportUsername" required />
+                  <label for="reportComment">Comment:</label>
+                  <textarea id="reportComment" required></textarea>
+                  <button type="submit">Submit Report</button>
+                </form>
             </div>
           </div>
         </div>

@@ -1483,6 +1483,32 @@ const Admin = {
     } else {
       Notifications.show({ type: 'error', message: response.error || 'Failed to complete action.' });
     }
+  },
+
+  async givePlan() {
+    const username = await Modal.prompt('Enter username:');
+    if (!username) return;
+    const plan = await Modal.prompt('Enter plan (pro/proplus):');
+    if (!plan) return;
+    const duration = await Modal.prompt('Enter duration (e.g., 1m, 1y):');
+    if (!duration) return;
+    const data = await API.post('/api/give_plan', { username, plan, duration });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Plan given!' : 'Error giving plan.'
+    });
+    if (data.success) Auth.refreshAccount();
+  },
+
+  async removePlan() {
+    const username = await Modal.prompt('Enter username:');
+    if (!username) return;
+    const data = await API.post('/api/remove_plan', { username });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Plan removed!' : 'Error removing plan.'
+    });
+    if (data.success) Auth.refreshAccount();
   }
 };
 
@@ -1714,6 +1740,8 @@ const initEventListeners = () => {
     fineUserAdmin: Admin.fineUser,
     deleteUserAdmin: Admin.deleteUser,
     restorePetAdmin: Admin.restorePet,
+    givePlanAdmin: Admin.givePlan,
+    removePlanAdmin: Admin.removePlan,
   };
   Object.keys(adminActions).forEach(id =>
     document.getElementById(id).addEventListener('click', adminActions[id])
