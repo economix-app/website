@@ -424,15 +424,6 @@ const Auth = {
       if (['adminDashboard', 'modDashboard'].includes(activeTab)) UI.switchTab('dashboard');
     }
 
-    // Update EXP progress bar and text
-    const expProgress = document.getElementById('expProgress');
-    const expText = document.getElementById('expText');
-    const expNeeded = expForLevel(data.level + 1);
-    const expPercentage = (data.exp / expNeeded) * 100;
-
-    expProgress.style.width = `${expPercentage}%`;
-    expText.textContent = `${data.exp}/${expNeeded} EXP`;
-
     this.updateCooldowns(data);
   },
 
