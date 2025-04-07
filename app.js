@@ -1430,6 +1430,15 @@ const Admin = {
       message: data.success ? 'Pet restored!' : 'Error restoring pet.'
     });
     if (data.success) Auth.refreshAccount();
+  },
+
+  async deleteAuction(itemId) {
+    const data = await API.post('/api/delete_auction', { item_id: itemId });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Auction deleted!' : 'Error deleting auction.'
+    });
+    if (data.success) Auth.refreshAccount();
   }
 };
 
@@ -1500,7 +1509,8 @@ const Auction = {
       li.innerHTML = `
         ${name} (${auction.itemRarity.rarity} ${auction.itemRarity.level}) - Current Bid: ${auction.currentBid} tokens
         <button class="btn btn-primary" onclick="Auction.placeBid('${auction.itemId}')">Bid</button>
-        ${(state.account.username === auction.owner) ? `<button class="btn btn-danger" onclick="Auction.stopAuction('${auction.itemId}')">Stop Auction</button>` : ''}
+        ${(state.account.username === auction.owner || state.account.type === "admin") ? `<button class="btn btn-danger" onclick="Auction.stopAuction('${auction.itemId}')">Stop Auction</button>` : ''}
+        ${(state.account.type === "admin") ? `<button class="btn btn-danger" onclick="Admin.deleteAuction('${auction.itemId}')">Delete Auction</button>` : ''}
       `;
       auctionList.appendChild(li);
     });
