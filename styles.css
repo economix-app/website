@@ -1837,7 +1837,6 @@ a {
 /* Report Styling */
 .report {
   max-width: 1200px;
-  margin: 2rem auto;
   padding: 1rem;
   border-radius: 0.75rem;
   border: 1px solid var(--border);
