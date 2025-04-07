@@ -396,10 +396,10 @@ const Auth = {
   updateAccountUI(data) {
     document.getElementById('tokens').textContent = data.tokens;
     document.getElementById('level').textContent = data.level;
-    document.getElementById('usernameDisplay').textContent = data.username;
+    document.getElementById('usernameDisplay').innerHTML = `${data.plan === "proplus" ? "🌟" : (data.plan === "pro" ? "⭐️": "")} <span id="usernameDisplayText">${data.username}</span>`;
 
     if (data.plan == "pro" || data.plan == "proplus") {
-      document.getElementById('usernameDisplay').classList.add('gold-text');
+      document.getElementById('usernameDisplayText').classList.add('gold-text');
     }
 
     const roleDisplay = document.getElementById('roleDisplay');
