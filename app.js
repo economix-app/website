@@ -1444,7 +1444,7 @@ const Admin = {
   async fetchReports() {
     const reports = await API.get('/api/reports');
     const container = document.getElementById('reportsContainer');
-    container.innerHTML = '';
+    container.innerHTML = '<b>No reports found.</b>';
 
     reports.forEach((report) => {
       const reportDiv = document.createElement('div');
