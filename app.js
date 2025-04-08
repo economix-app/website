@@ -219,13 +219,10 @@ const UI = {
 
   toggleCasinoTab(show) {
     const casinoTab = document.querySelector('[data-tab="casino"]');
-    const casinoContent = document.getElementById('tab-casino');
     if (show) {
       casinoTab.style.display = 'inline-block';
-      casinoContent.style.display = 'block';
     } else {
       casinoTab.style.display = 'none';
-      casinoContent.style.display = 'none';
     }
   },
 };
