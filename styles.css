@@ -1853,3 +1853,19 @@ button>a {
   text-decoration: none;
   color: #fff;
 }
+
+input[type="checkbox"] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--background);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+input[type="checkbox"]:checked {
+  background: var(--primary);
+  border-color: var(--primary);
+}

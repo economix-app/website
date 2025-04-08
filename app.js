@@ -216,6 +216,18 @@ const UI = {
     let theme = localStorage.getItem('theme') || 'light';
     this.setTheme(theme);
   },
+
+  toggleCasinoTab(show) {
+    const casinoTab = document.querySelector('[data-tab="casino"]');
+    const casinoContent = document.getElementById('tab-casino');
+    if (show) {
+      casinoTab.style.display = 'inline-block';
+      casinoContent.style.display = 'block';
+    } else {
+      casinoTab.style.display = 'none';
+      casinoContent.style.display = 'none';
+    }
+  },
 };
 
 // API Utilities
@@ -1787,6 +1799,17 @@ const initEventListeners = () => {
   document.getElementById('betHeads').addEventListener('click', () => Casino.bet('heads'));
   document.getElementById('betTails').addEventListener('click', () => Casino.bet('tails'));
   document.getElementById('rollDice').addEventListener('click', Casino.rollDice);
+
+  const casinoToggle = document.getElementById('casinoToggle');
+  const showCasino = localStorage.getItem('showCasino') !== 'false'; // Default to true
+  casinoToggle.checked = showCasino;
+  UI.toggleCasinoTab(showCasino);
+
+  casinoToggle.addEventListener('change', (e) => {
+    const showCasino = e.target.checked;
+    localStorage.setItem('showCasino', showCasino);
+    UI.toggleCasinoTab(showCasino);
+  });
 
   const emojiPicker = document.getElementById('emojiPicker');
 

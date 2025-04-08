@@ -187,7 +187,8 @@
                 <p class="cooldown" id="mineCooldown"></p>
               </div>
               <br>
-              <p id="creatorMessage" style="display: none;">Thanks for supporting <span id="creatorCodeMessage"></span>!</p>
+              <p id="creatorMessage" style="display: none;">Thanks for supporting <span id="creatorCodeMessage"></span>!
+              </p>
             </div>
           </div>
 
@@ -443,6 +444,10 @@
                 <button class="btn btn-danger" id="disable2FA">🔒 Disable 2FA</button>
                 <button class="btn btn-danger" id="logout">↪️ Logout</button>
                 <button class="btn btn-danger" id="deleteAccount">🗑️ Delete Account</button>
+                <div class="casino-toggle">
+                  <label for="casinoToggle">Show Casino Tab:</label>
+                  <input type="checkbox" id="casinoToggle" />
+                </div>
               </div>
               <div class="theme-selector">
                 <label for="themeSelect">Select Theme:</label>
@@ -470,7 +475,7 @@
                   <input type="text" id="reportUsername" required />
                   <label for="reportComment">Comment:</label>
                   <textarea id="reportComment" required></textarea>
-                  <button type="submit">Submit Report</button>
+                  <button type="submit" class="btn btn-primary">Submit Report</button>
                 </form>
             </div>
           </div>
