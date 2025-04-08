@@ -1571,25 +1571,7 @@ const Admin = {
     const data = await API.post('/api/get_user_data', { username });
     if (data.success) {
       const userData = data.user_data;
-      const page = window.open('', '_blank');
-      page.document.write(`
-        <html>
-          <head>
-            <title>User Info</title>
-            <style>
-              body { font-family: Arial, sans-serif; padding: 20px; }
-              h1 { color: #333; }
-              pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
-            </style>
-          </head>
-          <body>
-            <h1>User Info for ${username}</h1>
-            <pre>${JSON.stringify(userData, null, 2)}</pre>
-          </body>
-        </html>
-      `);
-      page.document.close();
-      page.focus();
+      await Modal.alert(JSON.stringify(userData, null, 2));
     } else {
       Notifications.show({
         type: 'error',
