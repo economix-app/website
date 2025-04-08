@@ -1829,7 +1829,7 @@ const initEventListeners = () => {
     restorePetAdmin: Admin.restorePet,
     givePlanAdmin: Admin.givePlan,
     removePlanAdmin: Admin.removePlan,
-    getUserInfoAdmin: Auth.getUserInfo,
+    getUserInfoAdmin: Admin.getUserInfo,
   };
   Object.keys(adminActions).forEach(id =>
     document.getElementById(id).addEventListener('click', adminActions[id])
