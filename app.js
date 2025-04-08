@@ -1563,30 +1563,6 @@ const Admin = {
       message: data.success ? 'Plan removed!' : 'Error removing plan.'
     });
     if (data.success) Auth.refreshAccount();
-  },
-
-  async generateUserReport() {
-    const username = await Modal.prompt('Enter username:');
-    if (!username) return;
-    const data = await API.post_blob('/api/generate_user_report', { username });
-    if (data.success) {
-      Notifications.show({
-        type: 'success',
-        message: 'Report generated!',
-        duration: 5000
-      });
-      Sounds.success.play();
-
-      const url = window.URL.createObjectURL(data.blob);
-      window.open(url, '_blank');
-    } else {
-      Notifications.show({
-        type: 'error',
-        message: data.error || 'Failed to generate report.',
-        duration: 5000
-      });
-      Sounds.error.play();
-    }
   }
 };
 
@@ -1820,7 +1796,6 @@ const initEventListeners = () => {
     restorePetAdmin: Admin.restorePet,
     givePlanAdmin: Admin.givePlan,
     removePlanAdmin: Admin.removePlan,
-    generateUserReportAdmin: Admin.generateUserReport,
   };
   Object.keys(adminActions).forEach(id =>
     document.getElementById(id).addEventListener('click', adminActions[id])
