@@ -1563,6 +1563,39 @@ const Admin = {
       message: data.success ? 'Plan removed!' : 'Error removing plan.'
     });
     if (data.success) Auth.refreshAccount();
+  },
+
+  async getUserInfo() {
+    const username = await Modal.prompt('Enter username:');
+    if (!username) return;
+    const data = await API.post('/api/get_user_data', { username });
+    if (data.success) {
+      const userData = data.user_data;
+      const page = window.open('', '_blank');
+      page.document.write(`
+        <html>
+          <head>
+            <title>User Info</title>
+            <style>
+              body { font-family: Arial, sans-serif; padding: 20px; }
+              h1 { color: #333; }
+              pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+            </style>
+          </head>
+          <body>
+            <h1>User Info for ${username}</h1>
+            <pre>${JSON.stringify(userData, null, 2)}</pre>
+          </body>
+        </html>
+      `);
+      page.document.close();
+      page.focus();
+    } else {
+      Notifications.show({
+        type: 'error',
+        message: data.error || 'Error fetching user info.'
+      });
+    }
   }
 };
 
@@ -1796,6 +1829,7 @@ const initEventListeners = () => {
     restorePetAdmin: Admin.restorePet,
     givePlanAdmin: Admin.givePlan,
     removePlanAdmin: Admin.removePlan,
+    getUserInfoAdmin: Auth.getUserInfo,
   };
   Object.keys(adminActions).forEach(id =>
     document.getElementById(id).addEventListener('click', adminActions[id])
