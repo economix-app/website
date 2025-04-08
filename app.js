@@ -249,10 +249,37 @@ const API = {
     }
   },
 
+  async fetch_blob(endpoint, options = {}) {
+    try {
+      const headers = {
+        'Authorization': `Bearer ${state.token}`,
+        'Content-Type': 'application/json',
+        ...options.headers
+      };
+      const response = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
+
+      if (!response.ok) {
+        return { error: await response.json().error || `API error: ${response.status} - ${response.statusText}`, success: false };
+      }
+
+      let blob = await response.blob();
+      return { blob, success: true };
+    } catch (err) {
+      return { error: err.message, success: false };
+    }
+  },
+
   async post(endpoint, data) {
     return this.fetch(endpoint, {
       method: 'POST',
       body: JSON.stringify(data)
+    });
+  },
+
+  async post_blob(endpoint, data) {
+    return this.fetch_blob(endpoint, {
+      method: 'POST',
+      body: data
     });
   },
 
@@ -1536,6 +1563,30 @@ const Admin = {
       message: data.success ? 'Plan removed!' : 'Error removing plan.'
     });
     if (data.success) Auth.refreshAccount();
+  },
+
+  async generateUserReport() {
+    const username = await Modal.prompt('Enter username:');
+    if (!username) return;
+    const data = await API.post_blob('/api/generate_user_report', { username });
+    if (data.success) {
+      Notifications.show({
+        type: 'success',
+        message: 'Report generated!',
+        duration: 5000
+      });
+      Sounds.success.play();
+
+      const url = window.URL.createObjectURL(data.blob);
+      window.open(url, '_blank');
+    } else {
+      Notifications.show({
+        type: 'error',
+        message: data.error || 'Failed to generate report.',
+        duration: 5000
+      });
+      Sounds.error.play();
+    }
   }
 };
 
@@ -1852,7 +1903,6 @@ const initEventListeners = () => {
   document.getElementById('switchToExclusive').addEventListener('click', () => Chat.switchRoom('exclusive'));
   document.getElementById('switchToStaff').addEventListener('click', () => Chat.switchRoom('staff'));
 };
-
 
 // Initialization
 const init = async () => {
