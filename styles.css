@@ -645,6 +645,55 @@ a {
   transition: transform 0.2s;
 }
 
+.message.messageplate {
+  position: relative;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  max-width: 70%;
+  word-wrap: break-word;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #1e1b4b, #0f172a, #4f46e5);
+  overflow: hidden;
+  z-index: 0;
+}
+
+.message.messageplate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.message.messageplate.messageplate-bamboo-forest {
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
+    url('https://economix.lol/cosmetics/bamboo_forest/messageplate.png');
+}
+
+.message.messageplate.messageplate-tokyo-tower {
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
+    url('https://economix.lol/cosmetics/tokyo_tower/messageplate.png');
+}
+
+.message.messageplate.messageplate-cherry-blossom {
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
+    url('https://economix.lol/cosmetics/cherry_blossom/messageplate.png');
+}
+
+.message.messageplate>* {
+  position: relative;
+  z-index: 2;
+}
+
 .message:hover {
   transform: translateX(5px);
 }
@@ -699,10 +748,6 @@ a {
 
 .message-sender.mod {
   color: var(--danger);
-}
-
-.message-time {
-  color: #64748b;
 }
 
 .delete-message {
@@ -1841,7 +1886,7 @@ a {
   box-shadow: 0 2px 4px var(--shadow);
 }
 
-.gold-text {
+.nameplate-gold {
   background: linear-gradient(to bottom, #cfc09f 27%, #ffecb3 40%, #8d671b 78%);
   -webkit-background-clip: text;
   background-clip: text;

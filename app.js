@@ -437,7 +437,7 @@ const Auth = {
     document.getElementById('usernameDisplay').innerHTML = `${data.plan === "proplus" ? "🌟" : (data.plan === "pro" ? "⭐️" : "")} <span id="usernameDisplayText">${data.username}</span>`;
 
     if (data.plan == "pro" || data.plan == "proplus") {
-      document.getElementById('usernameDisplayText').classList.add('gold-text');
+      document.getElementById('usernameDisplayText').classList.add('nameplate-gold');
     }
 
     const roleDisplay = document.getElementById('roleDisplay');
@@ -714,8 +714,8 @@ const Market = {
       const li = document.createElement('li');
       li.className = 'market-item';
       const ownerPlan = item.ownerPlan || 'free'; // Assume 'free' if no plan info
-      const ownerDisplay = ownerPlan === 'proplus' ? `🌟 <span class="gold-text">${item.owner}</span>` :
-        ownerPlan === 'pro' ? `⭐️ <span class="gold-text">${item.owner}</span>` :
+      const ownerDisplay = ownerPlan === 'proplus' ? `🌟 <span class="nameplate-gold">${item.owner}</span>` :
+        ownerPlan === 'pro' ? `⭐️ <span class="nameplate-gold">${item.owner}</span>` :
           item.owner;
       li.innerHTML = `
                 <div class="item-header">
@@ -1111,7 +1111,7 @@ const Chat = {
     messageEl.innerHTML = `
             <div class="message-header">
                 <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
-                    ${messagePrefix} <span class="${(message.username_colour === "gold") ? "gold-text" : ""}">${message.username}</span>
+                    ${messagePrefix} <span class="${(message.nameplate === "gold") ? "nameplate-gold" : ""}">${message.username}</span>
                 </span>
                 <span class="message-time">${UI.formatTime(message.timestamp)}</span>
             </div>
@@ -1365,8 +1365,8 @@ const Admin = {
         const div = document.createElement('div');
         if (user.username === state.account.username) div.classList.add('highlight');
         const userPlan = user.plan || 'free'; // Assume 'free' if no plan info
-        const userDisplay = userPlan === 'proplus' ? `🌟 <span class="gold-text">${user.username}</span>` :
-          userPlan === 'pro' ? `⭐️ <span class="gold-text">${user.username}</span>` :
+        const userDisplay = userPlan === 'proplus' ? `🌟 <span class="nameplate-gold">${user.username}</span>` :
+          userPlan === 'pro' ? `⭐️ <span class="nameplate-gold">${user.username}</span>` :
             user.username;
         div.innerHTML = `
   ${user.place <= 3 ? ['🥇', '🥈', '🥉'][user.place - 1] : '🏅'} 
