@@ -647,7 +647,7 @@ a {
 
 .message.messageplate {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(135deg, var(--card-bg), #1e1b4b, #0f172a, #4f46e5);
+  background: linear-gradient(135deg, #1e1b4b, #0f172a, #4f46e5);
   overflow: hidden;
   z-index: 0;
 }
@@ -744,14 +744,13 @@ a {
 }
 
 .delete-message {
-  position: absolute;
-  right: 0.5rem;
-  bottom: 0.5rem;
+  position: static;
   background: none;
   border: none;
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.2s;
+  margin-left: 1rem;
 }
 
 .message:hover .delete-message {
