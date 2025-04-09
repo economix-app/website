@@ -647,7 +647,7 @@ a {
 
 .message.messageplate {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(135deg, #1e1b4b, #0f172a, #4f46e5);
+  background: linear-gradient(to bottom, var(--card-bg) 0%, #1e1b4b 10%, #0f172a 50%, #4f46e5 100%);
   overflow: hidden;
   z-index: 0;
 }
