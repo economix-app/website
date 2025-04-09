@@ -664,19 +664,19 @@ a {
   pointer-events: none;
 }
 
-.message.messageplate.messageplate-bamboo-forest {
+.message.messageplate.messageplate-bamboo-forest::before {
   background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
     url('https://economix.lol/cosmetics/bamboo_forest/messageplate.png');
 }
 
-.message.messageplate.messageplate-tokyo-tower {
+.message.messageplate.messageplate-tokyo-tower::before {
   background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
     url('https://economix.lol/cosmetics/tokyo_tower/messageplate.png');
 }
 
-.message.messageplate.messageplate-cherry-blossom {
+.message.messageplate.messageplate-cherry-blossom::before {
   background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
     url('https://economix.lol/cosmetics/cherry_blossom/messageplate.png');
