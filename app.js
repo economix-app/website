@@ -1107,7 +1107,7 @@ const Chat = {
     const messagePrefix = message.badges ? message.badges.join(' ') : '';
 
     const messageEl = document.createElement('div');
-    messageEl.className = `message ${type} ${isOwn ? 'own-message' : ''}`;
+    messageEl.className = `message ${type} ${isOwn ? 'own-message' : ''} ${message.messageplate ? `messageplate messageplate-${message.messageplate}` : ''}`;
     messageEl.innerHTML = `
             <div class="message-header">
                 <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
