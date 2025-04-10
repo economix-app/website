@@ -1808,8 +1808,8 @@ const Cosmetics = {
 
     messageplateContainer.innerHTML = '';
     nameplateContainer.innerHTML = '';
-    equippedMessageplate.textContent = equipped.messageplate.name || 'None';
-    equippedNameplate.textContent = equipped.nameplate.name || 'None';
+    if (equipped.messageplate) equippedMessageplate.textContent = equipped.messageplate.name || 'None';
+    if (equipped.nameplate) equippedNameplate.textContent = equipped.nameplate.name || 'None';
 
     owned.forEach(cosmetic => {
       const div = document.createElement('div');
