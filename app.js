@@ -1764,7 +1764,6 @@ const Cosmetics = {
     const data = await API.get('/api/get_cosmetics');
     if (data.success) {
       this.renderShop(data.cosmetics);
-      this.renderOwned(data.owned);
       this.renderLibrary(data.owned, data.equipped);
     }
   },
@@ -1777,26 +1776,9 @@ const Cosmetics = {
       item.className = 'cosmetic-item';
       item.innerHTML = `
         <div class="cosmetic-title">${cosmetic.name}</div>
-        <div class="message messageplate messageplate-${cosmetic.id}">Hi! This is a preview!</div>
+        <div class="message ${cosmetic.type === 'messageplate' ? `messageplate messageplate-${cosmetic.id}` : ""}${cosmetic.type === 'nameplate' ? `nameplate-${cosmetic.id}` : ""}">Hi! This is a preview!</div>
         <div class="cosmetic-actions">
           <button class="btn-buy" onclick="Cosmetics.buy('${cosmetic.id}')">Buy (${cosmetic.price} tokens)</button>
-        </div>
-      `;
-      container.appendChild(item);
-    });
-  },
-
-  renderOwned(owned) {
-    const container = document.getElementById('ownedCosmetics');
-    container.innerHTML = '';
-    owned.forEach(cosmetic => {
-      const item = document.createElement('div');
-      item.className = 'cosmetic-item';
-      item.innerHTML = `
-        <div class="cosmetic-title">${cosmetic.name}</div>
-        <div class="message messageplate messageplate-${cosmetic.id}">Hi! This is a preview!</div>
-        <div class="cosmetic-actions">
-          <button class="btn-equip" onclick="Cosmetics.equip('${cosmetic.id}', '${cosmetic.type}')">Equip</button>
         </div>
       `;
       container.appendChild(item);
@@ -1819,7 +1801,7 @@ const Cosmetics = {
       item.className = 'cosmetic-item';
       item.innerHTML = `
         <div class="cosmetic-title">${cosmetic.name}</div>
-        <div class="message messageplate messageplate-${cosmetic.id}">Hi! This is a preview!</div>
+        <div class="message ${cosmetic.type === 'messageplate' ? `messageplate messageplate-${cosmetic.id}` : ""}${cosmetic.type === 'nameplate' ? `nameplate-${cosmetic.id}` : ""}">Hi! This is a preview!</div>
         <div class="cosmetic-actions">
           <button class="btn-equip" onclick="Cosmetics.equip('${cosmetic.id}', '${cosmetic.type}')">Equip</button>
         </div>

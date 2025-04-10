@@ -349,10 +349,12 @@ h2 {
 /* Tabs  */
 .tabs {
   display: flex;
+  flex-wrap: wrap;
   border-bottom: 2px solid var(--border);
   margin-bottom: 1rem;
   overflow-x: auto;
   white-space: nowrap;
+  gap: 0.5rem;
 }
 
 .tab {

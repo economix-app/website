@@ -167,10 +167,10 @@
           <button class="tab" data-tab="pets">🐾 Pets</button>
           <button class="tab chat-tab-button" data-tab="chat">💬 Chat</button>
           <button class="tab" data-tab="leaderboard">🏆 Leaderboard</button>
-          <button class="tab" data-tab="settings">⚙️ Settings</button>
-          <button class="tab" data-tab="pro">⭐️ PRO</button>
+          <button class="tab" data-tab="pro">⭐️ PRO & 💎 Gems</button>
           <button class="tab" data-tab="shop">🛍️ Shop</button>
           <button class="tab" data-tab="cosmetics">🎨 Cosmetics</button>
+          <button class="tab" data-tab="settings">⚙️ Settings</button>
         </div>
 
         <!-- Tab Contents -->
@@ -439,6 +439,50 @@
             </div>
           </div>
 
+          <!-- PRO & Gems Tab -->
+          <div class="tab-content" id="tab-pro">
+            <div class="card">
+              <div class="card-header">
+                <h2>PRO, PRO+, and Gems</h2>
+              </div>
+              <p>Upgrade to PRO/PRO+ for exclusive features and benefits!</p>
+              <button class="btn btn-primary"><a href="./images/pricing.png">PRO/PRO+ Features</a></button>
+              <p>Gems are also available! Buy cosmetics with them! 10 Gems / AUD$1.00</p>
+              <p>To buy, contact me in person or on Discord (@pro_player919)</p>
+              <p>Online payments will be accepted soon!</p>
+            </div>
+          </div>
+
+          <!-- Shop Tab -->
+          <div class="tab-content" id="tab-shop">
+            <div class="card">
+              <div class="card-header">
+                <h2>Shop</h2>
+              </div>
+              <div id="cosmeticsShop" class="cosmetics-container"></div>
+            </div>
+          </div>
+
+          <!-- Cosmetics Tab -->
+          <div class="tab-content" id="tab-cosmetics">
+            <div class="card">
+              <div class="card-header">
+                <h2>Cosmetics</h2>
+              </div>
+              <div class="cosmetics-library">
+                <h3>Messageplates</h3>
+                <div id="messageplateLibrary" class="cosmetics-container"></div>
+                <h3>Nameplates</h3>
+                <div id="nameplateLibrary" class="cosmetics-container"></div>
+              </div>
+              <div class="cosmetics-equipped">
+                <h3>Equipped</h3>
+                <p>Messageplate: <span id="equippedMessageplate"></span></p>
+                <p>Nameplate: <span id="equippedNameplate"></span></p>
+              </div>
+            </div>
+          </div>
+
           <!-- Settings Tab -->
           <div class="tab-content" id="tab-settings">
             <div class="card">
@@ -484,49 +528,6 @@
                   <textarea id="reportComment" required></textarea>
                   <button type="submit" class="btn btn-primary">Submit Report</button>
                 </form>
-            </div>
-          </div>
-
-          <!-- PRO Tab -->
-          <div class="tab-content" id="tab-pro">
-            <div class="card">
-              <div class="card-header">
-                <h2>Upgrade to PRO or PRO+</h2>
-              </div>
-              <p>Upgrade to PRO for exclusive features and benefits!</p>
-              <button class="btn btn-primary"><a href="./images/pricing.png">Features</a></button>
-              <p>To upgrade, contact me in person or on Discord (@pro_player919)</p>
-              <p>Online payments will be accepted soon!</p>
-            </div>
-          </div>
-
-          <div class="tab-content" id="tab-shop">
-            <div class="card">
-              <div class="card-header">
-                <h2>Shop</h2>
-              </div>
-              <div id="cosmeticsShop" class="cosmetics-container"></div>
-              <h3>Your Owned Cosmetics</h3>
-              <div id="ownedCosmetics" class="cosmetics-container"></div>
-            </div>
-          </div>
-
-          <div class="tab-content" id="tab-cosmetics">
-            <div class="card">
-              <div class="card-header">
-                <h2>Cosmetics</h2>
-              </div>
-              <div class="cosmetics-library">
-                <h3>Messageplates</h3>
-                <div id="messageplateLibrary" class="cosmetics-container"></div>
-                <h3>Nameplates</h3>
-                <div id="nameplateLibrary" class="cosmetics-container"></div>
-              </div>
-              <div class="cosmetics-equipped">
-                <h3>Equipped</h3>
-                <p>Messageplate: <span id="equippedMessageplate"></span></p>
-                <p>Nameplate: <span id="equippedNameplate"></span></p>
-              </div>
             </div>
           </div>
         </div>
