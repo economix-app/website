@@ -1761,7 +1761,7 @@ const Auction = {
 // Cosmetics Management
 const Cosmetics = {
   async fetchCosmetics() {
-    const data = await API.get('/api/cosmetics');
+    const data = await API.get('/api/get_cosmetics');
     if (data.success) {
       this.renderShop(data.cosmetics);
       this.renderOwned(data.owned);
