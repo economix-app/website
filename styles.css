@@ -1951,3 +1951,143 @@ input[type="checkbox"]:checked {
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
 }
+
+/* Shop Section */
+#cosmeticsShop,
+#ownedCosmetics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.cosmetic-item {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cosmetic-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.cosmetic-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.cosmetic-actions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.cosmetic-actions .btn-buy {
+  background: var(--success);
+  color: #fff;
+}
+
+.cosmetic-actions .btn-buy:hover {
+  background: var(--secondary);
+}
+
+.cosmetic-actions .btn-equip {
+  background: var(--primary);
+  color: #fff;
+}
+
+.cosmetic-actions .btn-equip:hover {
+  background: var(--secondary);
+}
+
+/* Cosmetics Library */
+.cosmetics-library {
+  margin-top: 2rem;
+}
+
+.cosmetics-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.cosmetics-container .cosmetic-item {
+  padding: 1rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cosmetics-container .cosmetic-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.cosmetics-container .cosmetic-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.cosmetics-container .cosmetic-item .cosmetic-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.cosmetics-container .cosmetic-item .cosmetic-type {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.cosmetics-container .cosmetic-item .btn-equip {
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cosmetics-container .cosmetic-item .btn-equip:hover {
+  background: var(--secondary);
+}
+
+/* Equipped Cosmetics */
+.cosmetics-equipped {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.cosmetics-equipped h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.cosmetics-equipped p {
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}

@@ -1773,15 +1773,16 @@ const Cosmetics = {
     const container = document.getElementById('cosmeticsShop');
     container.innerHTML = '';
     cosmetics.forEach(cosmetic => {
-      const div = document.createElement('div');
-      div.className = 'cosmetic-item';
-      div.innerHTML = `
-        <img src="${cosmetic.preview}" alt="${cosmetic.name}" class="cosmetic-preview">
-        <p>${cosmetic.name}</p>
-        <p>${cosmetic.price} tokens</p>
-        <button class="btn btn-primary" onclick="Cosmetics.buy('${cosmetic.id}')">Buy</button>
+      const item = document.createElement('div');
+      item.className = 'cosmetic-item';
+      item.innerHTML = `
+        <div class="cosmetic-title">${cosmetic.name}</div>
+        <div class="message messageplate messageplate-${cosmetic.id}">Hi! This is a preview!</div>
+        <div class="cosmetic-actions">
+          <button class="btn-buy" onclick="Cosmetics.buy('${cosmetic.id}')">Buy (${cosmetic.price} tokens)</button>
+        </div>
       `;
-      container.appendChild(div);
+      container.appendChild(item);
     });
   },
 
@@ -1789,14 +1790,16 @@ const Cosmetics = {
     const container = document.getElementById('ownedCosmetics');
     container.innerHTML = '';
     owned.forEach(cosmetic => {
-      const div = document.createElement('div');
-      div.className = 'cosmetic-item';
-      div.innerHTML = `
-        <img src="${cosmetic.preview}" alt="${cosmetic.name}" class="cosmetic-preview">
-        <p>${cosmetic.name}</p>
-        <button class="btn btn-success">✔ Owned</button>
+      const item = document.createElement('div');
+      item.className = 'cosmetic-item';
+      item.innerHTML = `
+        <div class="cosmetic-title">${cosmetic.name}</div>
+        <div class="message messageplate messageplate-${cosmetic.id}">Hi! This is a preview!</div>
+        <div class="cosmetic-actions">
+          <button class="btn-equip" onclick="Cosmetics.equip('${cosmetic.id}', '${cosmetic.type}')">Equip</button>
+        </div>
       `;
-      container.appendChild(div);
+      container.appendChild(item);
     });
   },
 
@@ -1812,17 +1815,19 @@ const Cosmetics = {
     if (equipped.nameplate) equippedNameplate.textContent = equipped.nameplate.name || 'None';
 
     owned.forEach(cosmetic => {
-      const div = document.createElement('div');
-      div.className = 'cosmetic-item';
-      div.innerHTML = `
-        <img src="${cosmetic.preview}" alt="${cosmetic.name}" class="cosmetic-preview">
-        <p>${cosmetic.name}</p>
-        <button class="btn btn-primary" onclick="Cosmetics.equip('${cosmetic.id}', '${cosmetic.type}')">Equip</button>
+      const item = document.createElement('div');
+      item.className = 'cosmetic-item';
+      item.innerHTML = `
+        <div class="cosmetic-title">${cosmetic.name}</div>
+        <div class="message messageplate messageplate-${cosmetic.id}">Hi! This is a preview!</div>
+        <div class="cosmetic-actions">
+          <button class="btn-equip" onclick="Cosmetics.equip('${cosmetic.id}', '${cosmetic.type}')">Equip</button>
+        </div>
       `;
       if (cosmetic.type === 'messageplate') {
-        messageplateContainer.appendChild(div);
+        messageplateContainer.appendChild(item);
       } else if (cosmetic.type === 'nameplate') {
-        nameplateContainer.appendChild(div);
+        nameplateContainer.appendChild(item);
       }
     });
   },
@@ -1833,7 +1838,9 @@ const Cosmetics = {
       type: data.success ? 'success' : 'error',
       message: data.success ? 'Cosmetic purchased!' : `Error: ${data.error}`
     });
-    if (data.success) Auth.refreshAccount();
+    if (data.success) {
+      this.fetchCosmetics();
+    }
   },
 
   async equip(cosmeticId, type) {
@@ -1842,7 +1849,9 @@ const Cosmetics = {
       type: data.success ? 'success' : 'error',
       message: data.success ? 'Cosmetic equipped!' : `Error: ${data.error}`
     });
-    if (data.success) Auth.refreshAccount();
+    if (data.success) {
+      this.fetchCosmetics();
+    }
   }
 };
 
