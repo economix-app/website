@@ -1758,6 +1758,94 @@ const Auction = {
   }
 };
 
+// Cosmetics Management
+const Cosmetics = {
+  async fetchCosmetics() {
+    const data = await API.get('/api/cosmetics');
+    if (data.success) {
+      this.renderShop(data.cosmetics);
+      this.renderOwned(data.owned);
+      this.renderLibrary(data.owned, data.equipped);
+    }
+  },
+
+  renderShop(cosmetics) {
+    const container = document.getElementById('cosmeticsShop');
+    container.innerHTML = '';
+    cosmetics.forEach(cosmetic => {
+      const div = document.createElement('div');
+      div.className = 'cosmetic-item';
+      div.innerHTML = `
+        <img src="${cosmetic.preview}" alt="${cosmetic.name}" class="cosmetic-preview">
+        <p>${cosmetic.name}</p>
+        <p>${cosmetic.price} tokens</p>
+        <button class="btn btn-primary" onclick="Cosmetics.buy('${cosmetic.id}')">Buy</button>
+      `;
+      container.appendChild(div);
+    });
+  },
+
+  renderOwned(owned) {
+    const container = document.getElementById('ownedCosmetics');
+    container.innerHTML = '';
+    owned.forEach(cosmetic => {
+      const div = document.createElement('div');
+      div.className = 'cosmetic-item';
+      div.innerHTML = `
+        <img src="${cosmetic.preview}" alt="${cosmetic.name}" class="cosmetic-preview">
+        <p>${cosmetic.name}</p>
+        <button class="btn btn-success">✔ Owned</button>
+      `;
+      container.appendChild(div);
+    });
+  },
+
+  renderLibrary(owned, equipped) {
+    const messageplateContainer = document.getElementById('messageplateLibrary');
+    const nameplateContainer = document.getElementById('nameplateLibrary');
+    const equippedMessageplate = document.getElementById('equippedMessageplate');
+    const equippedNameplate = document.getElementById('equippedNameplate');
+
+    messageplateContainer.innerHTML = '';
+    nameplateContainer.innerHTML = '';
+    equippedMessageplate.textContent = equipped.messageplate.name || 'None';
+    equippedNameplate.textContent = equipped.nameplate.name || 'None';
+
+    owned.forEach(cosmetic => {
+      const div = document.createElement('div');
+      div.className = 'cosmetic-item';
+      div.innerHTML = `
+        <img src="${cosmetic.preview}" alt="${cosmetic.name}" class="cosmetic-preview">
+        <p>${cosmetic.name}</p>
+        <button class="btn btn-primary" onclick="Cosmetics.equip('${cosmetic.id}', '${cosmetic.type}')">Equip</button>
+      `;
+      if (cosmetic.type === 'messageplate') {
+        messageplateContainer.appendChild(div);
+      } else if (cosmetic.type === 'nameplate') {
+        nameplateContainer.appendChild(div);
+      }
+    });
+  },
+
+  async buy(cosmeticId) {
+    const data = await API.post('/api/buy_cosmetic', { cosmetic_id: cosmeticId });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Cosmetic purchased!' : `Error: ${data.error}`
+    });
+    if (data.success) Auth.refreshAccount();
+  },
+
+  async equip(cosmeticId, type) {
+    const data = await API.post('/api/equip_cosmetic', { cosmetic_id: cosmeticId, type });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Cosmetic equipped!' : `Error: ${data.error}`
+    });
+    if (data.success) Auth.refreshAccount();
+  }
+};
+
 // Event Listeners
 const initEventListeners = () => {
   // Tabs
@@ -1958,6 +2046,7 @@ const init = async () => {
     Admin.refreshLeaderboard();
     Market.refresh();
     Auction.fetchAuctions();
+    Cosmetics.fetchCosmetics();
     if (state.account.type === 'admin') Admin.fetchReports();
   }, 1000);
 

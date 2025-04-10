@@ -169,6 +169,8 @@
           <button class="tab" data-tab="leaderboard">🏆 Leaderboard</button>
           <button class="tab" data-tab="settings">⚙️ Settings</button>
           <button class="tab" data-tab="pro">⭐️ PRO</button>
+          <button class="tab" data-tab="shop">🛍️ Shop</button>
+          <button class="tab" data-tab="cosmetics">🎨 Cosmetics</button>
         </div>
 
         <!-- Tab Contents -->
@@ -497,6 +499,36 @@
               <p>Online payments will be accepted soon!</p>
             </div>
           </div>
+
+          <div class="tab-content" id="tab-shop">
+            <div class="card">
+              <div class="card-header">
+                <h2>Shop</h2>
+              </div>
+              <div id="cosmeticsShop" class="cosmetics-container"></div>
+              <h3>Your Owned Cosmetics</h3>
+              <div id="ownedCosmetics" class="cosmetics-container"></div>
+            </div>
+          </div>
+
+          <div class="tab-content" id="tab-cosmetics">
+            <div class="card">
+              <div class="card-header">
+                <h2>Cosmetics</h2>
+              </div>
+              <div class="cosmetics-library">
+                <h3>Messageplates</h3>
+                <div id="messageplateLibrary" class="cosmetics-container"></div>
+                <h3>Nameplates</h3>
+                <div id="nameplateLibrary" class="cosmetics-container"></div>
+              </div>
+              <div class="cosmetics-equipped">
+                <h3>Equipped</h3>
+                <p>Messageplate: <span id="equippedMessageplate"></span></p>
+                <p>Nameplate: <span id="equippedNameplate"></span></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -528,19 +560,19 @@
     </div>
 
     <!-- Custom Modal -->
-    <div id="customModal" class="modal">
-      <div class="modal-content">
-        <span id="modalClose" class="close">&times;</span>
-        <p id="modalMessage"></p>
-        <div id="modalInputContainer" style="display: none;">
-          <input type="text" id="modalInput"
-            style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; margin-top: 1rem;" />
-        </div>
-        <div class="modal-actions">
-          <button id="modalCancel" class="btn btn-danger">Cancel</button>
-          <button id="modalOk" class="btn btn-primary">OK</button>
-        </div>
+    <div id="customModal" class="modal"></div>
+    <div class="modal-content">
+      <span id="modalClose" class="close">&times;</span>
+      <p id="modalMessage"></p>
+      <div id="modalInputContainer" style="display: none;">
+        <input type="text" id="modalInput"
+          style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; margin-top: 1rem;" />
       </div>
+      <div class="modal-actions">
+        <button id="modalCancel" class="btn btn-danger">Cancel</button>
+        <button id="modalOk" class="btn btn-primary">OK</button>
+      </div>
+    </div>
     </div>
 
     <div id="notifications" class="notifications"></div>
