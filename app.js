@@ -1579,6 +1579,45 @@ const Admin = {
         message: data.error || 'Error fetching user info.'
       });
     }
+  },
+
+  async addGems() {
+    const username = await Modal.prompt('Enter username:');
+    if (!username) return;
+    const gems = await Modal.prompt('Enter gems:');
+    if (!gems) return;
+    const data = await API.post('/api/add_gems', { username, gems });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Gems added!' : 'Error adding gems.'
+    });
+    if (data.success) Auth.refreshAccount();
+  },
+
+  async removeGems() {
+    const username = await Modal.prompt('Enter username:');
+    if (!username) return;
+    const gems = await Modal.prompt('Enter gems:');
+    if (!gems) return;
+    const data = await API.post('/api/remove_gems', { username, gems });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Gems removed!' : 'Error removing gems.'
+    });
+    if (data.success) Auth.refreshAccount();
+  },
+
+  async setGems() {
+    const username = await Modal.prompt('Enter username:');
+    if (!username) return;
+    const gems = await Modal.prompt('Enter gems (use $INFINITY for infinity gems):');
+    if (!gems) return;
+    const data = await API.post('/api/set_gems', { username, gems });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Gems set!' : 'Error setting gems.'
+    });
+    if (data.success) Auth.refreshAccount();
   }
 };
 
@@ -1797,6 +1836,9 @@ const initEventListeners = () => {
     editTokensAdmin: Admin.editTokens,
     editExpAdmin: Admin.editExp,
     editLevelAdmin: Admin.editLevel,
+    addGemsAdmin: Admin.addGems,
+    removeGemsAdmin: Admin.removeGems,
+    setGemsAdmin: Admin.setGems,
     addAdminAdmin: Admin.addAdmin,
     removeAdminAdmin: Admin.removeAdmin,
     addModAdmin: Admin.addMod,
