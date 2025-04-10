@@ -685,25 +685,25 @@ a {
 .message.messageplate.messageplate-bonzai-bliss::before {
   background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
-    url('https://economix.lol/cosmetics/bonzai-bliss/messageplate.png');
+    url('https://economix.lol/cosmetics/bonzai-bliss/messageplate.jpg');
 }
 
 .message.messageplate.messageplate-full-moon::before {
   background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
-    url('https://economix.lol/cosmetics/full-moon/messageplate.png');
+    url('https://economix.lol/cosmetics/full-moon/messageplate.jpg');
 }
 
 .message.messageplate.messageplate-lantern-festival::before {
   background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
-    url('https://economix.lol/cosmetics/lantern-festival/messageplate.png');
+    url('https://economix.lol/cosmetics/lantern-festival/messageplate.jpg');
 }
 
 .message.messageplate.messageplate-starry-night::before {
   background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
-    url('https://economix.lol/cosmetics/starry-night/messageplate.png');
+    url('https://economix.lol/cosmetics/starry-night/messageplate.jpg');
 }
 
 .message.messageplate>* {
