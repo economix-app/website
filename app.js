@@ -1112,7 +1112,7 @@ const Chat = {
     messageEl.innerHTML = `
             <div class="message-header">
                 <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
-                    ${messagePrefix} <span class="${(message.nameplate === "gold") ? "nameplate-gold" : ""}">${message.username}</span>
+                    ${messagePrefix} <span class="${message.nameplate ? `nameplate-${message.nameplate}` : ""}">${message.username}</span>
                 </span>
                 <span class="message-time">${UI.formatTime(message.timestamp)}</span>
             </div>
