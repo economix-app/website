@@ -1778,7 +1778,7 @@ const Cosmetics = {
         <div class="cosmetic-title">${cosmetic.name}</div>
         <div class="message ${cosmetic.type === 'messageplate' ? `messageplate messageplate-${cosmetic.id}` : ""}${cosmetic.type === 'nameplate' ? `nameplate-${cosmetic.id}` : ""}">Hi! This is a preview!</div>
         <div class="cosmetic-actions">
-          <button class="btn-buy" onclick="Cosmetics.buy('${cosmetic.id}')">Buy (${cosmetic.price} tokens)</button>
+          <button class="btn-buy" onclick="Cosmetics.buy('${cosmetic.id}')">Buy (${cosmetic.price} gems)</button>
         </div>
       `;
       container.appendChild(item);
