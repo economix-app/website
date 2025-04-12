@@ -166,7 +166,6 @@
           <button class="tab" data-tab="casino">🎰 Casino</button>
           <button class="tab" data-tab="pets">🐾 Pets</button>
           <button class="tab chat-tab-button" data-tab="chat">💬 Chat</button>
-          <button class="tab" data-tab="social">👥 Social</button>
           <button class="tab" data-tab="leaderboard">🏆 Leaderboard</button>
           <button class="tab" data-tab="pro">⭐️ PRO & 💎 Gems</button>
           <button class="tab" data-tab="shop">🛍️ Shop</button>
@@ -425,32 +424,6 @@
                   </div>
                   <input type="text" id="messageInput" autocomplete="off" placeholder="Type your message..." />
                   <button id="sendMessage" class="btn btn-primary animated-btn">Send</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Social Tab -->
-          <div class="tab-content" id="tab-social">
-            <div class="social-container">
-              <div id="socialSidebar" class="sidebar">
-                <!-- Sidebar content will be rendered here -->
-              </div>
-              <div class="social-main">
-                <div class="card">
-                  <h3>Manage Friends</h3>
-                  <ul id="friendRequestsList"></ul>
-                  <input type="text" id="friendRequestInput" placeholder="Enter username to add">
-                  <button class="btn btn-primary"
-                    onclick="Social.sendFriendRequest(document.getElementById('friendRequestInput').value)">Send
-                    Request</button>
-                </div>
-                <div class="card">
-                  <h3>Chat</h3>
-                  <div id="messagesContainer" class="messages-container"></div>
-                  <input type="text" id="messageInput" placeholder="Enter your message">
-                  <button class="btn btn-primary"
-                    onclick="Social.sendMessage(Social.currentChatFriend, document.getElementById('messageInput').value)">Send</button>
                 </div>
               </div>
             </div>

@@ -1094,8 +1094,8 @@ const Chat = {
     Notifications.show({ type: 'success', message: `Switched to ${roomName} chat.` });
   },
 
-  append(message, containerId = 'globalMessages') {
-    const container = document.getElementById(containerId);
+  append(message) {
+    const container = document.getElementById('globalMessages');
     const isOwn = message.username === state.account.username;
     const type = message.type || 'user';
 
@@ -1837,147 +1837,6 @@ const Cosmetics = {
   }
 };
 
-// Social Management
-const Social = {
-  friends: [],
-  friendRequests: [],
-  messages: {},
-  currentChatFriend: null,
-
-  async fetchFriends() {
-    const data = await API.get('/api/friends');
-    this.friends = data.friends || [];
-    this.friendRequests = data.friend_requests || [];
-    this.renderSidebar();
-    this.renderFriendRequests();
-  },
-
-  async sendFriendRequest(username) {
-    const data = await API.post('/api/send_friend_request', { username });
-    if (data.success) {
-      Notifications.show({
-        type: 'success',
-        message: 'Friend request sent!'
-      });
-      Sounds.success.play();
-    } else {
-      Notifications.show({
-        type: 'error',
-        message: data.error || 'Error sending friend request.'
-      });
-      Sounds.error.play();
-    }
-    this.fetchFriends();
-  },
-
-  async acceptFriendRequest(username) {
-    const data = await API.post('/api/accept_friend_request', { username });
-    if (data.success) {
-      Notifications.show({
-        type: 'success',
-        message: 'Friend request accepted!'
-      });
-      Sounds.success.play();
-    } else {
-      Notifications.show({
-        type: 'error',
-        message: data.error || 'Error accepting friend request.'
-      });
-      Sounds.error.play();
-    }
-    this.fetchFriends();
-  },
-
-  async declineFriendRequest(username) {
-    const data = await API.post('/api/decline_friend_request', { username });
-    if (data.success) {
-      Notifications.show({
-        type: 'success',
-        message: 'Friend request declined!'
-      });
-      Sounds.success.play();
-    } else {
-      Notifications.show({
-        type: 'error',
-        message: data.error || 'Error declining friend request.'
-      });
-      Sounds.error.play();
-    }
-    this.fetchFriends();
-  },
-
-  async removeFriend(username) {
-    const data = await API.post('/api/remove_friend', { username });
-    if (data.success) {
-      Notifications.show({
-        type: 'success',
-        message: 'Friend removed!'
-      });
-      Sounds.success.play();
-    } else {
-      Notifications.show({
-        type: 'error',
-        message: data.error || 'Error removing friend.'
-      });
-      Sounds.error.play();
-    }
-    this.fetchFriends();
-  },
-
-  async sendMessage(friend, message) {
-    const data = await API.post('/api/send_message_to_friend', { friend, message });
-    if (!data.success) {
-      Notifications.show({
-        type: 'error',
-        message: data.error || 'Error sending message.'
-      });
-      Sounds.error.play();
-    }
-    this.fetchMessages(friend);
-  },
-
-  async fetchMessages(friend) {
-    const data = await API.get(`/api/get_messages_with_friend?friend=${friend}`);
-    this.messages[friend] = data.messages || [];
-    this.currentChatFriend = friend;
-    this.renderMessages(friend);
-  },
-
-  renderSidebar() {
-    const sidebar = document.getElementById('socialSidebar');
-    sidebar.innerHTML = `
-      <h3>Friends</h3>
-      <ul>
-        ${this.friends
-        .map(
-          friend =>
-            `<li>${friend} <button class="btn btn-primary" onclick="Social.fetchMessages('${friend}')">Chat</button> <button class="btn btn-danger" onclick="Social.removeFriend('${friend}')">Remove</button></li>`
-        )
-        .join('')}
-      </ul>
-    `;
-  },
-
-  renderFriendRequests() {
-    const requestsList = document.getElementById('friendRequestsList');
-    requestsList.innerHTML = this.friendRequests
-      .map(
-        request =>
-          `<li>${request} <button class="btn btn-success" onclick="Social.acceptFriendRequest('${request}')">Accept</button> <button class="btn btn-danger" onclick="Social.declineFriendRequest('${request}')">Decline</button></li>`
-      )
-      .join('');
-  },
-
-  renderMessages(friend) {
-    const messagesContainer = document.getElementById('messagesContainer');
-    messagesContainer.innerHTML = '';
-    const messages = this.messages[friend] || [];
-    messages.forEach(message => {
-      Chat.appendMessage(message, 'messagesContainer');
-    });
-  }
-};
-
 // Event Listeners
 const initEventListeners = () => {
   // Tabs
@@ -2179,7 +2038,6 @@ const init = async () => {
     Market.refresh();
     Auction.fetchAuctions();
     Cosmetics.fetchCosmetics();
-    Social.fetchFriends();
     if (state.account.type === 'admin') Admin.fetchReports();
   }, 1000);
 
