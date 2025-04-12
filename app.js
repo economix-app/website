@@ -1845,7 +1845,7 @@ const Social = {
   currentChatFriend: null,
 
   async fetchFriends() {
-    const data = await API.get('/api/get_friends');
+    const data = await API.get('/api/friends');
     this.friends = data.friends || [];
     this.friendRequests = data.friend_requests || [];
     this.renderSidebar();
@@ -1951,7 +1951,7 @@ const Social = {
         ${this.friends
         .map(
           friend =>
-            `<li>${friend} <button onclick="Social.fetchMessages('${friend}')">Chat</button> <button onclick="Social.removeFriend('${friend}')">Remove</button></li>`
+            `<li>${friend} <button class="btn btn-primary" onclick="Social.fetchMessages('${friend}')">Chat</button> <button class="btn btn-danger" onclick="Social.removeFriend('${friend}')">Remove</button></li>`
         )
         .join('')}
       </ul>
@@ -1963,7 +1963,7 @@ const Social = {
     requestsList.innerHTML = this.friendRequests
       .map(
         request =>
-          `<li>${request} <button onclick="Social.acceptFriendRequest('${request}')">Accept</button> <button onclick="Social.declineFriendRequest('${request}')">Decline</button></li>`
+          `<li>${request} <button class="btn btn-success" onclick="Social.acceptFriendRequest('${request}')">Accept</button> <button class="btn btn-danger" onclick="Social.declineFriendRequest('${request}')">Decline</button></li>`
       )
       .join('');
   },
