@@ -1844,68 +1844,103 @@ const Social = {
   messages: {},
   currentChatFriend: null,
 
-  fetchFriends() {
-    fetch('/api/friends', { method: 'GET', headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
-      .then(res => res.json())
-      .then(data => {
-        this.friends = data.friends;
-        this.friendRequests = data.friendRequests;
-        this.renderSidebar();
-        this.renderFriendRequests();
+  async fetchFriends() {
+    const data = await API.get('/api/get_friends');
+    this.friends = data.friends || [];
+    this.friendRequests = data.friend_requests || [];
+    this.renderSidebar();
+    this.renderFriendRequests();
+  },
+
+  async sendFriendRequest(username) {
+    const data = await API.post('/api/send_friend_request', { username });
+    if (data.success) {
+      Notifications.show({
+        type: 'success',
+        message: 'Friend request sent!'
       });
-  },
-
-  sendFriendRequest(username) {
-    fetch('/api/send_friend_request', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
-      body: JSON.stringify({ username }),
-    }).then(() => this.fetchFriends());
-  },
-
-  acceptFriendRequest(username) {
-    fetch('/api/accept_friend_request', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
-      body: JSON.stringify({ username }),
-    }).then(() => this.fetchFriends());
-  },
-
-  declineFriendRequest(username) {
-    fetch('/api/decline_friend_request', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
-      body: JSON.stringify({ username }),
-    }).then(() => this.fetchFriends());
-  },
-
-  removeFriend(username) {
-    fetch('/api/remove_friend', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
-      body: JSON.stringify({ username }),
-    }).then(() => this.fetchFriends());
-  },
-
-  sendMessage(friend, message) {
-    fetch('/api/send_message_to_friend', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
-      body: JSON.stringify({ friend, message }),
-    }).then(() => this.fetchMessages(friend));
-  },
-
-  fetchMessages(friend) {
-    fetch(`/api/get_messages_with_friend?friend=${friend}`, {
-      method: 'GET',
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    })
-      .then(res => res.json())
-      .then(data => {
-        this.messages[friend] = data.messages;
-        this.currentChatFriend = friend;
-        this.renderMessages(friend);
+      Sounds.success.play();
+    } else {
+      Notifications.show({
+        type: 'error',
+        message: data.error || 'Error sending friend request.'
       });
+      Sounds.error.play();
+    }
+    this.fetchFriends();
+  },
+
+  async acceptFriendRequest(username) {
+    const data = await API.post('/api/accept_friend_request', { username });
+    if (data.success) {
+      Notifications.show({
+        type: 'success',
+        message: 'Friend request accepted!'
+      });
+      Sounds.success.play();
+    } else {
+      Notifications.show({
+        type: 'error',
+        message: data.error || 'Error accepting friend request.'
+      });
+      Sounds.error.play();
+    }
+    this.fetchFriends();
+  },
+
+  async declineFriendRequest(username) {
+    const data = await API.post('/api/decline_friend_request', { username });
+    if (data.success) {
+      Notifications.show({
+        type: 'success',
+        message: 'Friend request declined!'
+      });
+      Sounds.success.play();
+    } else {
+      Notifications.show({
+        type: 'error',
+        message: data.error || 'Error declining friend request.'
+      });
+      Sounds.error.play();
+    }
+    this.fetchFriends();
+  },
+
+  async removeFriend(username) {
+    const data = await API.post('/api/remove_friend', { username });
+    if (data.success) {
+      Notifications.show({
+        type: 'success',
+        message: 'Friend removed!'
+      });
+      Sounds.success.play();
+    } else {
+      Notifications.show({
+        type: 'error',
+        message: data.error || 'Error removing friend.'
+      });
+      Sounds.error.play();
+    }
+    this.fetchFriends();
+  },
+
+  async sendMessage(friend, message) {
+    const data = await API.post('/api/send_message_to_friend', { friend, message });
+    if (!data.success) {
+      Notifications.show({
+        type: 'error',
+        message: data.error || 'Error sending message.'
+      });
+      Sounds.error.play();
+    }
+    this.fetchMessages(friend);
+  },
+
+  async fetchMessages(friend) {
+    const data = await API.get(`/api/get_messages_with_friend?friend=${friend}`);
+    this.messages[friend] = data.messages || [];
+    this.currentChatFriend = friend;
+    this.renderMessages(friend);
   },
 
   renderSidebar() {

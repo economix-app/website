@@ -441,14 +441,15 @@
                   <h3>Manage Friends</h3>
                   <ul id="friendRequestsList"></ul>
                   <input type="text" id="friendRequestInput" placeholder="Enter username to add">
-                  <button onclick="Social.sendFriendRequest(document.getElementById('friendRequestInput').value)">Send
+                  <button class="btn btn-primary"
+                    onclick="Social.sendFriendRequest(document.getElementById('friendRequestInput').value)">Send
                     Request</button>
                 </div>
                 <div class="card">
                   <h3>Chat</h3>
                   <div id="messagesContainer" class="messages-container"></div>
                   <input type="text" id="messageInput" placeholder="Enter your message">
-                  <button
+                  <button class="btn btn-primary"
                     onclick="Social.sendMessage(Social.currentChatFriend, document.getElementById('messageInput').value)">Send</button>
                 </div>
               </div>
