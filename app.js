@@ -1094,8 +1094,8 @@ const Chat = {
     Notifications.show({ type: 'success', message: `Switched to ${roomName} chat.` });
   },
 
-  append(message) {
-    const container = document.getElementById('globalMessages');
+  append(message, containerId = 'globalMessages') {
+    const container = document.getElementById(containerId);
     const isOwn = message.username === state.account.username;
     const type = message.type || 'user';
 
@@ -1837,6 +1837,112 @@ const Cosmetics = {
   }
 };
 
+// Social Management
+const Social = {
+  friends: [],
+  friendRequests: [],
+  messages: {},
+  currentChatFriend: null,
+
+  fetchFriends() {
+    fetch('/api/friends', { method: 'GET', headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+      .then(res => res.json())
+      .then(data => {
+        this.friends = data.friends;
+        this.friendRequests = data.friendRequests;
+        this.renderSidebar();
+        this.renderFriendRequests();
+      });
+  },
+
+  sendFriendRequest(username) {
+    fetch('/api/send_friend_request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
+      body: JSON.stringify({ username }),
+    }).then(() => this.fetchFriends());
+  },
+
+  acceptFriendRequest(username) {
+    fetch('/api/accept_friend_request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
+      body: JSON.stringify({ username }),
+    }).then(() => this.fetchFriends());
+  },
+
+  declineFriendRequest(username) {
+    fetch('/api/decline_friend_request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
+      body: JSON.stringify({ username }),
+    }).then(() => this.fetchFriends());
+  },
+
+  removeFriend(username) {
+    fetch('/api/remove_friend', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
+      body: JSON.stringify({ username }),
+    }).then(() => this.fetchFriends());
+  },
+
+  sendMessage(friend, message) {
+    fetch('/api/send_message_to_friend', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
+      body: JSON.stringify({ friend, message }),
+    }).then(() => this.fetchMessages(friend));
+  },
+
+  fetchMessages(friend) {
+    fetch(`/api/get_messages_with_friend?friend=${friend}`, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    })
+      .then(res => res.json())
+      .then(data => {
+        this.messages[friend] = data.messages;
+        this.currentChatFriend = friend;
+        this.renderMessages(friend);
+      });
+  },
+
+  renderSidebar() {
+    const sidebar = document.getElementById('socialSidebar');
+    sidebar.innerHTML = `
+      <h3>Friends</h3>
+      <ul>
+        ${this.friends
+        .map(
+          friend =>
+            `<li>${friend} <button onclick="Social.fetchMessages('${friend}')">Chat</button> <button onclick="Social.removeFriend('${friend}')">Remove</button></li>`
+        )
+        .join('')}
+      </ul>
+    `;
+  },
+
+  renderFriendRequests() {
+    const requestsList = document.getElementById('friendRequestsList');
+    requestsList.innerHTML = this.friendRequests
+      .map(
+        request =>
+          `<li>${request} <button onclick="Social.acceptFriendRequest('${request}')">Accept</button> <button onclick="Social.declineFriendRequest('${request}')">Decline</button></li>`
+      )
+      .join('');
+  },
+
+  renderMessages(friend) {
+    const messagesContainer = document.getElementById('messagesContainer');
+    messagesContainer.innerHTML = '';
+    const messages = this.messages[friend] || [];
+    messages.forEach(message => {
+      Chat.appendMessage(message, 'messagesContainer');
+    });
+  }
+};
+
 // Event Listeners
 const initEventListeners = () => {
   // Tabs
@@ -2038,6 +2144,7 @@ const init = async () => {
     Market.refresh();
     Auction.fetchAuctions();
     Cosmetics.fetchCosmetics();
+    Social.fetchFriends();
     if (state.account.type === 'admin') Admin.fetchReports();
   }, 1000);
 
