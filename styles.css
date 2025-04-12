@@ -1,9 +1,5 @@
-/* ==========================================================================
-   Theme Variable Declarations
-   ========================================================================== */
-
-/* Light Theme (Default) */
 :root {
+  /* Light Theme */
   --primary: #2563eb;
   --secondary: #3b82f6;
   --success: #22c55e;
@@ -25,8 +21,8 @@
   --godlike: #ffff00;
 }
 
-/* Dark Theme */
 [data-theme="dark"] {
+  /* Dark Theme */
   --primary: #3b82f6;
   --secondary: #60a5fa;
   --success: #22c55e;
@@ -44,7 +40,6 @@
   --own-message: rgba(224, 231, 255, 0.1);
 }
 
-/* Sepia Theme */
 [data-theme="sepia"] {
   --primary: #8B4513;
   --secondary: #A0522D;
@@ -63,7 +58,6 @@
   --own-message: #FFFACD;
 }
 
-/* Solarized Theme */
 [data-theme="solarized"] {
   --primary: #268bd2;
   --secondary: #2aa198;
@@ -74,7 +68,7 @@
   --text: #657b83;
   --border: #93a1a1;
   --modal-bg: #eee8d5;
-  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow: rgba(0, 0, 0, .1);
   --system-message: #b58900;
   --admin-message: #cb4b16;
   --mod-message: #d33682;
@@ -82,7 +76,6 @@
   --own-message: #6c71c4;
 }
 
-/* Nord Theme */
 [data-theme="nord"] {
   --primary: #5e81ac;
   --secondary: #81a1c1;
@@ -101,7 +94,6 @@
   --own-message: rgba(94, 129, 172, 0.1);
 }
 
-/* Dracula Theme */
 [data-theme="dracula"] {
   --primary: #bd93f9;
   --secondary: #ff79c6;
@@ -120,7 +112,6 @@
   --own-message: rgba(255, 121, 198, 0.1);
 }
 
-/* Monokai Theme */
 [data-theme="monokai"] {
   --primary: #66d9ef;
   --secondary: #fd971f;
@@ -139,7 +130,6 @@
   --own-message: rgba(253, 151, 31, 0.1);
 }
 
-/* Gruvbox Theme */
 [data-theme="gruvbox"] {
   --primary: #458588;
   --secondary: #d79921;
@@ -158,7 +148,6 @@
   --own-message: rgba(215, 153, 33, 0.1);
 }
 
-/* Oceanic Theme */
 [data-theme="oceanic"] {
   --primary: #4ec9b0;
   --secondary: #c594c5;
@@ -177,7 +166,6 @@
   --own-message: rgba(78, 201, 176, 0.1);
 }
 
-/* Tokyonight Theme */
 [data-theme="tokyonight"] {
   --primary: #7aa2f7;
   --secondary: #bb9af7;
@@ -196,7 +184,6 @@
   --own-message: rgba(187, 154, 247, 0.1);
 }
 
-/* Pastel Theme */
 [data-theme="pastel"] {
   --primary: #a2bffe;
   --secondary: #f4b8e4;
@@ -215,7 +202,6 @@
   --own-message: #f0e6fa;
 }
 
-/* Cyberpunk Theme */
 [data-theme="cyberpunk"] {
   --primary: #00ff9f;
   --secondary: #ff00ff;
@@ -234,10 +220,7 @@
   --own-message: rgba(255, 0, 255, 0.2);
 }
 
-/* ==========================================================================
-   Global Reset & Base Styles
-   ========================================================================== */
-
+/* Global Reset and Base Styles */
 *,
 *::before,
 *::after {
@@ -247,8 +230,7 @@
 }
 
 body {
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background: var(--background);
   color: var(--text);
   line-height: 1.6;
@@ -257,82 +239,15 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Utility Classes */
 .container {
+  /* max-width: 1200px; */
   max-width: 1500px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-/* ==========================================================================
-   Common Focus Styles
-   ========================================================================== */
-
-input:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-/* ==========================================================================
-   Shared Animations
-   ========================================================================== */
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes heartBurst {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(3);
-    opacity: 0;
-  }
-}
-
-@keyframes coinFlip {
-  0% {
-    transform: rotateY(0deg);
-  }
-
-  50% {
-    transform: rotateY(180deg);
-  }
-
-  100% {
-    transform: rotateY(360deg);
-  }
-}
-
-/* ==========================================================================
-   Layout: Sidebar, Chat, Cards & Forms
-   ========================================================================== */
-
-/* Sidebar */
+/* Sidebar now within the parent layout */
 .sidebar {
   flex: 0 0 250px;
   background: var(--card-bg);
@@ -342,12 +257,15 @@ textarea:focus {
   flex-direction: column;
 }
 
-.sidebar h2,
-.sidebar .card-header h2 {
+.sidebar h2 {
   margin: 0.9rem 0;
 }
 
-/* Chat Area */
+.sidebar .card-header h2 {
+  margin-bottom: 1rem;
+}
+
+/* Main content area where sidebar is not taking over the full page */
 .chat-area {
   flex: 1;
   display: flex;
@@ -361,7 +279,19 @@ textarea:focus {
   animation: slideIn 0.5s ease;
 }
 
-/* Cards & Forms */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Cards and Forms */
 .card-container {
   display: grid;
   gap: 2rem;
@@ -381,8 +311,8 @@ textarea:focus {
 
 .card-center {
   text-align: center;
-  margin: 0 auto;
   max-width: fit-content;
+  margin: 0 auto;
 }
 
 .auth-form {
@@ -391,16 +321,16 @@ textarea:focus {
   gap: 1rem;
 }
 
-.auth-form h2,
-h2 {
-  margin-bottom: 0.5rem;
+.auth-form h2 {
   color: var(--primary);
+  margin-bottom: 0.5rem;
 }
 
-/* ==========================================================================
-   Navigation & Tabs
-   ========================================================================== */
+h2 {
+  margin-bottom: 0.5rem;
+}
 
+/* Navigation */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -416,6 +346,7 @@ h2 {
   gap: 1rem;
 }
 
+/* Tabs  */
 .tabs {
   display: flex;
   border-bottom: 2px solid var(--border);
@@ -427,6 +358,7 @@ h2 {
 .tab {
   padding: 0.75rem 1.5rem;
   cursor: pointer;
+  color: var(--color);
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-bottom: none;
@@ -445,19 +377,21 @@ h2 {
   display: none;
 }
 
-.tab-contents .tab-content.active {
-  display: block;
-}
-
+/* Chat Tab Styles */
 .tab-content#tab-chat {
   flex-direction: column;
   height: 100%;
 }
 
-/* ==========================================================================
-   Buttons & Form Inputs
-   ========================================================================== */
+.tab-contents#tab-chat .tab-content.active {
+  display: flex;
+}
 
+.tab-contents .tab-content.active {
+  display: block;
+}
+
+/* Buttons */
 .btn {
   padding: 0.75rem 1.5rem;
   margin-right: 0.5rem;
@@ -469,6 +403,14 @@ h2 {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.btn#tab-inventory {
+  margin-left: 0.5rem;
+}
+
+.btn#tab-market {
+  margin-left: 0.5rem;
 }
 
 .btn-primary {
@@ -490,27 +432,7 @@ h2 {
   color: #fff;
 }
 
-button>a {
-  text-decoration: none;
-  color: #fff;
-}
-
-input[type="checkbox"] {
-  margin-right: 0.5rem;
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid var(--border);
-  background: var(--background);
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-input[type="checkbox"]:checked {
-  background: var(--primary);
-  border-color: var(--primary);
-}
-
+/* Form Inputs */
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -522,11 +444,111 @@ textarea {
   transition: border-color 0.2s ease;
 }
 
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Chat Area Specifics */
+.message-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Lists */
+.item-list {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+}
+
+.list-item {
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: var(--background);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* Cooldown indicators */
+.cooldown {
+  color: #64748b;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: var(--modal-bg);
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.close {
+  color: #aaa;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modal-actions {
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.actions>button {
+  margin-bottom: 0.5rem;
+}
+
+/* Links and Footer */
+a {
+  text-decoration: underline;
+  color: var(--text);
+}
+
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
 /* Message Input Area */
 .message-input {
   display: flex;
   gap: 0.5rem;
-  margin: 1rem 0;
 }
 
 .message-input input[type="text"] {
@@ -534,6 +556,21 @@ textarea {
   padding: 0.75rem;
   border: 1px solid var(--border);
   border-radius: 0.5rem;
+  transition: border-color 0.2s ease;
+}
+
+.message-input input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.message-input input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .message-input button {
@@ -551,10 +588,50 @@ textarea {
   background: var(--secondary);
 }
 
-/* ==========================================================================
-   Message Styling (Bubbles & Variants)
-   ========================================================================== */
+/* Highlighted Elements */
+.highlight {
+  border: 1px solid var(--primary);
+  border-radius: 3px;
+}
 
+/* Chat Tabs */
+.chat-tabs button {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.chat-tabs button:not(.active):hover {
+  background: var(--secondary);
+}
+
+.chat-tabs button.active {
+  background: var(--secondary);
+}
+
+.chat-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Chat Card */
+.chat-card {
+  display: flex;
+  flex-direction: row;
+  height: 600px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+}
+
+/* Chat Messages */
 .message {
   color: var(--text);
   padding: 0.75rem;
@@ -568,23 +645,89 @@ textarea {
   transition: transform 0.2s;
 }
 
+.message.messageplate {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #1e1b4b, #0f172a, #4f46e5);
+  overflow: hidden;
+  z-index: 0;
+}
+
+.message.messageplate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.message.messageplate.messageplate-bamboo-forest::before {
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
+    url('https://economix.lol/cosmetics/bamboo-forest/messageplate.png');
+}
+
+.message.messageplate.messageplate-tokyo-tower::before {
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
+    url('https://economix.lol/cosmetics/tokyo-tower/messageplate.png');
+}
+
+.message.messageplate.messageplate-cherry-blossom::before {
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
+    url('https://economix.lol/cosmetics/cherry-blossom/messageplate.png');
+}
+
+.message.messageplate.messageplate-bonzai-bliss::before {
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
+    url('https://economix.lol/cosmetics/bonzai-bliss/messageplate.jpg');
+}
+
+.message.messageplate.messageplate-full-moon::before {
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
+    url('https://economix.lol/cosmetics/full-moon/messageplate.jpg');
+}
+
+.message.messageplate.messageplate-lantern-festival::before {
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
+    url('https://economix.lol/cosmetics/lantern-festival/messageplate.jpg');
+}
+
+.message.messageplate.messageplate-starry-night::before {
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
+    url('https://economix.lol/cosmetics/starry-night/messageplate.jpg');
+}
+
+.message.messageplate>* {
+  position: relative;
+  z-index: 2;
+}
+
 .message:hover {
   transform: translateX(5px);
 }
 
 .message.system {
   background: var(--system-message);
-  border-left: 4px solid var(--success);
+  border-left: 4px solid #22c55e;
 }
 
 .message.admin {
   background: var(--admin-message);
-  border-left: 4px solid var(--primary);
+  border-left: 4px solid #3b82f6;
 }
 
 .message.mod {
   background: var(--mod-message);
-  border-left: 4px solid var(--danger);
+  border-left: 4px solid #ef4444;
 }
 
 .message.media {
@@ -592,9 +735,15 @@ textarea {
   border-left: 4px solid #f59e0b;
 }
 
-.message.msg,
+.message.msg {
+  background: var(--own-message);
+  margin-left: auto;
+  max-width: 70%;
+}
+
 .own-message {
   background: var(--own-message);
+  border-left: 4px solid #6366f1;
   margin-left: auto;
   max-width: 70%;
 }
@@ -619,51 +768,66 @@ textarea {
 }
 
 .delete-message {
+  position: static;
   background: none;
   border: none;
   cursor: pointer;
   opacity: 0;
-  margin-left: 1rem;
   transition: opacity 0.2s;
+  margin-left: 1rem;
 }
 
 .message:hover .delete-message {
   opacity: 1;
 }
 
-/* Highlighted Elements */
-.highlight {
-  border: 1px solid var(--primary);
-  border-radius: 3px;
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+
+  /* In tablet view, layout remains flexible */
+  .chat-card {
+    flex-direction: row;
+  }
 }
 
-.message.messageplate {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(135deg, #1e1b4b, #0f172a, #4f46e5);
-  overflow: hidden;
-  z-index: 0;
-}
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
 
-.message.messageplate::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.8;
-  z-index: 1;
-  pointer-events: none;
-}
+  .container {
+    padding: 0 1rem;
+  }
 
-.message.messageplate>* {
-  position: relative;
-  z-index: 2;
-}
+  .card-container {
+    grid-template-columns: 1fr;
+  }
 
-/* ==========================================================================
-   Additional Utility Classes
-   ========================================================================== */
+  /* Sidebar becomes full-width on mobile */
+  .chat-card {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    flex: none;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Ensure main content adjusts */
+  .chat-area {
+    padding: 0.5rem;
+  }
+
+  .message-input {
+    position: relative;
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
 
 .filters {
   display: flex;
@@ -679,11 +843,11 @@ textarea {
   border-radius: 0.5rem;
   background: var(--card-bg);
   color: var(--text);
-  transition: border-color 0.2s ease;
 }
 
 .filters input:focus,
 .filters select:focus {
+  outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
@@ -699,11 +863,10 @@ textarea {
   top: 5px;
   width: 8px;
   height: 8px;
-  background: var(--danger);
+  background: #ef4444;
   border-radius: 50%;
 }
 
-/* Banner */
 .banner {
   position: fixed;
   top: 0;
@@ -716,11 +879,9 @@ textarea {
   text-align: center;
   font-weight: bold;
   color: var(--text);
+  background-color: var(--background);
+  text-align: center;
 }
-
-/* ==========================================================================
-   Pet List & Related Elements
-   ========================================================================== */
 
 .pet-list {
   list-style: none;
@@ -762,18 +923,6 @@ textarea {
 .pet-status-starving {
   color: var(--danger);
 }
-
-.pet-entry button {
-  transition: all 0.2s ease;
-}
-
-.pet-entry button:active {
-  transform: scale(0.95);
-}
-
-/* ==========================================================================
-   Homepage / Hero Section
-   ========================================================================== */
 
 #homepage {
   max-width: 1200px;
@@ -849,9 +998,10 @@ textarea {
   text-align: center;
 }
 
-/* ==========================================================================
-   Rules Preview Section
-   ========================================================================== */
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
 
 .rules-preview {
   padding: 4rem 0;
@@ -892,10 +1042,7 @@ textarea {
   font-size: 1rem;
 }
 
-/* ==========================================================================
-   Casino Tab Styles
-   ========================================================================== */
-
+/* Casino Tab Styles */
 .casino-actions {
   padding: 1.5rem;
   text-align: center;
@@ -932,6 +1079,7 @@ textarea {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  /* Matches your input focus style */
 }
 
 #betHeads,
@@ -962,17 +1110,22 @@ textarea {
 
 #betHeads {
   background: var(--success);
+  /* Green for heads to differentiate */
 }
 
 #betHeads:hover {
+  background: var(--success);
+  /* Maintain green, slightly lighter could be added if desired */
   filter: brightness(1.1);
 }
 
 #betTails {
   background: var(--danger);
+  /* Red for tails to differentiate */
 }
 
 #betTails:hover {
+  background: var(--danger);
   filter: brightness(1.1);
 }
 
@@ -982,13 +1135,30 @@ textarea {
   color: var(--text);
   font-size: 1.1rem;
   min-height: 1.5em;
+  /* Prevents layout shift during animation */
   transition: color 0.3s ease;
+}
+
+/* Animation for Coin Flip Result */
+@keyframes coinFlip {
+  0% {
+    transform: rotateY(0deg);
+  }
+
+  50% {
+    transform: rotateY(180deg);
+  }
+
+  100% {
+    transform: rotateY(360deg);
+  }
 }
 
 #casinoResult.flipping {
   animation: coinFlip 1s ease-in-out;
 }
 
+/* Winning/Losing States */
 #casinoResult.won {
   color: var(--success);
 }
@@ -1002,6 +1172,7 @@ textarea {
   gap: 1rem;
   align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .radio-group label {
@@ -1053,9 +1224,34 @@ textarea {
   font-size: 1.1rem;
 }
 
-/* ==========================================================================
-   Emoji Picker
-   ========================================================================== */
+@media (max-width: 768px) {
+  .hero h2 {
+    font-size: 2.5rem;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .rules-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .casino-actions {
+    padding: 1rem;
+  }
+
+  #betAmount {
+    max-width: 150px;
+  }
+
+  #betHeads,
+  #betTails {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
 
 .emoji-picker-container {
   position: relative;
@@ -1099,10 +1295,6 @@ textarea {
   font-size: 1.2rem;
 }
 
-/* ==========================================================================
-   Level Container
-   ========================================================================== */
-
 .level-container {
   display: flex;
   align-items: center;
@@ -1126,10 +1318,491 @@ textarea {
   box-shadow: 0 2px 4px var(--shadow);
 }
 
-/* ==========================================================================
-   Notifications
-   ========================================================================== */
+.notifications {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
+.notification {
+  background: var(--card-bg);
+  border: 2px solid var(--primary);
+  padding: 1rem;
+  border-radius: 0.75rem;
+  animation: slideIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Add to pet feed button */
+.pet-entry button {
+  transition: all 0.2s ease;
+}
+
+.pet-entry button:active {
+  transform: scale(0.95);
+}
+
+@keyframes heartBurst {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.heart-emoji {
+  position: absolute;
+  animation: heartBurst 1s ease-out;
+}
+
+/* Pet CSS */
+.pet-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.pet-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1rem;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.pet-card:hover {
+  transform: translateY(-3px);
+}
+
+.pet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.pet-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.status-bar {
+  height: 20px;
+  background: var(--border);
+  border-radius: 10px;
+  margin: 0.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.5s ease;
+}
+
+.status-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.pet-actions {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn-feed {
+  background: var(--success);
+}
+
+.btn-play {
+  background: var(--secondary);
+}
+
+.pet-level {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+.pet-benefits {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+.pet-animation {
+  position: absolute;
+  animation: floatUp 1.5s ease-out forwards;
+  text-align: center;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pet-shop {
+  margin-top: 2rem;
+  border-top: 2px solid var(--border);
+  padding-top: 1rem;
+}
+
+.pet-option {
+  padding: 1rem;
+  margin: 0.5rem 0;
+  background: var(--card-bg);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pet-option:hover {
+  background: var(--primary);
+  color: white;
+}
+
+#companyDashboard,
+#createCompanyForm {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px var(--shadow);
+  margin-bottom: 1rem;
+}
+
+#taskList {
+  list-style: none;
+  padding: 0;
+}
+
+#taskList li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#taskList button {
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+#taskList button:hover {
+  background: var(--secondary);
+}
+
+.animated-btn {
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.animated-btn:hover {
+  transform: scale(1.1);
+  background-color: var(--secondary);
+}
+
+.animated-list li {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-list li:hover {
+  background-color: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#companyDashboard {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px var(--shadow);
+}
+
+#companyDashboard h2 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+#taskList {
+  list-style: none;
+  padding: 0;
+}
+
+#taskList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}
+
+#taskList button {
+  background-color: var(--success);
+  color: var(--text);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+#taskList button:hover {
+  background-color: var(--secondary);
+}
+
+.company-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px var(--shadow);
+}
+
+.company-dashboard h2 {
+  color: var(--primary);
+  text-align: center;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.task-item {
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-item .task-name {
+  font-weight: bold;
+  color: var(--text);
+}
+
+.task-item .task-actions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.task-item .task-actions .btn-complete {
+  background: var(--success);
+  color: #fff;
+}
+
+.task-item .task-actions .btn-complete:hover {
+  background: var(--secondary);
+}
+
+.task-item .task-actions .btn-sell {
+  background: var(--primary);
+  color: #fff;
+}
+
+.task-item .task-actions .btn-sell:hover {
+  background: var(--secondary);
+}
+
+/* Minigame Modal */
+.minigame-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.minigame-modal.active {
+  display: flex;
+}
+
+.minigame-content {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 6px var(--shadow);
+}
+
+.minigame-content h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.minigame-content button {
+  padding: 0.75rem 1.5rem;
+  background: var(--success);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.minigame-content button:hover {
+  background: var(--secondary);
+}
+
+.game-area {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 1rem auto;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.target {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+#scoreDisplay {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+#startGameButton,
+#finishGameButton {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--success);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#startGameButton:hover,
+#finishGameButton:hover {
+  background: var(--secondary);
+}
+
+.memory-box {
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+  display: inline-block;
+  background-color: lightgray;
+  border: 2px solid gray;
+  cursor: pointer;
+}
+
+.memory-box.box-0 {
+  background-color: red;
+}
+
+.memory-box.box-1 {
+  background-color: blue;
+}
+
+.memory-box.box-2 {
+  background-color: green;
+}
+
+.memory-box.box-3 {
+  background-color: yellow;
+}
+
+/* Notifications */
 .notifications {
   position: fixed;
   bottom: 1rem;
@@ -1189,10 +1862,19 @@ textarea {
   border-color: #f59e0b;
 }
 
-/* ==========================================================================
-   Daily Free Spin
-   ========================================================================== */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Daily Free Spin */
 .daily-free-spin {
   margin-top: 2rem;
   text-align: center;
@@ -1211,10 +1893,7 @@ textarea {
   background: var(--secondary);
 }
 
-/* ==========================================================================
-   Report Styling
-   ========================================================================== */
-
+/* Report Styling */
 .report {
   max-width: 1200px;
   padding: 1rem;
@@ -1223,9 +1902,34 @@ textarea {
   box-shadow: 0 2px 4px var(--shadow);
 }
 
-/* ==========================================================================
-   Cosmetics & Shop Section
-   ========================================================================== */
+.nameplate-gold {
+  background: linear-gradient(to bottom, #cfc09f 27%, #ffecb3 40%, #8d671b 78%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #fff;
+}
+
+button>a {
+  text-decoration: none;
+  color: #fff;
+}
+
+input[type="checkbox"] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--background);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+input[type="checkbox"]:checked {
+  background: var(--primary);
+  border-color: var(--primary);
+}
 
 .cosmetics-container {
   display: grid;
@@ -1238,14 +1942,7 @@ textarea {
   background: var(--card-bg);
   padding: 1rem;
   border-radius: 0.5rem;
-  border: 2px solid var(--border);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.cosmetic-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border);
 }
 
 .cosmetic-preview {
@@ -1255,12 +1952,28 @@ textarea {
   margin-bottom: 0.5rem;
 }
 
+/* Shop Section */
 #cosmeticsShop,
 #ownedCosmetics {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
   margin-top: 1rem;
+}
+
+.cosmetic-item {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cosmetic-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .cosmetic-title {
@@ -1297,8 +2010,28 @@ textarea {
   background: var(--secondary);
 }
 
+/* Cosmetics Library */
 .cosmetics-library {
   margin-top: 2rem;
+}
+
+.cosmetics-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.cosmetics-container .cosmetic-item {
+  padding: 1rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cosmetics-container .cosmetic-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .cosmetics-container .cosmetic-item img {
@@ -1321,6 +2054,22 @@ textarea {
   margin-bottom: 0.5rem;
 }
 
+.cosmetics-container .cosmetic-item .btn-equip {
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cosmetics-container .cosmetic-item .btn-equip:hover {
+  background: var(--secondary);
+}
+
+/* Equipped Cosmetics */
 .cosmetics-equipped {
   margin-top: 2rem;
   padding: 1rem;
@@ -1341,132 +2090,4 @@ textarea {
   font-size: 1rem;
   color: var(--text);
   margin-bottom: 0.5rem;
-}
-
-/* ==========================================================================
-   Cosmetic Styles
-   ========================================================================== */
-
-/* Nameplates */
-.nameplate-gold {
-  background: linear-gradient(to bottom, #cfc09f 27%, #ffecb3 40%, #8d671b 78%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: #fff;
-}
-
-/* Messageplates */
-.message.messageplate.messageplate-bamboo-forest::before {
-  background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
-    url('https://economix.lol/cosmetics/bamboo-forest/messageplate.png');
-}
-
-.message.messageplate.messageplate-tokyo-tower::before {
-  background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
-    url('https://economix.lol/cosmetics/tokyo-tower/messageplate.png');
-}
-
-.message.messageplate.messageplate-cherry-blossom::before {
-  background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
-    url('https://economix.lol/cosmetics/cherry-blossom/messageplate.png');
-}
-
-.message.messageplate.messageplate-bonzai-bliss::before {
-  background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
-    url('https://economix.lol/cosmetics/bonzai-bliss/messageplate.jpg');
-}
-
-.message.messageplate.messageplate-full-moon::before {
-  background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
-    url('https://economix.lol/cosmetics/full-moon/messageplate.jpg');
-}
-
-.message.messageplate.messageplate-lantern-festival::before {
-  background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
-    url('https://economix.lol/cosmetics/lantern-festival/messageplate.jpg');
-}
-
-.message.messageplate.messageplate-starry-night::before {
-  background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(15, 23, 42, 0.8) 100%),
-    url('https://economix.lol/cosmetics/starry-night/messageplate.jpg');
-}
-
-/* ==========================================================================
-   Responsive Adjustments
-   ========================================================================== */
-
-@media (max-width: 1024px) {
-  .chat-card {
-    flex-direction: row;
-  }
-}
-
-@media (max-width: 768px) {
-  body {
-    padding: 1rem;
-  }
-
-  .container {
-    padding: 0 1rem;
-  }
-
-  .card-container {
-    grid-template-columns: 1fr;
-  }
-
-  .chat-card {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .sidebar {
-    flex: none;
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .chat-area {
-    padding: 0.5rem;
-  }
-
-  .message-input {
-    width: 100%;
-    margin: 1rem 0;
-  }
-
-  .hero h2 {
-    font-size: 2.5rem;
-  }
-
-  .hero-stats {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .rules-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .casino-actions {
-    padding: 1rem;
-  }
-
-  #betAmount {
-    max-width: 150px;
-  }
-
-  #betHeads,
-  #betTails {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
 }
