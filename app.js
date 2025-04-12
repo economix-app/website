@@ -963,7 +963,7 @@ const Pets = {
   async feed(petId) {
     const data = await API.post('/api/feed_pet', { pet_id: petId });
     if (data.success) {
-      this.showAnimation('❤️', '+10 Happiness & +10 Hunger', petId);
+      this.showAnimation('🍖', '+10 Hunger & Happiness', petId);
       this.render();
       Auth.refreshAccount();
     }
@@ -972,7 +972,7 @@ const Pets = {
   async play(petId) {
     const data = await API.post('/api/play_with_pet', { pet_id: petId });
     if (data.success) {
-      this.showAnimation('⚡', '+5 XP & +5 Happiness', petId);
+      this.showAnimation('🎾', '+5 XP & Happiness', petId);
       this.render();
     }
   },
