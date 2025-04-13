@@ -1837,6 +1837,21 @@ const Cosmetics = {
   }
 };
 
+const Purchasing = {
+  async checkout(item) {
+    const data = await API.post('/create_checkout_session', { item, username: state.account.username });
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      Notifications.show({
+        type: 'error',
+        message: 'Error creating checkout session. Please try again later.'
+      });
+    }
+  }
+}
+
 // Event Listeners
 const initEventListeners = () => {
   // Tabs

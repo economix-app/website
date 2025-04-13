@@ -30,7 +30,6 @@
     <link rel="stylesheet" href="styles.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
 
     <title>Economix</title>
   </head>
@@ -445,15 +444,16 @@
           <div class="tab-content" id="tab-pro">
             <div class="card">
               <div class="card-header">
-                <h2>PRO, PRO+, and Gems</h2>
+                <h2>⭐️ PRO, 🌟 PRO+, and 💎 Gems</h2>
               </div>
-              <stripe-pricing-table pricing-table-id="prctbl_1RDZS5DOJm6z6Mj6lsZeFQMu"
-                publishable-key="pk_live_51LiZ9hDOJm6z6Mj6828KX4rQbYR5dlGkzNPqYxr1QUFUz2R5PWyPCpYIyKGxEeNK9C4LM0rUNjp0I7yNOHNLcN7W00Bg2FSTJz">
-              </stripe-pricing-table>
-
-              <stripe-pricing-table pricing-table-id="prctbl_1R5fIXDOJm6z6Mj6Z6mLlhoP"
-                publishable-key="pk_live_51LiZ9hDOJm6z6Mj6828KX4rQbYR5dlGkzNPqYxr1QUFUz2R5PWyPCpYIyKGxEeNK9C4LM0rUNjp0I7yNOHNLcN7W00Bg2FSTJz">
-              </stripe-pricing-table>
+              <button class="btn btn-primary" onclick="Purchasing.checkout('gems_500')">💎 500 Gems</button>
+              <button class="btn btn-primary" onclick="Purchasing.checkout('gems_1000')">💎 1000 Gems</button>
+              <button class="btn btn-primary" onclick="Purchasing.checkout('gems_2500')">💎 2500 Gems</button>
+              <button class="btn btn-primary" onclick="Purchasing.checkout('gems_5000')">💎 5000 Gems</button>
+              <button class="btn btn-primary" onclick="Purchasing.checkout('pro_monthly')">⭐️ PRO Monthly</button>
+              <button class="btn btn-primary" onclick="Purchasing.checkout('pro_yearly')">⭐️ PRO Yearly</button>
+              <button class="btn btn-primary" onclick="Purchasing.checkout('pro_plus_monthly')">🌟 PRO+ Monthly</button>
+              <button class="btn btn-primary" onclick="Purchasing.checkout('pro_plus_yearly')">🌟 PRO+ Yearly</button>
             </div>
           </div>
 
