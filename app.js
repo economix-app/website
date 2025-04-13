@@ -1842,7 +1842,9 @@ const Purchasing = {
     const data = await API.post('/create_checkout_session', { item, username: state.account.username });
 
     if (data.url) {
-      window.location.href = data.url;
+      const link = document.createElement('a');
+      link.href = data.url;
+      link.click();
     } else {
       Notifications.show({
         type: 'error',
