@@ -1245,21 +1245,39 @@ const Admin = {
   async refreshLeaderboard() {
     const data = await API.get('/api/leaderboard');
     if (data.leaderboard) {
-      const leaderboard = document.getElementById('leaderboard');
-      leaderboard.innerHTML = '';
-      data.leaderboard.forEach(user => {
-        const div = document.createElement('div');
-        if (user.username === state.account.username) div.classList.add('highlight');
-        const userPlan = user.plan || 'free'; // Assume 'free' if no plan info
-        const userDisplay = userPlan === 'proplus' ? `🌟 <span class="nameplate-gold">${user.username}</span>` :
-          userPlan === 'pro' ? `⭐️ <span class="nameplate-gold">${user.username}</span>` :
-            user.username;
-        div.innerHTML = `
-  ${user.place <= 3 ? ['🥇', '🥈', '🥉'][user.place - 1] : '🏅'} 
-  ${user.place}: ${userDisplay} 
-  <span class="tokens-badge">${user.tokens} tokens</span>
-`;
-        leaderboard.appendChild(div);
+      const first = document.getElementById('leaderboardFirst');
+      const second = document.getElementById('leaderboardSecond');
+      const third = document.getElementById('leaderboardThird');
+      const remaining = document.getElementById('leaderboardRemaining');
+
+      first.innerHTML = second.innerHTML = third.innerHTML = '';
+      remaining.innerHTML = '';
+
+      const medals = ['🥇', '🥈', '🥉'];
+      const topThree = data.leaderboard.slice(0, 3);
+      const rest = data.leaderboard.slice(3);
+
+      [first, second, third].forEach((container, index) => {
+        if (topThree[index]) {
+          const user = topThree[index];
+          container.innerHTML = `
+            <div class="leaderboard-card">
+              <div class="leaderboard-rank">${medals[index]}</div>
+              <div class="leaderboard-name">${user.username}</div>
+              <div class="leaderboard-score">${user.tokens.toLocaleString()} tokens</div>
+            </div>
+          `;
+        }
+      });
+
+      rest.forEach((user, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <span class="leaderboard-rank">#${index + 4}</span>
+          <span class="leaderboard-name">${user.username}</span>
+          <span class="leaderboard-score">${user.tokens.toLocaleString()} tokens</span>
+        `;
+        remaining.appendChild(li);
       });
     }
   },

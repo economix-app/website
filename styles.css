@@ -2009,3 +2009,57 @@ ul li {
 .pro-gems-item button:hover {
   background: var(--secondary);
 }
+
+.leaderboard-top {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.leaderboard-top-item {
+  flex: 1;
+  text-align: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 2px 4px var(--shadow);
+}
+
+.leaderboard-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.leaderboard-rank {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.leaderboard-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.leaderboard-score {
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.item-list .leaderboard-rank {
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.item-list .leaderboard-name {
+  flex: 1;
+}
+
+.item-list .leaderboard-score {
+  font-weight: bold;
+  color: var(--primary);
+}
