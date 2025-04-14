@@ -1825,13 +1825,17 @@ input[type="checkbox"]:checked {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
   margin-top: 1rem;
+  padding: 1rem;
+  background: var(--background);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px var(--shadow);
 }
 
 .cosmetic-item {
   background: var(--card-bg);
   border: 2px solid var(--border);
   border-radius: 12px;
-  padding: 1rem;
+  padding: 1.5rem;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -1879,6 +1883,10 @@ input[type="checkbox"]:checked {
 /* Cosmetics Library */
 .cosmetics-library {
   margin-top: 2rem;
+  padding: 1rem;
+  background: var(--background);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px var(--shadow);
 }
 
 .cosmetics-container {
