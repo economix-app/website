@@ -248,7 +248,7 @@ const API = {
     } catch (err) {
       return { error: err.message, success: false };
     } finally {
-      if(!noLoading) Modal.hide(document.getElementById('customModal'));
+      if (!noLoading) Modal.hide(document.getElementById('customModal'));
     }
   },
 
@@ -994,6 +994,10 @@ const Chat = {
             ${(state.account.type === 'admin' || state.account.type === 'mod') ? `<button class="delete-message" onclick="Chat.delete('${message.id}')">🗑️</button>` : ''}
         `;
     container.appendChild(messageEl);
+    setTimeout(() => {
+      messageEl.style.transition = 'opacity 0.3s ease';
+      messageEl.style.opacity = 1;
+    }, 0);
   },
 
   async delete(messageId) {
