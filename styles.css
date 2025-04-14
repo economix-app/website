@@ -1891,8 +1891,8 @@ input[type="checkbox"]:checked {
 
 .cosmetics-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
 .cosmetics-container .cosmetic-item {
