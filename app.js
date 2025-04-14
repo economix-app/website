@@ -230,6 +230,8 @@ const UI = {
 // API Utilities
 const API = {
   async fetch(endpoint, options = {}) {
+    Modal.alert('Loading...');
+
     try {
       const headers = {
         'Authorization': `Bearer ${state.token}`,
@@ -246,26 +248,8 @@ const API = {
       return { ...json, success: true };
     } catch (err) {
       return { error: err.message, success: false };
-    }
-  },
-
-  async fetch_blob(endpoint, options = {}) {
-    try {
-      const headers = {
-        'Authorization': `Bearer ${state.token}`,
-        'Content-Type': 'application/json',
-        ...options.headers
-      };
-      const response = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
-
-      if (!response.ok) {
-        return { error: await response.json().error || `API error: ${response.status} - ${response.statusText}`, success: false };
-      }
-
-      let blob = await response.blob();
-      return { blob, success: true };
-    } catch (err) {
-      return { error: err.message, success: false };
+    } finally {
+      Modal.hide(document.getElementById('customModal'));
     }
   },
 
@@ -273,13 +257,6 @@ const API = {
     return this.fetch(endpoint, {
       method: 'POST',
       body: JSON.stringify(data)
-    });
-  },
-
-  async post_blob(endpoint, data) {
-    return this.fetch_blob(endpoint, {
-      method: 'POST',
-      body: data
     });
   },
 
