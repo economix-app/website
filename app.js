@@ -300,13 +300,7 @@ const Auth = {
   },
 
   async setup2FA() {
-    const data = await API.post('/api/setup_2fa');
-    if (!data.success) {
-      Notifications.show({ type: 'error', message: `Error setting up 2FA: ${data.error}` });
-      return;
-    }
-
-    const blob = await (await fetch(`${API_BASE}/api/2fa_qrcode`, { headers: { 'Authorization': `Bearer ${state.token}` } })).blob();
+    const blob = await (await fetch(`${API_BASE}/api/setup_2fa`, { headers: { 'Authorization': `Bearer ${state.token}` } })).blob();
     document.getElementById('2faQrCode').src = URL.createObjectURL(blob);
     document.getElementById('2faQrCode').style.display = 'block';
     UI.toggleVisibility('mainContent', 'none');
@@ -317,7 +311,7 @@ const Auth = {
     const code = document.getElementById('2faCode').value;
     const data = await API.post('/api/verify_2fa', { token: code });
     if (data.success) {
-      Notifications.show({ type: 'success', message: `2FA enabled! Backup code: ${backupCode}` });
+      await Modal.alert(`2FA enabled! Make sure to save your backup code: ${data.backup_code}`);
       location.reload();
     } else {
       Notifications.show({ type: 'error', message: 'Failed to enable 2FA.' });
