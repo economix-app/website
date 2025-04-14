@@ -2028,17 +2028,17 @@ ul li {
 }
 
 #leaderboardFirst {
-  background: linear-gradient(to top, #ffcc00, rgba(255, 204, 0, 0) 70%),
+  background: linear-gradient(to top, rgba(255, 204, 0, 0.5), rgba(255, 204, 0, 0) 70%),
     var(--card-bg);
 }
 
 #leaderboardSecond {
-  background: linear-gradient(to top, #c0c0c0, rgba(192, 192, 192, 0) 70%),
+  background: linear-gradient(to top, rgba(192, 192, 192, 0.5), rgba(192, 192, 192, 0) 70%),
     var(--card-bg);
 }
 
 #leaderboardThird {
-  background: linear-gradient(to top, #cd7f32, rgba(205, 127, 50, 0) 70%),
+  background: linear-gradient(to top, rgba(205, 127, 50, 0.5), rgba(205, 127, 50, 0) 70%),
     var(--card-bg);
 }
 
