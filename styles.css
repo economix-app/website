@@ -2070,21 +2070,21 @@ ul li {
   color: var(--text);
 }
 
-.item-list .leaderboard-rank {
+.leaderboard-list .leaderboard-rank {
   font-weight: bold;
   margin-right: 1rem;
 }
 
-.item-list .leaderboard-name {
+.leaderboard-list .leaderboard-name {
   flex: 1;
 }
 
-.item-list .leaderboard-score {
+.leaderboard-list .leaderboard-score {
   font-weight: bold;
   color: var(--primary);
 }
 
-.item-list>li {
+.leaderboard-list>li {
   display: flex;
   justify-content: space-between;
   align-items: center;
