@@ -24,7 +24,6 @@ class AppState {
     this.marketItems = [];
     this.unreadMessages = 0;
     this.isChatFocused = true;
-    this.typingUsers = [];
     this.onlineUsers = [];
     this.currentRoom = 'global';
 
@@ -1534,37 +1533,6 @@ const Sounds = {
   notification: new Audio('sounds/notification.mp3'),
 };
 
-const TypingIndicator = {
-  typingUsers: new Set(),
-
-  startTyping(username) {
-    this.typingUsers.add(username);
-    this.updateIndicator();
-  },
-
-  stopTyping(username) {
-    this.typingUsers.delete(username);
-    this.updateIndicator();
-  },
-
-  updateIndicator() {
-    const indicator = document.getElementById('typingIndicator');
-    const typingArray = Array.from(this.typingUsers);
-    const maxDisplay = 3;
-
-    if (this.typingUsers.size > 0) {
-      const displayedUsers = typingArray.slice(0, maxDisplay).join(', ');
-      const othersCount = this.typingUsers.size - maxDisplay;
-      indicator.textContent = othersCount > 0
-        ? `${displayedUsers}, and ${othersCount} others are typing...`
-        : `${displayedUsers} ${this.typingUsers.size > 1 ? 'are' : 'is'} typing...`;
-      indicator.style.display = 'block';
-    } else {
-      indicator.style.display = 'none';
-    }
-  },
-};
-
 // Auction System
 const Auction = {
   async fetchAuctions() {
@@ -1754,18 +1722,6 @@ const initEventListeners = () => {
   document.querySelectorAll('.tab').forEach(btn =>
     btn.addEventListener('click', () => UI.switchTab(btn.dataset.tab))
   );
-
-  // Chat Typing
-  const messageInput = document.getElementById('messageInput');
-  let typingTimeout;
-
-  messageInput.addEventListener('input', () => {
-    clearTimeout(typingTimeout);
-    API.post('/api/start_typing', { room: 'global' });
-    typingTimeout = setTimeout(() => {
-      API.post('/api/stop_typing', { room: 'global' });
-    }, 3000);
-  });
 
   // Inventory Actions
   document.getElementById('createItem').addEventListener('click', Inventory.create);
