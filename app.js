@@ -1263,7 +1263,7 @@ const Admin = {
           container.innerHTML = `
             <div class="leaderboard-card">
               <div class="leaderboard-rank">${medals[index]}</div>
-              <div class="leaderboard-name ${user.nameplate ? `nameplate nameplate-${user.nameplate}` : ''}">${user.icon ? `${user.icon} ` : ''}${user.username}</div>
+              <div class="leaderboard-name">${user.icon ? `${user.icon} ` : ''}<span class="${user.nameplate ? `nameplate nameplate-${user.nameplate}` : ''}">${user.username}</span></div>
               <div class="leaderboard-score">${user.tokens.toLocaleString()} tokens</div>
             </div>
           `;
@@ -1274,7 +1274,7 @@ const Admin = {
         const li = document.createElement('li');
         li.innerHTML = `
           <span class="leaderboard-rank">#${index + 4}</span>
-          <span class="leaderboard-name ${user.nameplate ? `nameplate nameplate-${user.nameplate}` : ''}">${user.icon ? `${user.icon} ` : ''}${user.username}</span>
+          <span class="leaderboard-name">${user.icon ? `${user.icon} ` : ''}<span class="${user.nameplate ? `nameplate nameplate-${user.nameplate}` : ''}">${user.username}</span></span>
           <span class="leaderboard-score">${user.tokens.toLocaleString()} tokens</span>
         `;
         remaining.appendChild(li);
