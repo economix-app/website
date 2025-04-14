@@ -241,8 +241,7 @@ body {
 
 /* Utility Classes */
 .container {
-  /* max-width: 1200px; */
-  max-width: 1500px;
+  max-width: 1750px;
   margin: 0 auto;
   padding: 0 1rem;
 }
