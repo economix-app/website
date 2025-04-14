@@ -1952,3 +1952,22 @@ input[type="checkbox"]:checked {
   color: var(--text);
   margin-bottom: 0.5rem;
 }
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+ul li:hover {
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+}

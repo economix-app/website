@@ -809,6 +809,7 @@ const Pets = {
         <div class="pet-level">
           Level ${pet.level} • ${pet.exp}/${expForLevel(pet.level + 1)} until next level
         </div>
+        <div class="pet-benefits">Personality: ${pet.personality}</div>
         <div class="pet-benefits">
           +${pet.benefits.token_bonus} tokens per mine <br>
         </div>
@@ -840,17 +841,22 @@ const Pets = {
   async feed(petId) {
     const data = await API.post('/api/feed_pet', { pet_id: petId });
     if (data.success) {
-      this.showAnimation('🍖', '+10 Hunger & Happiness', petId);
-      this.render();
+      this.showAnimation('🍖', 'Fed Pet!', petId);
       Auth.refreshAccount();
+      this.render();
+    } else {
+      Notifications.show({ type: 'error', message: `Failed to feed pet: ${data.error}` });
     }
   },
 
   async play(petId) {
     const data = await API.post('/api/play_with_pet', { pet_id: petId });
     if (data.success) {
-      this.showAnimation('🎾', '+5 XP & Happiness', petId);
+      this.showAnimation('🎾', 'Played with Pet!', petId);
+      Auth.refreshAccount();
       this.render();
+    } else {
+      Notifications.show({ type: 'error', message: `Failed to feed pet: ${data.error}` });
     }
   },
 
