@@ -2027,6 +2027,21 @@ ul li {
   box-shadow: 0 2px 4px var(--shadow);
 }
 
+.leaderboard-top-item #leaderboardFirst {
+  background: linear-gradient(to top, #ffcc00, rgba(255, 204, 0, 0) 70%),
+    var(--card-bg);
+}
+
+.leaderboard-top-item #leaderboardSecond {
+  background: linear-gradient(to top, #c0c0c0, rgba(192, 192, 192, 0) 70%),
+    var(--card-bg);
+}
+
+.leaderboard-top-item #leaderboardThird {
+  background: linear-gradient(to top, #cd7f32, rgba(205, 127, 50, 0) 70%),
+    var(--card-bg);
+}
+
 .leaderboard-card {
   display: flex;
   flex-direction: column;
