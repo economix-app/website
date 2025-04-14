@@ -801,12 +801,10 @@ const Pets = {
           </div>
         </div>
         <div class="pet-actions">
-          <button class="btn btn-feed" onclick="Pets.feed('${pet.id}')">
-            🍖 Feed (10 tokens)
-          </button>
-          <button class="btn btn-play" onclick="Pets.play('${pet.id}')">
-            🎾 Play (Free)
-          </button>
+          ${pet.alive ? `
+          <button class="btn btn-feed" onclick="Pets.feed('${pet.id}')">🍖 Feed (10 tokens)</button>
+          <button class="btn btn-play" onclick="Pets.play('${pet.id}')">🎾 Play (Free)</button>
+          ` : `<button class="btn btn-play" onclick="Pets.revive('${pet.id}')">🪄 Revive (50 Gems)</button>`}
         </div>
         <div class="pet-level">
           Level ${pet.level} • ${pet.exp}/${expForLevel(pet.level + 1)} until next level
@@ -859,6 +857,21 @@ const Pets = {
       this.render();
     } else {
       Notifications.show({ type: 'error', message: `Failed to feed pet: ${data.error}` });
+    }
+  },
+
+  async revive(petId) {
+    if (!await Modal.confirm(`Revive this pet for 50 gems?`)) return;
+
+    const data = await API.post('/api/revive_pet', { pet_id: petId });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Pet revived successfully!' : `Failed to revive pet: ${data.message}`
+    });
+
+    if (data.success) {
+      Auth.refreshAccount();
+      this.render();
     }
   },
 
