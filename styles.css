@@ -1798,8 +1798,13 @@ input[type="checkbox"]:checked {
 
 .cosmetics-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--background);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px var(--shadow);
 }
 
 .cosmetic-item {
@@ -1815,19 +1820,6 @@ input[type="checkbox"]:checked {
   height: auto;
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
-}
-
-/* Shop Section */
-#cosmeticsShop,
-#ownedCosmetics {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1rem;
-  padding: 1rem;
-  background: var(--background);
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 6px var(--shadow);
 }
 
 .cosmetic-item {
