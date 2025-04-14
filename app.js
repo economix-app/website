@@ -1760,6 +1760,7 @@ const Purchasing = {
     if (data.url) {
       const link = document.createElement('a');
       link.href = data.url;
+      link.target = '_blank';
       link.click();
     } else {
       Notifications.show({
