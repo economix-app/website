@@ -164,7 +164,6 @@
             Dashboard</button>
           <button class="tab" data-tab="inventory">📦 Inventory</button>
           <button class="tab" data-tab="market">🛒 Market</button>
-          <button class="tab" data-tab="casino">🎰 Casino</button>
           <button class="tab" data-tab="pets">🐾 Pets</button>
           <button class="tab chat-tab-button" data-tab="chat">💬 Chat</button>
           <button class="tab" data-tab="leaderboard">🏆 Leaderboard</button>
@@ -337,48 +336,6 @@
             </div>
           </div>
 
-          <div class="tab-content" id="tab-casino">
-            <div class="card">
-              <div class="card-header">
-                <h2>Casino</h2>
-              </div>
-              <div class="casino-game">
-                <div class="casino-actions">
-                  <p>Bet tokens on a coin flip! Win double your bet or lose it all.</p>
-                  <input type="number" id="betAmount" placeholder="Bet amount" min="1">
-                  <button class="btn btn-primary" id="betHeads">Bet on Heads</button>
-                  <button class="btn btn-primary" id="betTails">Bet on Tails</button>
-                  <p id="casinoResult" style="margin-top: 1rem;"></p>
-                </div>
-              </div>
-              <div class="casino-game">
-                <div class="casino-actions">
-                  <p>Bet on the outcome of a dice roll (1-6). Win 5x your bet if correct!</p>
-                  <div>
-                    <div class="radio-group">
-                      <label><input type="radio" name="dice-number" value="1"> 1</label>
-                      <label><input type="radio" name="dice-number" value="2"> 2</label>
-                      <label><input type="radio" name="dice-number" value="3"> 3</label>
-                      <label><input type="radio" name="dice-number" value="4"> 4</label>
-                      <label><input type="radio" name="dice-number" value="5"> 5</label>
-                      <label><input type="radio" name="dice-number" value="6"> 6</label>
-                    </div>
-                  </div>
-                  <input type="number" id="diceBetAmount" placeholder="Bet amount" min="1">
-                  <button class="btn btn-primary" id="rollDice">Roll Dice</button>
-                  <p id="diceResult" style="margin-top: 1rem;"></p>
-                </div>
-              </div>
-              <div class="daily-free-spin">
-                <button onclick="Casino.claimDailyFreeSpin()">Claim Daily Free Spin</button>
-                <div id="spinWheelContainer" style="display: none;">
-                  <div id="spinWheel" class="spin-wheel"></div>
-                  <div id="spinResult" class="spin-result"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <!-- Pets Tab -->
           <div class="tab-content" id="tab-pets">
             <div class="card">
@@ -499,10 +456,6 @@
                 <button class="btn btn-danger" id="disable2FA">🔒 Disable 2FA</button>
                 <button class="btn btn-danger" id="logout">↪️ Logout</button>
                 <button class="btn btn-danger" id="deleteAccount">🗑️ Delete Account</button>
-                <div class="casino-toggle">
-                  <label for="casinoToggle">Show Casino Tab:</label>
-                  <input type="checkbox" id="casinoToggle" />
-                </div>
               </div>
               <div class="theme-selector">
                 <label for="themeSelect">Select Theme:</label>
