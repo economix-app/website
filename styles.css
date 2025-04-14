@@ -2098,3 +2098,33 @@ ul li {
   align-items: center;
   padding: 0.5rem;
 }
+
+.minigames-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.minigames-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--card-bg);
+  margin-bottom: 0.5rem;
+}
+
+.minigames-list button {
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.minigames-list button:hover {
+  background: var(--secondary);
+}
