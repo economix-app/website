@@ -273,12 +273,6 @@ const Auth = {
 
     try {
       const data = await API.post('/api/login', body);
-      if (data.code === '2fa-required') {
-        const codeInput = await Modal.prompt('Enter 2FA code or Backup code:');
-        if (codeInput) await this.login(codeInput);
-        else location.reload();
-        return;
-      }
       if (data.token) {
         localStorage.setItem('token', data.token);
         state.token = data.token;
@@ -297,35 +291,6 @@ const Auth = {
 
     const data = await API.post('/api/register', { username, password });
     Notifications.show({ type: data.success ? 'success' : 'error', message: data.success ? 'Registration successful! Please login.' : `Registration failed: ${data.error || 'Unknown error'}` });
-  },
-
-  async setup2FA() {
-    const blob = await (await fetch(`${API_BASE}/api/setup_2fa`, { headers: { 'Authorization': `Bearer ${state.token}` } })).blob();
-    document.getElementById('2faQrCode').src = URL.createObjectURL(blob);
-    document.getElementById('2faQrCode').style.display = 'block';
-    UI.toggleVisibility('mainContent', 'none');
-    UI.toggleVisibility('2faSetupPage');
-  },
-
-  async enable2FA() {
-    const code = document.getElementById('2faCode').value;
-    const data = await API.post('/api/verify_2fa', { token: code });
-    if (data.success) {
-      await Modal.alert(`2FA enabled! Make sure to save your backup code: ${data.backup_code}`);
-      location.reload();
-    } else {
-      Notifications.show({ type: 'error', message: 'Failed to enable 2FA.' });
-    }
-  },
-
-  async disable2FA() {
-    const data = await API.post('/api/disable_2fa');
-    if (data.success) {
-      Notifications.show({ type: 'success', message: '2FA disabled!' });
-      location.reload();
-    } else {
-      Notifications.show({ type: 'error', message: 'Failed to disable 2FA.' });
-    }
   },
 
   async deleteAccount() {
@@ -1762,12 +1727,6 @@ const initEventListeners = () => {
     localStorage.removeItem('token');
     location.reload();
   });
-
-  // Two-Factor Authentication (2FA)
-  document.getElementById('setup2FA').addEventListener('click', Auth.setup2FA);
-  document.getElementById('disable2FA').addEventListener('click', Auth.disable2FA);
-  document.getElementById('2faSetupSubmit').addEventListener('click', Auth.enable2FA);
-  document.getElementById('2faSetupCancel').addEventListener('click', () => location.reload());
 
   // Admin Dashboard
   const adminActions = {

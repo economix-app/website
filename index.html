@@ -107,7 +107,7 @@
             <div class="rule-card">
               <div class="rule-emoji">🛡️</div>
               <h3>Security</h3>
-              <p>Military-grade encryption and 2FA protection</p>
+              <p>Military-grade encryption and security protocols</p>
             </div>
           </div>
         </section>
@@ -498,8 +498,6 @@
               </div>
               <div class="actions">
                 <button class="btn btn-primary" id="redeemCreatorCode">🎁 Redeem Creator Code</button>
-                <button class="btn btn-primary" id="setup2FA">🔑 Setup 2FA</button>
-                <button class="btn btn-danger" id="disable2FA">🔒 Disable 2FA</button>
                 <button class="btn btn-danger" id="logout">↪️ Logout</button>
                 <button class="btn btn-danger" id="deleteAccount">🗑️ Delete Account</button>
               </div>
@@ -561,21 +559,6 @@
         </div>
         <p><b>Reason:</b> <span id="banReason"></span></p>
         <p><b>Expires:</b> <span id="banExpires"></span></p>
-      </div>
-    </div>
-
-    <!-- 2FA Setup Page -->
-    <div id="2faSetupPage" style="display: none;">
-      <div class="card card-center">
-        <div class="card-header">
-          <h2>🔑 2FA Setup</h2>
-        </div>
-        <p>Scan the QR code below with your authenticator app:</p>
-        <img id="2faQrCode" src="" alt="2FA QR Code">
-        <p>Enter the code from your authenticator app:</p>
-        <input type="text" id="2faCode" placeholder="Enter code">
-        <button class="btn btn-primary" id="2faSetupSubmit">Submit</button>
-        <button class="btn btn-danger" id="2faSetupCancel">Cancel</button>
       </div>
     </div>
 
