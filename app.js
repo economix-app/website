@@ -525,7 +525,7 @@ const Inventory = {
       actions.appendChild(this.createButton('👨‍⚖️ Auction', 'btn-secondary', () => Auction.createAuction(item.id)));
       actions.appendChild(this.createButton('🕵️ Secret', 'btn-danger', () => this.viewSecret(item.id)));
       actions.appendChild(this.createButton('♻️ Recycle (+5 tokens)', 'btn-primary', () => this.recycle(item.id)));
-      actions.appendChild(this.createButton('📜 View Lore', 'btn-primary', () => Modal.alert(item.lore)));
+      actions.appendChild(this.createButton('📜 View Lore', 'btn-primary', () => Modal.alert(item.lore || 'This story has not been written yet.')));
 
       if (state.account.type === 'admin') {
         actions.appendChild(this.createButton('✏️ Edit', 'btn-admin', () => Admin.editItem(item.id)));
@@ -735,7 +735,7 @@ const Market = {
         const actions = document.createElement('div');
         actions.className = 'market-actions';
         actions.appendChild(Inventory.createButton('🛒 Purchase', 'btn-buy', () => this.buy(item.id)));
-        actions.appendChild(Inventory.createButton('📜 View Lore', 'btn-primary', () => Modal.alert(item.lore)));
+        actions.appendChild(Inventory.createButton('📜 View Lore', 'btn-primary', () => Modal.alert(item.lore || 'This story has not been written yet.')));
         li.appendChild(actions);
       }
 
