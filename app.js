@@ -229,8 +229,8 @@ const UI = {
 
 // API Utilities
 const API = {
-  async fetch(endpoint, options = {}) {
-    Modal.alert('Loading...');
+  async fetch(endpoint, options = {}, noLoading = false) {
+    if (!noLoading) Modal.alert('Loading...');
 
     try {
       const headers = {
@@ -249,7 +249,7 @@ const API = {
     } catch (err) {
       return { error: err.message, success: false };
     } finally {
-      Modal.hide(document.getElementById('customModal'));
+      if(!noLoading) Modal.hide(document.getElementById('customModal'));
     }
   },
 
@@ -261,7 +261,7 @@ const API = {
   },
 
   async get(endpoint) {
-    return this.fetch(endpoint, { method: 'GET' });
+    return this.fetch(endpoint, { method: 'GET' }, noLoading = true);
   }
 };
 
