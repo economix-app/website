@@ -1496,8 +1496,10 @@ const Admin = {
       return;
     }
 
+    let message = '';
+
     if (enabled === 'enable') {
-      const message = await Modal.prompt('Enter downtime message:');
+      message = await Modal.prompt('Enter downtime message:');
       if (!message) return;
     }
     const data = await API.post('/api/set_downtime', { enabled, message });
