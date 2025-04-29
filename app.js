@@ -1489,16 +1489,18 @@ const Admin = {
   },
 
   async setDowntime() {
-    const enabled = await Modal.prompt('Enabled/Disable Downtime (enable/disable):');
+    let enabled = await Modal.prompt('Enabled/Disable Downtime (enable/disable):');
     if (!enabled) return;
     if (enabled !== 'enable' && enabled !== 'disable') {
       Notifications.show({ type: 'error', message: 'Invalid input. Use "enable" or "disable".' });
       return;
     }
 
+    enabled = enabled === 'enable';
+
     let message = '';
 
-    if (enabled === 'enable') {
+    if (enabled) {
       message = await Modal.prompt('Enter downtime message:');
       if (!message) return;
     }
