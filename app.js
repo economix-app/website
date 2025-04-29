@@ -354,6 +354,8 @@ const Auth = {
       return;
     }
 
+    await this.checkForDowntime();
+
     this.updateAccountUI(data);
     state.items = data.items;
     state.oldPets = state.pets;
@@ -363,6 +365,17 @@ const Auth = {
     if ((state.inventoryPage - 1) * ITEMS_PER_PAGE >= state.items.length) state.inventoryPage = 1;
     Inventory.render(Inventory.filter(state.items));
     Pets.render(state.pets);
+  },
+
+  async checkForDowntime() {
+    const data = await API.get('/api/get_downtime');
+    if (data.downtime) {
+      UI.toggleVisibility('downtimePage');
+      UI.toggleVisibility('mainContent', 'none');
+      document.getElementById('downtimeMessage').textContent = data.message;
+    } else {
+      UI.toggleVisibility('downtimePage', 'none');
+    }
   },
 
   updateAccountUI(data) {
@@ -1471,6 +1484,26 @@ const Admin = {
     Notifications.show({
       type: data.success ? 'success' : 'error',
       message: data.success ? 'Gems set!' : 'Error setting gems.'
+    });
+    if (data.success) Auth.refreshAccount();
+  },
+
+  async setDowntime() {
+    const enabled = await Modal.prompt('Enabled/Disable Downtime (enable/disable):');
+    if (!enabled) return;
+    if (enabled !== 'enable' && enabled !== 'disable') {
+      Notifications.show({ type: 'error', message: 'Invalid input. Use "enable" or "disable".' });
+      return;
+    }
+
+    if (enabled === 'enable') {
+      const message = await Modal.prompt('Enter downtime message:');
+      if (!message) return;
+    }
+    const data = await API.post('/api/set_downtime', { enabled, message });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Downtime set!' : 'Error setting downtime.'
     });
     if (data.success) Auth.refreshAccount();
   }
