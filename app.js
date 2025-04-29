@@ -1791,6 +1791,7 @@ const initEventListeners = () => {
     givePlanAdmin: Admin.givePlan,
     removePlanAdmin: Admin.removePlan,
     getUserInfoAdmin: Admin.getUserInfo,
+    setDowntimeAdmin: Admin.setDowntime,
   };
   Object.keys(adminActions).forEach(id =>
     document.getElementById(id).addEventListener('click', adminActions[id])
