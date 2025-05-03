@@ -1758,7 +1758,7 @@ const UserIcons = {
 
   async generate(seed) {
     const canvas = document.createElement('canvas');
-    const size = canvas.width;
+    const size = 100;
     const ctx = canvas.getContext('2d');
     const bytes = await this.sha256Bytes(seed);
     ctx.clearRect(0, 0, size, size);
