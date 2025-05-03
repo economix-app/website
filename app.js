@@ -953,6 +953,13 @@ const Chat = {
 
     const messagePrefix = message.badges ? message.badges.join(' ') : '';
 
+    let footer = '';
+    if (message.type === 'system') {
+      footer = 'This message is an official system message.';
+    } else if (message.type === 'admin') {
+      footer = 'This message is from an admin.';
+    }
+
     const messageEl = document.createElement('div');
     messageEl.className = `message ${type} ${isOwn ? 'own-message' : ''} ${message.messageplate ? `messageplate messageplate-${message.messageplate}` : ''}`;
     messageEl.innerHTML = `
@@ -963,6 +970,7 @@ const Chat = {
                 <span class="message-time">${UI.formatTime(message.timestamp)}</span>
             </div>
             <div class="message-content">${message.message}</div>
+            <small class="message-footer">${footer}</small>
             ${(state.account.type === 'admin' || state.account.type === 'mod') ? `<button class="delete-message" onclick="Chat.delete('${message.id}')">🗑️</button>` : ''}
         `;
     container.appendChild(messageEl);

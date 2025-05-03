@@ -783,6 +783,10 @@ a {
   z-index: 3;
 }
 
+.message-footer {
+  font-size: 0.75rem;
+}
+
 .message-sender {
   font-weight: 600;
 }
