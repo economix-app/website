@@ -911,7 +911,7 @@ const Chat = {
 
     const container = document.getElementById('globalMessages');
     container.innerHTML = '';
-    data.messages.forEach(msg => this.append(msg));
+    data.messages.forEach(async (msg) => await this.append(msg));
     state.globalMessages = data.messages;
   },
 
@@ -940,7 +940,7 @@ const Chat = {
     Notifications.show({ type: 'success', message: `Switched to ${roomName} chat.` });
   },
 
-  append(message) {
+  async append(message) {
     const container = document.getElementById('globalMessages');
     const isOwn = message.username === state.account.username;
     const type = message.type || 'user';
@@ -957,7 +957,7 @@ const Chat = {
     messageEl.className = `message ${type} ${isOwn ? 'own-message' : ''} ${message.messageplate ? `messageplate messageplate-${message.messageplate}` : ''}`;
     messageEl.innerHTML = `
             <div class="message-header">
-                <img class="message-avatar" src="${UserIcons.generate(message.username)}" alt="User Icon">
+                <img class="message-avatar" src="${await UserIcons.generate(message.username)}" alt="User Icon">
                 <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
                     ${messagePrefix} <span class="${message.nameplate ? `nameplate-${message.nameplate}` : ""}">${message.username}</span>
                 </span>
