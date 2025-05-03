@@ -953,14 +953,15 @@ const Chat = {
 
     const messagePrefix = message.badges ? message.badges.join(' ') : '';
 
-    const iconCanvas = await UserIcons.generate(message.username);
-    iconCanvas.className = 'message-avatar';
+    const canvas = document.createElement('canvas');
+    await UserIcons.generate(canvas, message.username);
+    canvas.className = 'message-avatar';
 
     const messageEl = document.createElement('div');
     messageEl.className = `message ${type} ${isOwn ? 'own-message' : ''} ${message.messageplate ? `messageplate messageplate-${message.messageplate}` : ''}`;
     messageEl.innerHTML = `
             <div class="message-header">
-                ${iconCanvas.outerHTML}
+                ${canvas.outerHTML}
                 <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
                     ${messagePrefix} <span class="${message.nameplate ? `nameplate-${message.nameplate}` : ""}">${message.username}</span>
                 </span>
@@ -1759,8 +1760,7 @@ const UserIcons = {
     }
   },
 
-  async generate(seed) {
-    const canvas = document.createElement('canvas');
+  async generate(canvas, seed) {
     const size = 100;
     const ctx = canvas.getContext('2d');
     const bytes = await this.sha256Bytes(seed);
