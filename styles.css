@@ -649,7 +649,7 @@ a {
 }
 
 .message-avatar {
-  width: 50px;
+  width: 75px;
   margin-right: 0.5rem;
   image-rendering: pixelated;
 }
