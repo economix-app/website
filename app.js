@@ -953,15 +953,11 @@ const Chat = {
 
     const messagePrefix = message.badges ? message.badges.join(' ') : '';
 
-    const canvas = document.createElement('canvas');
-    await UserIcons.generate(canvas, message.username);
-    canvas.className = 'message-avatar';
-
     const messageEl = document.createElement('div');
     messageEl.className = `message ${type} ${isOwn ? 'own-message' : ''} ${message.messageplate ? `messageplate messageplate-${message.messageplate}` : ''}`;
     messageEl.innerHTML = `
             <div class="message-header">
-                ${canvas.outerHTML}
+                <canvas class="message-avatar" id="user-icon-${message.username}"></canvas>
                 <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
                     ${messagePrefix} <span class="${message.nameplate ? `nameplate-${message.nameplate}` : ""}">${message.username}</span>
                 </span>
@@ -971,6 +967,7 @@ const Chat = {
             ${(state.account.type === 'admin' || state.account.type === 'mod') ? `<button class="delete-message" onclick="Chat.delete('${message.id}')">🗑️</button>` : ''}
         `;
     container.appendChild(messageEl);
+    await UserIcons.generate(document.getElementById(`user-icon-${message.username}`), message.username);
     setTimeout(() => {
       messageEl.style.transition = 'opacity 0.3s ease';
       messageEl.style.opacity = 1;
