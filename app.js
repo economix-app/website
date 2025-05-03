@@ -953,11 +953,14 @@ const Chat = {
 
     const messagePrefix = message.badges ? message.badges.join(' ') : '';
 
+    const iconCanvas = await UserIcons.generate(message.username);
+    iconCanvas.className = 'message-avatar';
+
     const messageEl = document.createElement('div');
     messageEl.className = `message ${type} ${isOwn ? 'own-message' : ''} ${message.messageplate ? `messageplate messageplate-${message.messageplate}` : ''}`;
     messageEl.innerHTML = `
             <div class="message-header">
-                <img class="message-avatar" src="${await UserIcons.generate(message.username)}" alt="User Icon">
+                ${iconCanvas.outerHTML}
                 <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
                     ${messagePrefix} <span class="${message.nameplate ? `nameplate-${message.nameplate}` : ""}">${message.username}</span>
                 </span>
@@ -1763,10 +1766,11 @@ const UserIcons = {
     const bytes = await this.sha256Bytes(seed);
     ctx.clearRect(0, 0, size, size);
     ctx.save();
-    ctx.beginPath(); ctx.arc(size / 2, size / 2, size / 2, 0, 2 * Math.PI); ctx.clip();
+    ctx.beginPath(); ctx.arc(size / 2, size / 2, size / 2, 0, 2 * Math.PI);
+    ctx.clip();
     this.drawIdenticon(bytes, ctx, size);
     ctx.restore();
-    return canvas.toDataURL('image/png');
+    return canvas;
   }
 };
 

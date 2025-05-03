@@ -653,6 +653,7 @@ a {
   height: 50px;
   border-radius: 50%;
   margin-right: 0.5rem;
+  image-rendering: pixelated;
 }
 
 .message.messageplate {
