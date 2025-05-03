@@ -1736,8 +1736,8 @@ const UserIcons = {
     const grid = 5;
     const cell = size / grid;
     const hue = bytes[0] % 360;
-    const bgColor = hslToRgb(hue, 60, 80);
-    const fgColor = hslToRgb((hue + 180) % 360, 60, 40);
+    const bgColor = this.hslToRgb(hue, 60, 80);
+    const fgColor = this.hslToRgb((hue + 180) % 360, 60, 40);
     ctx.fillStyle = `rgb(${bgColor.join(',')})`;
     ctx.fillRect(0, 0, size, size);
     const mid = Math.ceil(grid / 2);
@@ -1760,11 +1760,11 @@ const UserIcons = {
     const canvas = document.createElement('canvas');
     const size = canvas.width;
     const ctx = canvas.getContext('2d');
-    const bytes = await sha256Bytes(seed);
+    const bytes = await this.sha256Bytes(seed);
     ctx.clearRect(0, 0, size, size);
     ctx.save();
     ctx.beginPath(); ctx.arc(size / 2, size / 2, size / 2, 0, 2 * Math.PI); ctx.clip();
-    drawIdenticon(bytes, ctx, size);
+    this.drawIdenticon(bytes, ctx, size);
     ctx.restore();
     return canvas.toDataURL('image/png');
   }
