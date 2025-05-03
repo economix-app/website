@@ -648,12 +648,6 @@ a {
   transition: transform 0.2s;
 }
 
-.message-avatar {
-  width: 75px;
-  margin-right: 0.5rem;
-  image-rendering: pixelated;
-}
-
 .message.messageplate {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   background: linear-gradient(135deg, #1e1b4b, #0f172a, #4f46e5);

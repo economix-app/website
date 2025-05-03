@@ -957,7 +957,6 @@ const Chat = {
     messageEl.className = `message ${type} ${isOwn ? 'own-message' : ''} ${message.messageplate ? `messageplate messageplate-${message.messageplate}` : ''}`;
     messageEl.innerHTML = `
             <div class="message-header">
-                <canvas class="message-avatar" id="user-icon-${message.username}"></canvas>
                 <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
                     ${messagePrefix} <span class="${message.nameplate ? `nameplate-${message.nameplate}` : ""}">${message.username}</span>
                 </span>
@@ -967,7 +966,6 @@ const Chat = {
             ${(state.account.type === 'admin' || state.account.type === 'mod') ? `<button class="delete-message" onclick="Chat.delete('${message.id}')">🗑️</button>` : ''}
         `;
     container.appendChild(messageEl);
-    await UserIcons.generate(document.getElementById(`user-icon-${message.username}`), message.username);
     setTimeout(() => {
       messageEl.style.transition = 'opacity 0.3s ease';
       messageEl.style.opacity = 1;
@@ -1717,59 +1715,6 @@ const Purchasing = {
     }
   }
 }
-
-const UserIcons = {
-  async sha256Bytes(message) {
-    const buf = new TextEncoder().encode(message);
-    const hash = await crypto.subtle.digest('SHA-256', buf);
-    return new Uint8Array(hash);
-  },
-
-  hslToRgb(h, s, l) {
-    s /= 100; l /= 100;
-    const k = n => (n + h / 30) % 12;
-    const a = s * Math.min(l, 1 - l);
-    const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-    return [Math.round(255 * f(0)), Math.round(255 * f(8)), Math.round(255 * f(4))];
-  },
-
-  drawIdenticon(bytes, ctx, size) {
-    const grid = 5;
-    const cell = size / grid;
-    const hue = bytes[0] % 360;
-    const bgColor = this.hslToRgb(hue, 60, 80);
-    const fgColor = this.hslToRgb((hue + 180) % 360, 60, 40);
-    ctx.fillStyle = `rgb(${bgColor.join(',')})`;
-    ctx.fillRect(0, 0, size, size);
-    const mid = Math.ceil(grid / 2);
-    let bitIndex = 1;
-    ctx.fillStyle = `rgb(${fgColor.join(',')})`;
-    for (let x = 0; x < mid; x++) {
-      for (let y = 0; y < grid; y++) {
-        const byte = bytes[bitIndex % bytes.length];
-        const bit = (byte >> (bitIndex % 8)) & 1;
-        if (bit) {
-          ctx.fillRect(x * cell, y * cell, cell, cell);
-          ctx.fillRect((grid - 1 - x) * cell, y * cell, cell, cell);
-        }
-        bitIndex++;
-      }
-    }
-  },
-
-  async generate(canvas, seed) {
-    const size = 100;
-    const ctx = canvas.getContext('2d');
-    const bytes = await this.sha256Bytes(seed);
-    ctx.clearRect(0, 0, size, size);
-    ctx.save();
-    ctx.beginPath(); ctx.arc(size / 2, size / 2, size / 2, 0, 2 * Math.PI);
-    ctx.clip();
-    this.drawIdenticon(bytes, ctx, size);
-    ctx.restore();
-    return canvas;
-  }
-};
 
 // Event Listeners
 const initEventListeners = () => {
