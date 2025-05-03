@@ -969,9 +969,8 @@ const Chat = {
                 </span>
                 <span class="message-time">${UI.formatTime(message.timestamp)}</span>
             </div>
-            <div class="message-content">${message.message}</div>
+            <div class="message-content">${message.message}${(state.account.type === 'admin' || state.account.type === 'mod') ? `<button class="delete-message" onclick="Chat.delete('${message.id}')">🗑️</button>` : ''}</div>
             <small class="message-footer">${footer}</small>
-            ${(state.account.type === 'admin' || state.account.type === 'mod') ? `<button class="delete-message" onclick="Chat.delete('${message.id}')">🗑️</button>` : ''}
         `;
     container.appendChild(messageEl);
     setTimeout(() => {

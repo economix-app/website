@@ -806,7 +806,6 @@ a {
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.2s;
-  margin-left: 1rem;
 }
 
 .message:hover .delete-message {
