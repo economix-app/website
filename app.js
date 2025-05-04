@@ -375,6 +375,7 @@ const Auth = {
       document.getElementById('downtimeMessage').textContent = data.message;
     } else {
       UI.toggleVisibility('downtimePage', 'none');
+      UI.toggleVisibility('mainContent');
     }
   },
 
