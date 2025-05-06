@@ -955,7 +955,7 @@ const Chat = {
     let messagePrefix = ``;
 
     message.badges.forEach((badge) => {
-      messagePrefix += `<span class="badge badge-${badge}" title="${badge.name}">${badge.icon}</span>`;
+      messagePrefix += `<span title="${badge.name}">${badge.icon}</span>`;
     });
 
     let footer = '';
