@@ -952,7 +952,7 @@ const Chat = {
       document.querySelector('[data-tab="chat"]').classList.add('new-messages');
     }
 
-    const messagePrefix = ``;
+    let messagePrefix = ``;
 
     message.badges.forEach((badge) => {
       messagePrefix += `<span class="badge badge-${badge}" title="${badge.name}">${badge.icon}</span>`;
