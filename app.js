@@ -952,13 +952,15 @@ const Chat = {
       document.querySelector('[data-tab="chat"]').classList.add('new-messages');
     }
 
-    const messagePrefix = message.badges ? message.badges.join(' ') : '';
+    const messagePrefix = ``;
+
+    message.badges.forEach((badge) => {
+      messagePrefix += `<span class="badge badge-${badge}" title="${badge.name}">${badge.icon}</span>`;
+    });
 
     let footer = '';
     if (message.type === 'system') {
       footer = 'This message is an official system message.';
-    } else if (message.type === 'admin') {
-      footer = 'This message is from an admin.';
     }
 
     const messageEl = document.createElement('div');
