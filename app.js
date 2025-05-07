@@ -977,7 +977,6 @@ const Chat = {
             <div class="message-content">${message.message}${(state.account.type === 'admin' || state.account.type === 'mod') ? `<button class="delete-message" onclick="Chat.delete('${message.id}')">🗑️</button>` : ''}</div>
             <small class="message-footer">${footer}</small>
         `;
-    console.log(messageEl.innerHTML);
     container.appendChild(messageEl);
     setTimeout(() => {
       messageEl.style.transition = 'opacity 0.3s ease';
