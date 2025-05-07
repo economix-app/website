@@ -1520,6 +1520,32 @@ const Admin = {
       message: data.success ? 'Downtime set!' : 'Error setting downtime.'
     });
     if (data.success) Auth.refreshAccount();
+  },
+
+  async addBadge() {
+    const username = await Modal.prompt('Enter username:');
+    if (!username) return;
+    const badgeId = await Modal.prompt('Enter badge ID:');
+    if (!badgeId) return;
+    const data = await API.post('/api/add_badge', { username, badge: badgeId });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Badge added!' : 'Error adding badge.'
+    });
+    if (data.success) Auth.refreshAccount();
+  },
+
+  async removeBadge() {
+    const username = await Modal.prompt('Enter username:');
+    if (!username) return;
+    const badgeId = await Modal.prompt('Enter badge ID:');
+    if (!badgeId) return;
+    const data = await API.post('/api/remove_badge', { username, badge: badgeId });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success ? 'Badge removed!' : 'Error removing badge.'
+    });
+    if (data.success) Auth.refreshAccount();
   }
 };
 
@@ -1806,6 +1832,8 @@ const initEventListeners = () => {
     removePlanAdmin: Admin.removePlan,
     getUserInfoAdmin: Admin.getUserInfo,
     setDowntimeAdmin: Admin.setDowntime,
+    addBadgeAdmin: Admin.addBadge,
+    removeBadgeAdmin: Admin.removeBadge,
   };
   Object.keys(adminActions).forEach(id =>
     document.getElementById(id).addEventListener('click', adminActions[id])
