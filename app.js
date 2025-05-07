@@ -954,9 +954,11 @@ const Chat = {
 
     let messagePrefix = ``;
 
-    message.badges.forEach((badge) => {
-      messagePrefix += `<span title="${badge.name}">${badge.icon}</span>`;
-    });
+    if (message.badges && Array.isArray(message.badges)) {
+      message.badges.forEach((badge) => {
+        messagePrefix += `<span title="${badge.name}">${badge.icon}</span> `;
+      });
+    }
 
     let footer = '';
     if (message.type === 'system') {
@@ -968,7 +970,7 @@ const Chat = {
     messageEl.innerHTML = `
             <div class="message-header">
                 <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
-                    ${messagePrefix} <span class="${message.nameplate ? `nameplate-${message.nameplate}` : ""}">${message.username}</span>
+                    ${messagePrefix}<span class="${message.nameplate ? `nameplate-${message.nameplate}` : ""}">${message.username}</span>
                 </span>
                 <span class="message-time">${UI.formatTime(message.timestamp)}</span>
             </div>
