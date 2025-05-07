@@ -956,7 +956,7 @@ const Chat = {
 
     if (message.badges && Array.isArray(message.badges)) {
       message.badges.forEach((badge) => {
-        messagePrefix += `<span title="${badge.name}">${badge.icon}</span> `;
+        messagePrefix += `<span title="${badge.name}" class="badge-icon">${badge.icon}</span> `;
       });
     }
 

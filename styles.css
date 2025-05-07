@@ -2122,3 +2122,8 @@ ul li {
 .minigames-list button:hover {
   background: var(--secondary);
 }
+
+.badge-icon {
+  vertical-align: middle;
+  display: inline-block;
+}
