@@ -967,7 +967,7 @@ const Chat = {
                 <span class="message-sender ${type}" title="${type.charAt(0).toUpperCase() + type.slice(1)}">
                     ${messagePrefix}
                     <span class="${message.nameplate ? `nameplate-${message.nameplate}` : ""}">${message.username}</span>
-                    ${message.type == "system" ? `<span class="badge"><svg  xmlns="http://www.w3.org/2000/svg"  width="10"  height="10"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg>SYSTEM</span>`: ""}
+                    ${message.type == "system" ? `<span class="badge"><svg  xmlns="http://www.w3.org/2000/svg"  width="20"  height="20"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg>SYSTEM</span>`: ""}
                 </span>
                 <span class="message-time">${UI.formatTime(message.timestamp)}</span>
             </div>
