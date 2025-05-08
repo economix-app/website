@@ -319,6 +319,18 @@ const Auth = {
     });
   },
 
+  async redeemGiftCode() {
+    const code = await Modal.prompt('Enter gift code:');
+    if (!code) return;
+    const data = await API.post('/api/redeem_gift_code', { code });
+    Notifications.show({
+      type: data.success ? 'success' : 'error',
+      message: data.success
+        ? `Gift code redeemed for ${data.gems} gems!`
+        : 'Error redeeming gift code.'
+    });
+  },
+
   async sendTokens() {
     const recipient = await Modal.prompt('Enter recipient:');
     if (!recipient) return;
@@ -1544,6 +1556,14 @@ const Admin = {
       message: data.success ? 'Badge removed!' : 'Error removing badge.'
     });
     if (data.success) Auth.refreshAccount();
+  },
+
+  async createGiftCode() {
+    const gems = await Modal.prompt('Enter gems:');
+    if (!gems) return;
+    const data = await API.post('/api/create_gift_code', { gems });
+    Modal.alert(`Generated gift code for ${gems} gems: ${data.code}`);
+    if (data.success) Auth.refreshAccount();
   }
 };
 
@@ -1793,6 +1813,7 @@ const initEventListeners = () => {
   });
   document.getElementById('themeSelect').addEventListener('change', e => UI.setTheme(e.target.value));
   document.getElementById('redeemCreatorCode').addEventListener('click', Auth.redeemCreatorCode);
+  document.getElementById('redeemGiftCode').addEventListener('click', Auth.redeemGiftCode);
   document.getElementById('deleteAccount').addEventListener('click', Auth.deleteAccount);
   document.getElementById('logout').addEventListener('click', () => {
     localStorage.removeItem('token');
@@ -1832,6 +1853,7 @@ const initEventListeners = () => {
     setDowntimeAdmin: Admin.setDowntime,
     addBadgeAdmin: Admin.addBadge,
     removeBadgeAdmin: Admin.removeBadge,
+    createGiftCodeAdmin: Admin.createGiftCode,
   };
   Object.keys(adminActions).forEach(id =>
     document.getElementById(id).addEventListener('click', adminActions[id])
